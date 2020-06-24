@@ -6,13 +6,13 @@
 #    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/03/16 16:33:27 by marvin            #+#    #+#              #
-#    Updated: 2020/06/17 14:59:45 by user42           ###   ########.fr        #
+#    Updated: 2020/06/24 10:14:19 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra
-MFLAGS = -I minilibx -L minilibx -lmlx -framework OpenGL -framework AppKit
+CFLAGS = -Wall -Wextra
+MFLAGS = -L lmlx -L lmlx -L lXext -L lX11 -L
 SRC = ft_cub3d.c
 NAME = ft_cub3D
 LIB = ar rcs
