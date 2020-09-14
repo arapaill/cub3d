@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/14 15:45:20 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/14 15:51:24 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ int raycasting(t_mlx *mlx)
 		}
 		printf("_____TEST_6_____\n");
 		//Check if ray has hit a wall
-		if(mlx->map[(int)mapX][(int)mapY] > 0) 
+		if(worldMap[mapX][mapY] > 0) 
 			hit = 1;
 			
 	  }
@@ -185,7 +185,7 @@ printf("_____TEST_7_____\n");
 	  	drawEnd = h - 1;
 printf("_____TEST_8_____\n");
 	  //choose wall color
-	  switch(mlx->map[(int)mapX][(int)mapY])
+	  switch(worldMap[mapX][mapY])
 	  {
 		case 1:  color = RGB_Red;    break; //red
 		case 2:  color = RGB_Green;  break; //green
