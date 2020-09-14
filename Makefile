@@ -3,16 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
+#    By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/03/16 16:33:27 by marvin            #+#    #+#              #
-#    Updated: 2020/06/24 10:14:19 by user42           ###   ########.fr        #
+#    Created: 2020/09/07 12:55:46 by arapaill          #+#    #+#              #
+#    Updated: 2020/09/09 10:21:56 by arapaill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+
 CC = gcc
-CFLAGS = -Wall -Wextra
-MFLAGS = -L lmlx -L lmlx -L lXext -L lX11 -L
+CFLAGS = -Wall -Wextra -Werror
+MFLAGS =  -I minilibx -L minilibx -lmlx -framework OpenGL -framework AppKit
 SRC = ft_cub3d.c
 NAME = ft_cub3D
 LIB = ar rcs
@@ -36,9 +37,9 @@ fclean:	clean
 			@rm -f libft/libft.a
 			@rm -f libft/*.o
 			@rm -f a.out
-re:
-			fclean all
-
+			
+re:			fclean all
+		
 exec:	all
 			@echo "\033[32m[✓]\033[0m		[$(NAME) and main.c compiled]"
 			@echo "\033[32m[✓]\033[0m		[a.out executed]\n"

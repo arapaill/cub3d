@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 17:41:54 by arapaill          #+#    #+#             */
-/*   Updated: 2020/06/24 10:13:51 by user42           ###   ########.fr       */
+/*   Updated: 2019/10/22 13:24:20 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int				ft_atoi(const char *str)
 {
 	int			i;
 	int			neg;
-	__uintmax_t	n;
-	__uintmax_t	min;
+	uintmax_t	n;
+	uintmax_t	min;
 
 	min = 9223372036854775807;
 	n = 0;

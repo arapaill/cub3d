@@ -3,26 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cub3d.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/17 10:34:11 by marvin            #+#    #+#             */
-/*   Updated: 2020/06/24 10:14:17 by user42           ###   ########.fr       */
+/*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
+/*   Updated: 2020/09/09 11:57:32 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef FT_CUB3D_H
 # define FT_CUB3D_H
 
 # include <math.h>
 # include <mlx.h>
+# include "keynote.h"
+# include "libft/libft.h"
+# include "get_next_line/get_next_line.h"
+
 # include <unistd.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <stdio.h>
 
-# include "get_next_line/libft/libft.h"
-# include "get_next_line/get_next_line.h"
-# include "keynote.h"
+#define RGB_Red 16711680
+#define RGB_Green 65280
+#define RGB_Blue 255
+#define RGB_White 16777215
+#define RGB_Yellow 16776960
 
+# define mapWidth 34
+# define mapHeight 25
+# define screenWidth 1920
+# define screenHeight 1080
+# define texWidth 64
+# define texHeight 64
+
+typedef struct  s_player
+{
+    double      posX;
+    double      posY;
+    double      dirX;
+    double      dirY;
+    double      planeX;
+    double      planeY;
+
+}               t_player;
+typedef struct  s_mlx
+{
+    void        *mlx;
+    void        *window;
+    int         screen_width;
+    int         screen_height;
+    char        **map;
+    int         map_width;
+    int         map_height;
+    void        *frame;
+    int         *data;
+    int         bpp;
+    int         sl;
+    int         endian;
+    t_player    *player;
+}               t_mlx;
 #endif

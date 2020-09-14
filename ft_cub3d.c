@@ -3,23 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cub3d.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/16 10:18:59 by marvin            #+#    #+#             */
-/*   Updated: 2020/06/17 14:46:00 by user42           ###   ########.fr       */
+/*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
+/*   Updated: 2020/09/09 12:10:20 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 Copyright (c) 2004-2019, Lode Vandevenne
-
 All rights reserved.
-
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
 	* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
 	* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -42,18 +38,9 @@ g++ *.cpp -lSDL
 
 //place the example code below here:
 
-#define screenWidth 640
-#define screenHeight 480
-#define mapWidth 24
-#define mapHeight 24
-#define RGB_Red 16711680
-#define RGB_Green 65280
-#define RGB_Blue 255
-#define RGB_White 16777215
-#define RGB_Yellow 16776960
 
 
-int worldMap[mapWidth][mapHeight]=
+int worldMap[mapWidth][mapHeight]=  
 {
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -81,10 +68,11 @@ int worldMap[mapWidth][mapHeight]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-int main()
+int raycasting(t_mlx *mlx)
 {
+
 	int w;
-	int x;
+	int x = 0;
 	int h;
 	int mapX;
 	int mapY;
@@ -96,9 +84,6 @@ int main()
 	int drawStart;
 	int drawEnd;
 	int color;
-
-	double time = 0; //time of current frame
-  	double oldTime = 0; //time of previous frame
 	
 	double posX;
 	double posY;
@@ -115,11 +100,10 @@ int main()
 	double deltaDistX;
 	double deltaDistY;
 	double perpWallDist;
-	double frameTime;
 	double moveSpeed;
 	double rotSpeed;
-	double oldDirX;
-	double oldPlaneX;
+	//double oldDirX;
+	//double oldPlaneX;
 
 //x and y start position
 	posX = 22;
@@ -133,14 +117,12 @@ int main()
 	hit = 0;
 	w = screenWidth;
 	h = screenHeight;
-  while(!done())
+  while(x++ < w)
   {
-	for(x = 0; x < w; x++)
-	{
 	//calculate ray position and direction
 		cameraX = 2 * x / (double)w - 1; //x-coordinate in camera space
-		rayDirX = dirX + planeX * cameraX;
-	  	rayDirY = dirY + planeY * cameraX;
+		rayDirX = mlx->player->dirX + mlx->player->planeX * cameraX;
+	  	rayDirY = mlx->player->dirY + mlx->player->planeY * cameraX;
 	  //which box of the map we're in
 	  mapX = (int)posX;
 	  mapY = (int)posY;
@@ -217,20 +199,13 @@ int main()
 	  if(side == 1) {color = color / 2;}
 
 	  //draw the pixels of the stripe as a vertical line
-	  verLine(x, drawStart, drawEnd, color);
-	}
-	//timing for input and FPS counter
-	oldTime = time;
-	time = getTicks();
-	frameTime = (time - oldTime) / 1000.0; //frameTime is the time this frame has taken, in seconds
-	print(1.0 / frameTime); //FPS counter
-	redraw();
-	cls();
-
+	  //verLine(x, drawStart, drawEnd, color);
+	
+	
 	//speed modifiers
-	moveSpeed = frameTime * 5.0; //the constant value is in squares/second
-	rotSpeed = frameTime * 3.0; //the constant value is in radians/second
-	readKeys();
+	moveSpeed = 1.0; //the constant value is in squares/second
+	rotSpeed = 3.0; //the constant value is in radians/second
+	/*readKeys();
 	//move forward if no wall in front of you
 	if(keyDown(UP_KEY))
 	{
@@ -247,7 +222,7 @@ int main()
 	if(keyDown(RIGHT_KEY))
 	{
 	  //both camera direction and camera plane must be rotated
-	 	oldDirX = dirX;
+		oldDirX = dirX;
 	  dirX = dirX * cos(-rotSpeed) - dirY * sin(-rotSpeed);
 	  dirY = oldDirX * sin(-rotSpeed) + dirY * cos(-rotSpeed);
 	  double oldPlaneX = planeX;
@@ -265,5 +240,19 @@ int main()
 	  planeX = planeX * cos(rotSpeed) - planeY * sin(rotSpeed);
 	  planeY = oldPlaneX * sin(rotSpeed) + planeY * cos(rotSpeed);
 	}
+	*/
   }
+return(0);
 }
+
+int main()
+  {
+	  	t_mlx *mlx;
+		mlx = malloc(sizeof(t_mlx));
+		mlx->mlx = mlx_init();
+		mlx->window = mlx_new_window(mlx->mlx, screenWidth, screenHeight, "Cub3D");
+		mlx->frame = NULL;
+		raycasting(mlx);
+		mlx_loop(mlx);
+		return(0);
+  }
