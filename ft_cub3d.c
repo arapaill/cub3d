@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/09 12:10:20 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/14 15:45:20 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,26 +98,20 @@ int raycasting(t_mlx *mlx)
 	//double oldDirX;
 	//double oldPlaneX;
 
-//x and y start position
-	mlx->player->posX = 22;
-	mlx->player->posY = 12;  
-//initial direction vector
-  	mlx->player->dirX = -1;
-	mlx->player->dirY = 0; 
-//the 2d raycaster version of camera plane
-  	mlx->player->planeX = 0;
-	mlx->player->planeY = 0.66;
+
+
 	hit = 0;
 	w = screenWidth;
 	h = screenHeight;
 	printf("_____TEST_1_____\n");
-  while(x++ < w)
+  while(x < w)
   {
+	printf("_____TEST_2_____\n");
 	//calculate ray position and direction
 		cameraX = 2 * x / (double)w - 1; //x-coordinate in camera space
 		rayDirX = mlx->player->dirX + mlx->player->planeX * cameraX;
 	  	rayDirY = mlx->player->dirY + mlx->player->planeY * cameraX;
-		  printf("_____TEST_2_____\n");
+
 	  //which box of the map we're in
 	  mapX = (int)mlx->player->posX;
 	  mapY = (int)mlx->player->posY;
@@ -170,6 +164,7 @@ int raycasting(t_mlx *mlx)
 		//Check if ray has hit a wall
 		if(mlx->map[(int)mapX][(int)mapY] > 0) 
 			hit = 1;
+			
 	  }
 	  //Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
 	  if(side == 0)
@@ -245,9 +240,24 @@ printf("_____TEST_8_____\n");
 	  planeY = oldPlaneX * sin(rotSpeed) + planeY * cos(rotSpeed);
 	}
 	*/
+	x++;
   }
   printf("_____TEST_10_____\n");
 return(0);
+}
+void	player_init(t_mlx *mlx)
+{
+	t_player *player;
+
+	player = malloc(sizeof(t_player));
+	player->posX = 22;
+	player->posY = 12;
+	player->dirX = -1;
+	player->dirY = 0;
+	player->planeX = 0;
+	player->planeY = 0.66;
+	mlx->player = player;
+
 }
 
 int main()
@@ -258,6 +268,7 @@ int main()
 		mlx->mlx = mlx_init();
 		mlx->window = mlx_new_window(mlx->mlx, screenWidth, screenHeight, "Cub3D");
 		mlx->frame = NULL;
+		player_init(mlx);
 		raycasting(mlx);
 		mlx_loop(mlx);
 		return(0);
