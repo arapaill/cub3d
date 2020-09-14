@@ -84,13 +84,6 @@ int raycasting(t_mlx *mlx)
 	int drawStart;
 	int drawEnd;
 	int color;
-	
-	double posX;
-	double posY;
-	double dirX;
-	double dirY;
-	double planeX;
-	double planeY;
 	double cameraX;
 	double rayDirX;
 	double rayDirY;
@@ -106,53 +99,57 @@ int raycasting(t_mlx *mlx)
 	//double oldPlaneX;
 
 //x and y start position
-	posX = 22;
-	posY = 12;  
+	mlx->player->posX = 22;
+	mlx->player->posY = 12;  
 //initial direction vector
-  	dirX = -1;
-	dirY = 0; 
+  	mlx->player->dirX = -1;
+	mlx->player->dirY = 0; 
 //the 2d raycaster version of camera plane
-  	planeX = 0;
-	planeY = 0.66;
+  	mlx->player->planeX = 0;
+	mlx->player->planeY = 0.66;
 	hit = 0;
 	w = screenWidth;
 	h = screenHeight;
+	printf("_____TEST_1_____\n");
   while(x++ < w)
   {
 	//calculate ray position and direction
 		cameraX = 2 * x / (double)w - 1; //x-coordinate in camera space
 		rayDirX = mlx->player->dirX + mlx->player->planeX * cameraX;
 	  	rayDirY = mlx->player->dirY + mlx->player->planeY * cameraX;
+		  printf("_____TEST_2_____\n");
 	  //which box of the map we're in
-	  mapX = (int)posX;
-	  mapY = (int)posY;
+	  mapX = (int)mlx->player->posX;
+	  mapY = (int)mlx->player->posY;
 
 	   //length of ray from one x or y-side to next x or y-side
 	  deltaDistX = (rayDirY == 0) ? 0 : ((rayDirX == 0) ? 1 : fabs(1 / rayDirX));
 	  deltaDistY = (rayDirX== 0) ? 0 : ((rayDirY == 0) ? 1 : fabs(1 / rayDirY));
-
+	printf("_____TEST_3_____\n");
 	  //what direction to step in x or y-direction (either +1 or -1)
 	  //calculate step and initial sideDist
 	  if(rayDirX < 0)
 	  {
 		stepX = -1;
-		sideDistX = (posX - mapX) * deltaDistX;
+		sideDistX = (mlx->player->posX - mapX) * deltaDistX;
 	  }
 	  else
 	  {
 		stepX = 1;
-		sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+		sideDistX = (mapX + 1.0 - mlx->player->posX) * deltaDistX;
 	  }
+	  printf("_____TEST_4_____\n");
 	  if(rayDirY < 0)
 	  {
 		stepY = -1;
-		sideDistY = (posY - mapY) * deltaDistY;
+		sideDistY = (mlx->player->posY - mapY) * deltaDistY;
 	  }
 	  else
 	  {
 		stepY = 1;
-		sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+		sideDistY = (mapY + 1.0 - mlx->player->posY) * deltaDistY;
 	  }
+	  printf("_____TEST_5_____\n");
 	  //perform DDA
 	  while (hit == 0)
 	  {
@@ -169,24 +166,31 @@ int raycasting(t_mlx *mlx)
 		  mapY += stepY;
 		  side = 1;
 		}
+		printf("_____TEST_6_____\n");
 		//Check if ray has hit a wall
-		if(worldMap[mapX][mapY] > 0) hit = 1;
+		if(mlx->map[(int)mapX][(int)mapY] > 0) 
+			hit = 1;
 	  }
 	  //Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
-	  if(side == 0) perpWallDist = (mapX - posX + (1 - stepX) / 2) / rayDirX;
-	  else          perpWallDist = (mapY - posY + (1 - stepY) / 2) / rayDirY;
+	  if(side == 0)
+		perpWallDist = (mapX - mlx->player->posX + (1 - stepX) / 2) / rayDirX;
+	  else
+	 	perpWallDist = (mapY - mlx->player->posY + (1 - stepY) / 2) / rayDirY;
 
 	  //Calculate height of line to draw on screen
+	  h = mapHeight;
 		lineHeight = (int)(h / perpWallDist);
-
+printf("_____TEST_7_____\n");
 	  //calculate lowest and highest pixel to fill in current stripe
 	  drawStart = -lineHeight / 2 + h / 2;
-	  if(drawStart < 0)drawStart = 0;
+	  if(drawStart < 0)
+	  	drawStart = 0;
 	  drawEnd = lineHeight / 2 + h / 2;
-	  if(drawEnd >= h)drawEnd = h - 1;
-
+	  if(drawEnd >= h)
+	  	drawEnd = h - 1;
+printf("_____TEST_8_____\n");
 	  //choose wall color
-	  switch(worldMap[mapX][mapY])
+	  switch(mlx->map[(int)mapX][(int)mapY])
 	  {
 		case 1:  color = RGB_Red;    break; //red
 		case 2:  color = RGB_Green;  break; //green
@@ -200,7 +204,7 @@ int raycasting(t_mlx *mlx)
 
 	  //draw the pixels of the stripe as a vertical line
 	  //verLine(x, drawStart, drawEnd, color);
-	
+	printf("_____TEST_9_____\n");
 	
 	//speed modifiers
 	moveSpeed = 1.0; //the constant value is in squares/second
@@ -242,11 +246,13 @@ int raycasting(t_mlx *mlx)
 	}
 	*/
   }
+  printf("_____TEST_10_____\n");
 return(0);
 }
 
 int main()
   {
+	  printf("_____TEST_1_____\n");
 	  	t_mlx *mlx;
 		mlx = malloc(sizeof(t_mlx));
 		mlx->mlx = mlx_init();
