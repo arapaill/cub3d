@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/17 12:57:18 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/17 13:26:04 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,10 @@ int raycasting(t_mlx *mlx)
 	hit = 0;
 	w = screenWidth;
 	h = screenHeight;
-	printf("_____TEST_1_____\n");
+	//printf("_____TEST_1_____\n");
   while(x < w)
   {
-	printf("_____TEST_2_____\n");
+	//printf("_____TEST_2_____\n");
 	//calculate ray position and direction
 		cameraX = 2 * x / (double)w - 1; //x-coordinate in camera space
 		rayDirX = mlx->player->dirX + mlx->player->planeX * cameraX;
@@ -119,7 +119,7 @@ int raycasting(t_mlx *mlx)
 	   //length of ray from one x or y-side to next x or y-side
 	  deltaDistX = (rayDirY == 0) ? 0 : ((rayDirX == 0) ? 1 : fabs(1 / rayDirX));
 	  deltaDistY = (rayDirX== 0) ? 0 : ((rayDirY == 0) ? 1 : fabs(1 / rayDirY));
-	printf("_____TEST_3_____\n");
+	//printf("_____TEST_3_____\n");
 	  //what direction to step in x or y-direction (either +1 or -1)
 	  //calculate step and initial sideDist
 	  if(rayDirX < 0)
@@ -132,7 +132,7 @@ int raycasting(t_mlx *mlx)
 		stepX = 1;
 		sideDistX = (mapX + 1.0 - mlx->player->posX) * deltaDistX;
 	  }
-	  printf("_____TEST_4_____\n");
+	  //printf("_____TEST_4_____\n");
 	  if(rayDirY < 0)
 	  {
 		stepY = -1;
@@ -143,7 +143,7 @@ int raycasting(t_mlx *mlx)
 		stepY = 1;
 		sideDistY = (mapY + 1.0 - mlx->player->posY) * deltaDistY;
 	  }
-	  printf("_____TEST_5_____\n");
+	  //printf("_____TEST_5_____\n");
 	  //perform DDA
 	  while (hit == 0)
 	  {
@@ -160,10 +160,9 @@ int raycasting(t_mlx *mlx)
 		  mapY += stepY;
 		  side = 1;
 		}
-		printf("_____TEST_6_____\n");
+		//printf("_____TEST_6_____\n");
 		//Check if ray has hit a wall
-		if(worldMap[mapX][mapY] > '0') 
-		if(worldMap[mapX][mapY] > 0) 
+		if(mlx->map[(int)mapX][(int)mapY] > '0') 
 			hit = 1;		
 	  }
 	  //Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
@@ -175,7 +174,7 @@ int raycasting(t_mlx *mlx)
 	  //Calculate height of line to draw on screen
 	  h = mapHeight;
 		lineHeight = (int)(h / perpWallDist);
-printf("_____TEST_7_____\n");
+//printf("_____TEST_7_____\n");
 	  //calculate lowest and highest pixel to fill in current stripe
 	  drawStart = -lineHeight / 2 + h / 2;
 	  if(drawStart < 0)
@@ -183,9 +182,9 @@ printf("_____TEST_7_____\n");
 	  drawEnd = lineHeight / 2 + h / 2;
 	  if(drawEnd >= h)
 	  	drawEnd = h - 1;
-printf("_____TEST_8_____\n");
+//printf("_____TEST_8_____\n");
 	  //choose wall color
-	  switch(worldMap[mapX][mapY])
+	  switch(mlx->map[(int)mapX][(int)mapY])
 	  {
 		case 1:  color = RGB_Red;    break; //red
 		case 2:  color = RGB_Green;  break; //green
@@ -199,7 +198,7 @@ printf("_____TEST_8_____\n");
 
 	  //draw the pixels of the stripe as a vertical line
 	  //verLine(x, drawStart, drawEnd, color);
-	printf("_____TEST_9_____\n");
+	//printf("_____TEST_9_____\n");
 	
 	//speed modifiers
 	moveSpeed = 1.0; //the constant value is in squares/second
@@ -242,7 +241,7 @@ printf("_____TEST_8_____\n");
 	*/
 	x++;
   }
-printf("_____TEST_10_____\n");
+//printf("_____TEST_10_____\n");
 return (0);
 }
 void	player_init(t_mlx *mlx)
@@ -271,7 +270,7 @@ int		main(int argc, char *argv[])
 	if (argc == 2)
 		parsing(argv[1], mlx);
 	else
-		return (1);
+		return(1);
 	mlx->window = mlx_new_window(mlx->mlx, screenWidth, screenHeight, "Cub3D");
 	mlx->frame = NULL;
 	raycasting(mlx);
