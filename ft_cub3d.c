@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/17 12:36:55 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/17 12:57:18 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,15 +261,19 @@ void	player_init(t_mlx *mlx)
 }
 
 
-int		main(void)
+int		main(int argc, char *argv[])
 {
 	t_mlx *mlx;
 
 	mlx = malloc(sizeof(t_mlx));
 	mlx->mlx = mlx_init();
+	player_init(mlx);
+	if (argc == 2)
+		parsing(argv[1], mlx);
+	else
+		return (1);
 	mlx->window = mlx_new_window(mlx->mlx, screenWidth, screenHeight, "Cub3D");
 	mlx->frame = NULL;
-	player_init(mlx);
 	raycasting(mlx);
 	//mlx_hook(mlx->window, 2, 0, move, mlx);
 	mlx_loop(mlx->mlx);

@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/17 11:57:32 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/17 12:56:33 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,62 @@ char **creat_world_map(char *file size_t width, size_t height)
 	char	**world_map;
 	int		fd;
 	int		ret;
+	size_t	i;
+	size_t	j;
 
 	ret = 1;
-	fd = open(O_RDONLY);
 	world_map = malloc(sizeof(char*) * (height + 1));
 	world_map[height] = 0;
+	fd = open(O_RDONLY);
 	while(ret == 1)
 	{
 		ret = get_next_line(fd, &line)
+		while (*line == ' ')
+			line++;
+		if (*line == '1')
+			break ;
+		free(line);
 	}
-
+	world_map[i] = malloc(sizeof(char*) * (height + 1));
+	while (i < width)
+	{
+		if (line[i] != 0 && line[i] != '\n')
+			world_map[k][i] = line[i];
+		else
+		{
+			while (i < width)
+				world_map[k][i++] = ' ';
+			break ;
+		}
+		i++;
+	}
+	world_map[k++][width] = 0;
+	i = 0;
+	free (line)
+	while (k < height)
+	{
+		ret = get_next_line(fd, &line);
+		world_map[k] = malloc(sizeof(char) * (width + 1));
+		while (i < width)
+		{
+			if (line[i] != 0 && line[i] != '\n')
+				world_map[k][i] = line[i];
+			else
+			{
+				while (i < width)
+					world_map[k][i++] = ' ';
+				break ;
+			}
+			i++;
+		}
+		world_map[k++][width] = 0;
+		i = 0;
+		free(line);
+	}
+	return (world_map);
 }
 
-void    parsing(char *file, t_mlx mlx)
+void    parsing(char *file, t_mlx *mlx)
 {
 	char	*line;
 	int		fd;
@@ -68,5 +111,5 @@ void    parsing(char *file, t_mlx mlx)
 	close(fd)
 	mlx->map_width = w;
 	mlx->map_height = h;
-
+	mlx->map = mllc_world_map(file, width, height);
 }

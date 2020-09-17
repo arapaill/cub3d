@@ -6,7 +6,7 @@
 #    By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/07 12:55:46 by arapaill          #+#    #+#              #
-#    Updated: 2020/09/17 12:35:03 by arapaill         ###   ########.fr        #
+#    Updated: 2020/09/17 12:58:27 by arapaill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ fclean:	clean
 			
 re:			fclean all
 		
-exec:	all
+exec:		all
 			@echo "\033[32m[✓]\033[0m		[$(NAME) and main.c compiled]"
 			@echo "\033[32m[✓]\033[0m		[a.out executed]\n"
 			@./a.out map.cub
