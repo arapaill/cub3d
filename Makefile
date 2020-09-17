@@ -6,14 +6,17 @@
 #    By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/07 12:55:46 by arapaill          #+#    #+#              #
-#    Updated: 2020/09/17 10:37:19 by arapaill         ###   ########.fr        #
+#    Updated: 2020/09/17 12:35:03 by arapaill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 
 CC = gcc
 CFLAGS = #-Wall -Wextra -Werror
 MFLAGS =  -I minilibx -L minilibx -lmlx -framework OpenGL -framework AppKit
+CFLAGS = -Wall -Wextra -Werror
+MFLAGS =  -I minilibx -L minilibx -lmlx -framework OpenGL -framework AppKit -fsanitize=address
 SRC = ft_cub3d.c
 NAME = ft_cub3D
 LIB = ar rcs

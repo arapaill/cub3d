@@ -6,15 +6,28 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/17 11:51:34 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/17 11:57:32 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3d.h"
 
-char **world_map(char *filem size_t width, size_t height)
+char **creat_world_map(char *file size_t width, size_t height)
 {
-	
+	char	*line;
+	char	**world_map;
+	int		fd;
+	int		ret;
+
+	ret = 1;
+	fd = open(O_RDONLY);
+	world_map = malloc(sizeof(char*) * (height + 1));
+	world_map[height] = 0;
+	while(ret == 1)
+	{
+		ret = get_next_line(fd, &line)
+	}
+
 }
 
 void    parsing(char *file, t_mlx mlx)
