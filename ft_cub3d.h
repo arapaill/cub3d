@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/22 14:55:20 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/22 15:31:21 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct  s_mlx
     int         map_width;
     int         map_height;
     void        *frame;
-    int         *data;
+    int        *data;
     int         bpp;
     int         sl;
     int         endian;

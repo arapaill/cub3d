@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/22 15:03:26 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/22 15:34:54 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	put_frame(t_mlx *mlx)
 	mlx->data =
 		(int*)mlx_get_data_addr(mlx->frame, &mlx->bpp, &mlx->sl, &mlx->endian);
 }
+
 /*
 int worldMap[mapWidth][mapHeight]=  
 {
@@ -267,7 +268,7 @@ void	player_init(t_mlx *mlx)
 	mlx->player = player;
 
 }
-
+/*
 void	put_image(t_mlx *mlx)
 {
 	int *dst;
@@ -275,7 +276,7 @@ void	put_image(t_mlx *mlx)
 	dst = mlx->data + (64 * 64 + 64 * (mlx->bpp / 8));
 	*(unsigned int*)dst = mlx->color;
 }
-
+*/
 int		main(int argc, char *argv[])
 {
 	t_mlx *mlx;
@@ -291,9 +292,10 @@ int		main(int argc, char *argv[])
 	mlx->frame = NULL;
 	put_frame(mlx);
 	raycasting(mlx);
-	put_image(mlx);
+	mlx->mlx = mlx_new_image(mlx, screenHeight, screenWidth);
+	//put_image(mlx);
 	//mlx_hook(mlx->window, 2, 0, move, mlx);
-	mlx_put_image_to_window(mlx, mlx->window, mlx->mlx, 0, 0);
+	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->frame, 0, 0);
 	mlx_loop(mlx->mlx);
 	return (0);
 }
