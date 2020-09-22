@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/17 13:05:40 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/22 14:55:20 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct  s_mlx
     int         bpp;
     int         sl;
     int         endian;
+    int         color;
     t_player    *player;
 }               t_mlx;
 

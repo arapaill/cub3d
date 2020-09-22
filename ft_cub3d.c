@@ -6,40 +6,25 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/17 13:26:04 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/22 15:03:26 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-/*
-Copyright (c) 2004-2019, Lode Vandevenne
-All rights reserved.
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-	* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-	* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
-
 #include "ft_cub3d.h"
 
+
+void	put_frame(t_mlx *mlx)
+{
+	if (mlx->frame != NULL)
+	{
+		mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->frame, 0, 0);
+		mlx_destroy_image(mlx->mlx, mlx->frame);
+	}
+	mlx->frame = mlx_new_image(mlx->mlx, screenWidth, screenHeight);
+	mlx->data =
+		(int*)mlx_get_data_addr(mlx->frame, &mlx->bpp, &mlx->sl, &mlx->endian);
+}
 /*
-g++ *.cpp -lSDL -O3 -W -Wall -ansi -pedantic
-g++ *.cpp -lSDL
-*/
-
-//place the example code below here:
-
-
 int worldMap[mapWidth][mapHeight]=  
 {
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -67,7 +52,7 @@ int worldMap[mapWidth][mapHeight]=
   {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
-
+*/
 int raycasting(t_mlx *mlx)
 {
 
@@ -95,16 +80,18 @@ int raycasting(t_mlx *mlx)
 	double perpWallDist;
 	double moveSpeed;
 	double rotSpeed;
+	double wallX;
+	int texX;
+	double step;
+	double texPos;
+	int texY;
 	//double oldDirX;
 	//double oldPlaneX;
-
-
-
 	hit = 0;
 	w = screenWidth;
 	h = screenHeight;
 	//printf("_____TEST_1_____\n");
-  while(x < w)
+  while(x++ < w)
   {
 	//printf("_____TEST_2_____\n");
 	//calculate ray position and direction
@@ -183,23 +170,46 @@ int raycasting(t_mlx *mlx)
 	  if(drawEnd >= h)
 	  	drawEnd = h - 1;
 //printf("_____TEST_8_____\n");
-	  //choose wall color
-	  switch(mlx->map[(int)mapX][(int)mapY])
-	  {
-		case 1:  color = RGB_Red;    break; //red
-		case 2:  color = RGB_Green;  break; //green
-		case 3:  color = RGB_Blue;   break; //blue
-		case 4:  color = RGB_White;  break; //white
-		default: color = RGB_Yellow; break; //yellow
-	  }
-
 	  //give x and y sides different brightness
 	  if(side == 1) {color = color / 2;}
+	  if (side == 0)
+			wallX = mlx->player->posY + perpWallDist * rayDirY;
+		else
+			wallX = mlx->player->posX + perpWallDist * rayDirX;
+		wallX -= floor((wallX));
 
+		texX = (int)(wallX * (double)texWidth);
+		if (side == 0 && rayDirX > 0)
+			texX = texWidth - texX - 1;
+		if (side == 1 && rayDirY < 0)
+			texX = texWidth - texX - 1;
+
+		step = 1.0 * texHeight / lineHeight;
+		texPos = (drawStart - h / 2 + lineHeight / 2) * step;
+		for (int y = drawStart; y<drawEnd; y++)
+		{
+			texY = (int)texPos & (texHeight - 1);
+			texPos += step;
+			if (side == 1)
+			{
+				if (rayDirY >= 0)
+					mlx->color = RGB_Blue;
+				else
+					mlx->color = RGB_Green;
+			}
+			else
+			{
+				if (rayDirX >= 0)
+					mlx->color = RGB_Red;
+				else
+					mlx->color = RGB_Yellow;
+			}
+			mlx->data[x - 1 + y * screenWidth] = color;
+		}
 	  //draw the pixels of the stripe as a vertical line
 	  //verLine(x, drawStart, drawEnd, color);
 	//printf("_____TEST_9_____\n");
-	
+
 	//speed modifiers
 	moveSpeed = 1.0; //the constant value is in squares/second
 	rotSpeed = 3.0; //the constant value is in radians/second
@@ -239,7 +249,6 @@ int raycasting(t_mlx *mlx)
 	  planeY = oldPlaneX * sin(rotSpeed) + planeY * cos(rotSpeed);
 	}
 	*/
-	x++;
   }
 //printf("_____TEST_10_____\n");
 return (0);
@@ -259,6 +268,13 @@ void	player_init(t_mlx *mlx)
 
 }
 
+void	put_image(t_mlx *mlx)
+{
+	int *dst;
+
+	dst = mlx->data + (64 * 64 + 64 * (mlx->bpp / 8));
+	*(unsigned int*)dst = mlx->color;
+}
 
 int		main(int argc, char *argv[])
 {
@@ -273,8 +289,11 @@ int		main(int argc, char *argv[])
 		return(1);
 	mlx->window = mlx_new_window(mlx->mlx, screenWidth, screenHeight, "Cub3D");
 	mlx->frame = NULL;
+	put_frame(mlx);
 	raycasting(mlx);
+	put_image(mlx);
 	//mlx_hook(mlx->window, 2, 0, move, mlx);
+	mlx_put_image_to_window(mlx, mlx->window, mlx->mlx, 0, 0);
 	mlx_loop(mlx->mlx);
 	return (0);
 }

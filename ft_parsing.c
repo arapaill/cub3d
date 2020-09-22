@@ -6,29 +6,30 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/17 13:24:30 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/22 12:35:14 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3d.h"
 
-char **creat_world_map(char *file, size_t width, size_t height)
+
+char	**creat_world_map(char *file, size_t width, size_t height)
 {
 	char	*line;
 	char	**world_map;
 	int		fd;
 	int		ret;
-	size_t	k;
 	size_t	i;
+	size_t	j;
 
 	ret = 1;
-	k = 0;
 	i = 0;
+	j = 0;
 	world_map = malloc(sizeof(char*) * (height + 1));
 	world_map[height] = 0;
 	fd = open(file, O_RDONLY);
 	printf("____TEST_PARSING_3____\n");
-	while(ret == 1)
+	while (ret == 1)
 	{
 		ret = get_next_line(fd, &line);
 		while (*line == ' ')
@@ -42,37 +43,37 @@ char **creat_world_map(char *file, size_t width, size_t height)
 	while (i < width)
 	{
 		if (line[i] != 0 && line[i] != '\n')
-			world_map[k][i] = line[i];
+			world_map[j][i] = line[i];
 		else
 		{
 			while (i < width)
-				world_map[k][i++] = ' ';
+				world_map[j][i++] = ' ';
 			break ;
 		}
 		i++;
 	}
 	printf("____TEST_PARSING_5____\n");
-	world_map[k++][width] = 0;
+	world_map[j++][width] = 0;
 	i = 0;
-	free (line);
-	while (k < height)
+	free(line);
+	while (j < height)
 	{
 		ret = get_next_line(fd, &line);
-		world_map[k] = malloc(sizeof(char) * (width + 1));
+		world_map[j] = malloc(sizeof(char) * (width + 1));
 		while (i < width)
 		{
 			if (line[i] != 0 && line[i] != '\n')
-				world_map[k][i] = line[i];
+				world_map[j][i] = line[i];
 			else
 			{
 				while (i < width)
-					world_map[k][i++] = ' ';
+					world_map[j][i++] = ' ';
 				break ;
 			}
 			i++;
 		}
 		printf("____TEST_PARSING_6____\n");
-		world_map[k++][width] = 0;
+		world_map[j++][width] = 0;
 		i = 0;
 		free(line);
 	}
@@ -107,7 +108,7 @@ void    parsing(char *file, t_mlx *mlx)
 			free(line);
 			break ;
 		}
-		free (line);
+		free(line);
 	}
 	printf("____TEST_PARSING_2____\n");
 	while (ret == 1)
