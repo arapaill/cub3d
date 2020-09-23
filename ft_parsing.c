@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/22 12:35:14 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/23 09:36:14 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	**creat_world_map(char *file, size_t width, size_t height)
 	world_map = malloc(sizeof(char*) * (height + 1));
 	world_map[height] = 0;
 	fd = open(file, O_RDONLY);
-	printf("____TEST_PARSING_3____\n");
+	////printf("____TEST_PARSING_3____\n");
 	while (ret == 1)
 	{
 		ret = get_next_line(fd, &line);
@@ -38,7 +38,7 @@ char	**creat_world_map(char *file, size_t width, size_t height)
 			break ;
 		free(line);
 	}
-	printf("____TEST_PARSING_4____\n");
+	//printf("____TEST_PARSING_4____\n");
 	world_map[i] = malloc(sizeof(char*) * (height + 1));
 	while (i < width)
 	{
@@ -52,7 +52,7 @@ char	**creat_world_map(char *file, size_t width, size_t height)
 		}
 		i++;
 	}
-	printf("____TEST_PARSING_5____\n");
+	//printf("____TEST_PARSING_5____\n");
 	world_map[j++][width] = 0;
 	i = 0;
 	free(line);
@@ -72,12 +72,12 @@ char	**creat_world_map(char *file, size_t width, size_t height)
 			}
 			i++;
 		}
-		printf("____TEST_PARSING_6____\n");
+		//printf("____TEST_PARSING_6____\n");
 		world_map[j++][width] = 0;
 		i = 0;
 		free(line);
 	}
-	printf("____TEST_PARSING_7____\n");
+	//printf("____TEST_PARSING_7____\n");
 	return (world_map);
 }
 
@@ -96,7 +96,7 @@ void    parsing(char *file, t_mlx *mlx)
 	h = 1;
 	i = 0;
 	fd = open(file, O_RDONLY);
-	printf("____TEST_PARSING_1____\n");
+	//printf("____TEST_PARSING_1____\n");
 	while (ret == 1)
 	{
 		ret = get_next_line(fd, &line);
@@ -110,7 +110,7 @@ void    parsing(char *file, t_mlx *mlx)
 		}
 		free(line);
 	}
-	printf("____TEST_PARSING_2____\n");
+	//printf("____TEST_PARSING_2____\n");
 	while (ret == 1)
 	{
 		ret = get_next_line(fd, &line);
@@ -120,14 +120,14 @@ void    parsing(char *file, t_mlx *mlx)
 		h++;
 		free(line);
 	}
-	printf("____TEST_PARSING_1____\n");
+	//printf("____TEST_PARSING_1____\n");
 	close(fd);
 	mlx->map_width = w;
 	mlx->map_height = h;
 	mlx->map = creat_world_map(file, w, h);
 	while (mlx->map[i] != '\0')
 	{
-		printf("%s\n", mlx->map[i]);
+		//printf("%s\n", mlx->map[i]);
 		i++;
 	}
 }

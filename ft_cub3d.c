@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/22 15:34:54 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/23 09:48:09 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	put_frame(t_mlx *mlx)
 	mlx->frame = mlx_new_image(mlx->mlx, screenWidth, screenHeight);
 	mlx->data =
 		(int*)mlx_get_data_addr(mlx->frame, &mlx->bpp, &mlx->sl, &mlx->endian);
+		printf("%d\n", mlx->bpp);
 }
 
 /*
@@ -69,7 +70,6 @@ int raycasting(t_mlx *mlx)
 	int lineHeight;
 	int drawStart;
 	int drawEnd;
-	int color;
 	double cameraX;
 	double rayDirX;
 	double rayDirY;
@@ -172,7 +172,7 @@ int raycasting(t_mlx *mlx)
 	  	drawEnd = h - 1;
 //printf("_____TEST_8_____\n");
 	  //give x and y sides different brightness
-	  if(side == 1) {color = color / 2;}
+	  if(side == 1) {mlx->color = mlx->color / 2;}
 	  if (side == 0)
 			wallX = mlx->player->posY + perpWallDist * rayDirY;
 		else
@@ -205,7 +205,8 @@ int raycasting(t_mlx *mlx)
 				else
 					mlx->color = RGB_Yellow;
 			}
-			mlx->data[x - 1 + y * screenWidth] = color;
+			mlx->data[x - 1 + y * screenWidth] = mlx->color;
+			printf("%X\n", mlx->color);
 		}
 	  //draw the pixels of the stripe as a vertical line
 	  //verLine(x, drawStart, drawEnd, color);
@@ -287,7 +288,7 @@ int		main(int argc, char *argv[])
 	if (argc == 2)
 		parsing(argv[1], mlx);
 	else
-		return(1);
+		return (1);
 	mlx->window = mlx_new_window(mlx->mlx, screenWidth, screenHeight, "Cub3D");
 	mlx->frame = NULL;
 	put_frame(mlx);
@@ -295,6 +296,11 @@ int		main(int argc, char *argv[])
 	mlx->mlx = mlx_new_image(mlx, screenHeight, screenWidth);
 	//put_image(mlx);
 	//mlx_hook(mlx->window, 2, 0, move, mlx);
+	for (int x = 0; x < screenWidth; x++)
+		for (int y = 0; y < screenHeight; y++)
+			{
+				mlx->data[x + y * screenWidth] = 0xFF;
+			}
 	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->frame, 0, 0);
 	mlx_loop(mlx->mlx);
 	return (0);
