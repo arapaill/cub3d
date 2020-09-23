@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/23 09:36:14 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/23 14:05:14 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void    parsing(char *file, t_mlx *mlx)
 	mlx->map = creat_world_map(file, w, h);
 	while (mlx->map[i] != '\0')
 	{
-		//printf("%s\n", mlx->map[i]);
+		printf("%s\n", mlx->map[i]);
 		i++;
 	}
 }

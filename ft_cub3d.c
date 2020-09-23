@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/23 09:48:09 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/23 16:58:05 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int worldMap[mapWidth][mapHeight]=
   {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},-+++++++++++++++99
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 */
@@ -60,6 +60,7 @@ int raycasting(t_mlx *mlx)
 
 	int w;
 	int x = 0;
+	int y = 0;
 	int h;
 	int mapX;
 	int mapY;
@@ -158,18 +159,18 @@ int raycasting(t_mlx *mlx)
 		perpWallDist = (mapX - mlx->player->posX + (1 - stepX) / 2) / rayDirX;
 	  else
 	 	perpWallDist = (mapY - mlx->player->posY + (1 - stepY) / 2) / rayDirY;
-
+			//	printf("stepY : %d, stepX : %d \n", stepY, stepX);
 	  //Calculate height of line to draw on screen
-	  h = mapHeight;
 		lineHeight = (int)(h / perpWallDist);
+		//printf("h: %d\n", h);
 //printf("_____TEST_7_____\n");
 	  //calculate lowest and highest pixel to fill in current stripe
-	  drawStart = -lineHeight / 2 + h / 2;
-	  if(drawStart < 0)
+      drawStart = -lineHeight / 2 + h / 2;
+      if(drawStart < 0)
 	  	drawStart = 0;
-	  drawEnd = lineHeight / 2 + h / 2;
-	  if(drawEnd >= h)
-	  	drawEnd = h - 1;
+    	drawEnd = lineHeight / 2 + h / 2;
+		//printf("drawEnd : %d \n", lineHeight);
+      if(drawEnd >= h)drawEnd = h - 1;
 //printf("_____TEST_8_____\n");
 	  //give x and y sides different brightness
 	  if(side == 1) {mlx->color = mlx->color / 2;}
@@ -178,7 +179,6 @@ int raycasting(t_mlx *mlx)
 		else
 			wallX = mlx->player->posX + perpWallDist * rayDirX;
 		wallX -= floor((wallX));
-
 		texX = (int)(wallX * (double)texWidth);
 		if (side == 0 && rayDirX > 0)
 			texX = texWidth - texX - 1;
@@ -187,7 +187,8 @@ int raycasting(t_mlx *mlx)
 
 		step = 1.0 * texHeight / lineHeight;
 		texPos = (drawStart - h / 2 + lineHeight / 2) * step;
-		for (int y = drawStart; y<drawEnd; y++)
+		//printf("ds : %d, de : %d \n", drawStart, drawEnd);
+		for (y = drawStart; y < drawEnd; y++)
 		{
 			texY = (int)texPos & (texHeight - 1);
 			texPos += step;
@@ -205,9 +206,13 @@ int raycasting(t_mlx *mlx)
 				else
 					mlx->color = RGB_Yellow;
 			}
-			mlx->data[x - 1 + y * screenWidth] = mlx->color;
+						printf("x: %d, y : %d \n", x, y);
+			mlx_pixel_put(mlx->mlx, mlx->window, x, y, 0x00FF0000);
 			printf("%X\n", mlx->color);
 		}
+			printf("x: %d, y : %d \n", x, y);
+			mlx_pixel_put(mlx->mlx, mlx->window, x, y, 0x00FF0000);
+			printf("%X\n", mlx->color);
 	  //draw the pixels of the stripe as a vertical line
 	  //verLine(x, drawStart, drawEnd, color);
 	//printf("_____TEST_9_____\n");
@@ -278,12 +283,15 @@ void	put_image(t_mlx *mlx)
 	*(unsigned int*)dst = mlx->color;
 }
 */
+
 int		main(int argc, char *argv[])
 {
-	t_mlx *mlx;
+	t_mlx	*mlx;
 
 	mlx = malloc(sizeof(t_mlx));
 	mlx->mlx = mlx_init();
+	if (mlx->mlx == 0)
+		return (1);
 	player_init(mlx);
 	if (argc == 2)
 		parsing(argv[1], mlx);
@@ -293,15 +301,18 @@ int		main(int argc, char *argv[])
 	mlx->frame = NULL;
 	put_frame(mlx);
 	raycasting(mlx);
-	mlx->mlx = mlx_new_image(mlx, screenHeight, screenWidth);
+	//mlx->mlx = mlx_new_image(mlx, screenHeight, screenWidth);
 	//put_image(mlx);
 	//mlx_hook(mlx->window, 2, 0, move, mlx);
+	/*
 	for (int x = 0; x < screenWidth; x++)
 		for (int y = 0; y < screenHeight; y++)
 			{
-				mlx->data[x + y * screenWidth] = 0xFF;
+				//mlx->data[x + y * screenWidth] = 0xFF000000;
+				mlx_pixel_put(mlx->mlx, mlx->window, x, y, 0x00FF0000);
 			}
-	mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->frame, 0, 0);
+			*/
+	//mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->frame, 0, 0);
 	mlx_loop(mlx->mlx);
 	return (0);
 }
