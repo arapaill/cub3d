@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/23 16:58:05 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/24 10:10:29 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,24 +62,24 @@ int raycasting(t_mlx *mlx)
 	int x = 0;
 	int y = 0;
 	int h;
-	int mapX;
-	int mapY;
-	int stepX;
-	int stepY;
+	int mapx;
+	int mapy;
+	int stepx;
+	int stepy;
 	int hit;
 	int side;
-	int lineHeight;
-	int drawStart;
-	int drawEnd;
-	double cameraX;
-	double rayDirX;
-	double rayDirY;
+	int lineheight;
+	int drawstart;
+	int drawend;
+	double camerax;
+	double raydirx;
+	double raydiry;
 	//length of ray from current position to next x or y-side
-	double sideDistX;
-	double sideDistY;
-	double deltaDistX;
-	double deltaDistY;
-	double perpWallDist;
+	double sidedistx;
+	double sidedisty;
+	double deltadistx;
+	double deltadisty;
+	double perpwalldist;
 	double moveSpeed;
 	double rotSpeed;
 	double wallX;
@@ -95,124 +95,111 @@ int raycasting(t_mlx *mlx)
 	//printf("_____TEST_1_____\n");
   while(x++ < w)
   {
-	//printf("_____TEST_2_____\n");
-	//calculate ray position and direction
-		cameraX = 2 * x / (double)w - 1; //x-coordinate in camera space
-		rayDirX = mlx->player->dirX + mlx->player->planeX * cameraX;
-	  	rayDirY = mlx->player->dirY + mlx->player->planeY * cameraX;
+		camerax = 2 * x / (double)w - 1;
+		raydirx = mlx->player->dirX + mlx->player->planeX * camerax;
+		raydiry = mlx->player->dirY + mlx->player->planeY * camerax;
 
-	  //which box of the map we're in
-	  mapX = (int)mlx->player->posX;
-	  mapY = (int)mlx->player->posY;
+		mapx = (int)mlx->player->posX;
+		mapy = (int)mlx->player->posY;
 
-	   //length of ray from one x or y-side to next x or y-side
-	  deltaDistX = (rayDirY == 0) ? 0 : ((rayDirX == 0) ? 1 : fabs(1 / rayDirX));
-	  deltaDistY = (rayDirX== 0) ? 0 : ((rayDirY == 0) ? 1 : fabs(1 / rayDirY));
-	//printf("_____TEST_3_____\n");
-	  //what direction to step in x or y-direction (either +1 or -1)
-	  //calculate step and initial sideDist
-	  if(rayDirX < 0)
-	  {
-		stepX = -1;
-		sideDistX = (mlx->player->posX - mapX) * deltaDistX;
-	  }
-	  else
-	  {
-		stepX = 1;
-		sideDistX = (mapX + 1.0 - mlx->player->posX) * deltaDistX;
-	  }
-	  //printf("_____TEST_4_____\n");
-	  if(rayDirY < 0)
-	  {
-		stepY = -1;
-		sideDistY = (mlx->player->posY - mapY) * deltaDistY;
-	  }
-	  else
-	  {
-		stepY = 1;
-		sideDistY = (mapY + 1.0 - mlx->player->posY) * deltaDistY;
-	  }
-	  //printf("_____TEST_5_____\n");
-	  //perform DDA
-	  while (hit == 0)
-	  {
-		//jump to next map square, OR in x-direction, OR in y-direction
-		if(sideDistX < sideDistY)
+		deltadistx = (raydiry == 0) ? 0 : ((raydirx == 0) ? 1 : fabs(1 / raydirx));
+		deltadisty = (raydirx == 0) ? 0 : ((raydiry == 0) ? 1 : fabs(1 / raydiry));
+
+		hit = 0;
+
+		if (raydirx < 0)
 		{
-		  sideDistX += deltaDistX;
-		  mapX += stepX;
-		  side = 0;
+			stepx = -1;
+			sidedistx = (mlx->player->posX - mapx) * deltadistx;
 		}
 		else
 		{
-		  sideDistY += deltaDistY;
-		  mapY += stepY;
-		  side = 1;
+			stepx = 1;
+			sidedistx = (mapx + 1.0 - mlx->player->posX) * deltadistx;
 		}
-		//printf("_____TEST_6_____\n");
-		//Check if ray has hit a wall
-		if(mlx->map[(int)mapX][(int)mapY] > '0') 
-			hit = 1;		
-	  }
-	  //Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
-	  if(side == 0)
-		perpWallDist = (mapX - mlx->player->posX + (1 - stepX) / 2) / rayDirX;
-	  else
-	 	perpWallDist = (mapY - mlx->player->posY + (1 - stepY) / 2) / rayDirY;
-			//	printf("stepY : %d, stepX : %d \n", stepY, stepX);
-	  //Calculate height of line to draw on screen
-		lineHeight = (int)(h / perpWallDist);
-		//printf("h: %d\n", h);
-//printf("_____TEST_7_____\n");
-	  //calculate lowest and highest pixel to fill in current stripe
-      drawStart = -lineHeight / 2 + h / 2;
-      if(drawStart < 0)
-	  	drawStart = 0;
-    	drawEnd = lineHeight / 2 + h / 2;
-		//printf("drawEnd : %d \n", lineHeight);
-      if(drawEnd >= h)drawEnd = h - 1;
-//printf("_____TEST_8_____\n");
-	  //give x and y sides different brightness
-	  if(side == 1) {mlx->color = mlx->color / 2;}
-	  if (side == 0)
-			wallX = mlx->player->posY + perpWallDist * rayDirY;
+		if (raydiry < 0)
+		{
+			stepy = -1;
+			sidedisty = (mlx->player->posY - mapy) * deltadisty;
+		}
 		else
-			wallX = mlx->player->posX + perpWallDist * rayDirX;
+		{
+			stepy = 1;
+			sidedisty = (mapy + 1.0 - mlx->player->posY) * deltadisty;
+		}
+
+		while (hit == 0)
+		{
+			if (sidedistx < sidedisty)
+			{
+				sidedistx += deltadistx;
+				mapx += stepx;
+				side = 0;
+			}
+			else
+			{
+				sidedisty += deltadisty;
+				mapy += stepy;
+				side = 1;
+			}
+			if (mlx->map[(int)mapx][(int)mapy] > '0')
+				hit = 1;
+		}
+		if (side == 0)
+			perpwalldist =
+				(mapx - mlx->player->posX + (1 - stepx) / 2) / raydirx;
+		else
+			perpwalldist =
+				(mapy - mlx->player->posY + (1 - stepy) / 2) / raydiry;
+
+		lineheight = (int)(h / perpwalldist);
+		drawstart = -lineheight / 2 + h / 2;
+		if (drawstart < 0)
+			drawstart = 0;
+		drawend = lineheight / 2 + h / 2;
+		if (drawend >= h)
+			drawend = h - 1;
+
+		if (side == 0)
+			wallX = mlx->player->posY + perpwalldist * raydiry;
+		else
+			wallX = mlx->player->posX + perpwalldist * raydirx;
 		wallX -= floor((wallX));
+
 		texX = (int)(wallX * (double)texWidth);
-		if (side == 0 && rayDirX > 0)
+		if (side == 0 && raydirx > 0)
 			texX = texWidth - texX - 1;
-		if (side == 1 && rayDirY < 0)
+		if (side == 1 && raydiry < 0)
 			texX = texWidth - texX - 1;
 
-		step = 1.0 * texHeight / lineHeight;
-		texPos = (drawStart - h / 2 + lineHeight / 2) * step;
-		//printf("ds : %d, de : %d \n", drawStart, drawEnd);
-		for (y = drawStart; y < drawEnd; y++)
+		step = 1.0 * texHeight / lineheight;
+		texPos = (drawstart - h / 2 + lineheight / 2) * step;
+		for (y = drawstart; y<drawend; y++)
 		{
 			texY = (int)texPos & (texHeight - 1);
 			texPos += step;
 			if (side == 1)
+				texY = (int)texPos & (texHeight - 1);
+			texPos += step;
+			if (side == 1)
 			{
-				if (rayDirY >= 0)
+				if (raydiry >= 0)
 					mlx->color = RGB_Blue;
 				else
 					mlx->color = RGB_Green;
 			}
 			else
 			{
-				if (rayDirX >= 0)
+				if (raydirx >= 0)
 					mlx->color = RGB_Red;
 				else
 					mlx->color = RGB_Yellow;
 			}
-						printf("x: %d, y : %d \n", x, y);
-			mlx_pixel_put(mlx->mlx, mlx->window, x, y, 0x00FF0000);
-			printf("%X\n", mlx->color);
+			//printf("x: %d, y : %d \n", x, y);
+			mlx_pixel_put(mlx->mlx, mlx->window, x, y, mlx->color);
+			//printf("%X\n", mlx->color);
 		}
-			printf("x: %d, y : %d \n", x, y);
-			mlx_pixel_put(mlx->mlx, mlx->window, x, y, 0x00FF0000);
-			printf("%X\n", mlx->color);
+	
 	  //draw the pixels of the stripe as a vertical line
 	  //verLine(x, drawStart, drawEnd, color);
 	//printf("_____TEST_9_____\n");
@@ -258,6 +245,7 @@ int raycasting(t_mlx *mlx)
 	*/
   }
 //printf("_____TEST_10_____\n");
+//put_frame(mlx);
 return (0);
 }
 void	player_init(t_mlx *mlx)
@@ -270,7 +258,7 @@ void	player_init(t_mlx *mlx)
 	player->dirX = -1;
 	player->dirY = 0;
 	player->planeX = 0;
-	player->planeY = 0.66;
+	player->planeY = 0.86;
 	mlx->player = player;
 
 }
