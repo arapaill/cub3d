@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/24 11:46:05 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/24 12:10:24 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@
 # define screenHeight 1080
 # define texWidth 64
 # define texHeight 64
-# define movespeed 0.1
-# define rotspeed 0.3
+# define movespeed 0.3
+# define rotspeed 0.05
 
 typedef struct  s_player
 {

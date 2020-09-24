@@ -6,39 +6,43 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 10:34:54 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/24 11:47:46 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/24 12:22:51 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3d.h"
 
-static void rot_left(t_mlx *mlx)
+static void	rot_left(t_mlx *mlx)
 {
-	double	oldDirX;
-	double	oldPlaneX;
+	double old_dir_x;
+	double old_plane_x;
 
-	oldDirX = mlx->player->dirX;
-	oldPlaneX = mlx->player->planeX;
-	mlx->player->dirX = mlx->player->dirX * cos(rotspeed) - mlx->player->dirY * sin(rotspeed);
-	mlx->player->dirY = oldDirX * sin(rotspeed) - mlx->player->dirY * cos(rotspeed);
-	mlx->player->planeX = mlx->player->planeX * cos(rotspeed) - mlx->player->planeY * sin(rotspeed);
-	mlx->player->planeY = oldPlaneX * sin(rotspeed) + mlx->player->planeY * cos(rotspeed);
+	old_dir_x = mlx->player->dirX;
+	old_plane_x = mlx->player->planeX;
+	mlx->player->dirX = mlx->player->dirX *
+	cos(rotspeed) - mlx->player->dirY * sin(rotspeed);
+	mlx->player->dirY = old_dir_x *
+	sin(rotspeed) + mlx->player->dirY * cos(rotspeed);
+	mlx->player->planeX = mlx->player->planeX *
+	cos(rotspeed) - mlx->player->planeY * sin(rotspeed);
+	mlx->player->planeY = old_plane_x *
+	sin(rotspeed) + mlx->player->planeY * cos(rotspeed);
 }
 
-static void rot_right(t_mlx *mlx)
+static void	rot_right(t_mlx *mlx)
 {
-	double	oldDirX;
-	double	oldPlaneX;
+	double old_dir_x;
+	double old_plane_x;
 
-	oldDirX = mlx->player->dirX;
-	oldPlaneX = mlx->player->planeX;
+	old_dir_x = mlx->player->dirX;
+	old_plane_x = mlx->player->planeX;
 	mlx->player->dirX = mlx->player->dirX *
 	cos(-rotspeed) - mlx->player->dirY * sin(-rotspeed);
-	mlx->player->dirY = oldDirX *
+	mlx->player->dirY = old_dir_x *
 	sin(-rotspeed) + mlx->player->dirY * cos(-rotspeed);
 	mlx->player->planeX = mlx->player->planeX *
-	cos(-rotspeed) - mlx->player->planeY * sin(-rotspeed);
-	mlx->player->planeY = oldPlaneX *
+	 cos(-rotspeed) - mlx->player->planeY * sin(-rotspeed);
+	mlx->player->planeY = old_plane_x *
 	sin(-rotspeed) + mlx->player->planeY * cos(-rotspeed);
 }
 
@@ -55,11 +59,11 @@ static void	left_key(t_mlx *mlx)
 static void	up_key(t_mlx *mlx)
 {
 	if (mlx->map[(int)(mlx->player->posX + mlx->player->dirX * movespeed)]
-	[(int)(mlx->player->posY)] == '0')
+	[(int)mlx->player->posY] == '0')
 		mlx->player->posX += mlx->player->dirX * movespeed;
 	if (mlx->map[(int)(mlx->player->posX)]
 	[(int)(mlx->player->posY + mlx->player->dirY * movespeed)] == '0')
-		mlx->player->posX += mlx->player->dirX * movespeed;
+		mlx->player->posY += mlx->player->dirY * movespeed;
 }
 
 static void	down_key(t_mlx *mlx)
