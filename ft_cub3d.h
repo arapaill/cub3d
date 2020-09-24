@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/24 12:10:24 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/24 15:22:41 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,16 @@
 # define movespeed 0.3
 # define rotspeed 0.05
 
+typedef struct  s_texture
+{
+    int         *south;
+    int         *north;
+    int         *east;
+    int         *west;
+    int         *floor;
+    int         *sky;
+}               t_texture;
+
 typedef struct  s_player
 {
     double      posX;
@@ -67,6 +77,7 @@ typedef struct  s_mlx
     int         endian;
     int         color;
     t_player    *player;
+    t_texture   *texture;
 }               t_mlx;
 
 void    parsing(char *file, t_mlx *mlx);

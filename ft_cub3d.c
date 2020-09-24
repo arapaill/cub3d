@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/24 11:29:27 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/24 16:05:27 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,76 +179,31 @@ int raycasting(t_mlx *mlx)
 			if (side == 1)
 				texY = (int)texPos & (texHeight - 1);
 			texPos += step;
+			printf("TEST1\n");
+			printf("%d\n",mlx->texture->west[(texHeight * texY) + texX]);
+			printf("%d\n",mlx->texture->east[(texHeight * texY) + texX]);
+			printf("%d\n",mlx->texture->north[(texHeight * texY) + texX]);
+			printf("%d\n",mlx->texture->south[(texHeight * texY) + texX]);
 			if (side == 1)
 			{
 				if (raydiry >= 0)
-					mlx->color = RGB_Blue;
+					mlx->color = mlx->texture->west[(texHeight * texY) + texX];
 				else
-					mlx->color = RGB_Green;
+					mlx->color = mlx->texture->east[(texHeight * texY) + texX];
 			}
 			else
 			{
 				if (raydirx >= 0)
-					mlx->color = RGB_Red;
+					mlx->color = mlx->texture->north[(texHeight * texY) + texX];
 				else
-					mlx->color = RGB_Yellow;
+					mlx->color = mlx->texture->south[(texHeight * texY) + texX];
 			}
-			//printf("x: %d, y : %d \n", x, y);
-			mlx_pixel_put(mlx->mlx, mlx->window, x, y, mlx->color);
+			printf("TEST2\n");
+			mlx->data[x - 1 + y * mlx->screen_width] = mlx->color;
+			
 			//printf("%X\n", mlx->color);
 		}
-	
-	  //draw the pixels of the stripe as a vertical line
-	  //verLine(x, drawStart, drawEnd, color);
-	//printf("_____TEST_9_____\n");
-
-	/*readKeys();
-	//move forward if no wall in front of you
-	if(keyDown(UP_KEY))
-	{
-	  if(worldMap[(int)(posX + dirX * moveSpeed)][(int)(posY)] == 0) posX += dirX * moveSpeed;
-	  if(worldMap[(int)(posX)][(int)(posY + dirY * moveSpeed)] == 0) posY += dirY * moveSpeed;
-	}
-	//move backwards if no wall behind you
-	
-	___________________
-	___________________
-
-
-	if(keyDown(DOWN_KEY))
-	{
-	  if(worldMap[(int)(posX - dirX * moveSpeed)][(int)(posY)] == 0) posX -= dirX * moveSpeed;
-	  if(worldMap[(int)(posX)][(int)(posY - dirY * moveSpeed)] == 0) posY -= dirY * moveSpeed;
-	}
-	//rotate to the right
-
-_________________________
-__________________________
-
-	if(keyDown(RIGHT_KEY))
-	{
-	  //both camera direction and camera plane must be rotated
-		oldDirX = dirX;
-	  dirX = dirX * cos(-rotSpeed) - dirY * sin(-rotSpeed);
-	  dirY = oldDirX * sin(-rotSpeed) + dirY * cos(-rotSpeed);
-	  double oldPlaneX = planeX;
-	  planeX = planeX * cos(-rotSpeed) - planeY * sin(-rotSpeed);
-	  planeY = oldPlaneX * sin(-rotSpeed) + planeY * cos(-rotSpeed);
-	}
-	//rotate to the left
-	if(keyDown(LEFT_KEY))
-	{
-	  //both camera direction and camera plane must be rotated
-	  oldDirX = dirX;
-	  dirX = dirX * cos(rotSpeed) - dirY * sin(rotSpeed);
-	  dirY = oldDirX * sin(rotSpeed) + dirY * cos(rotSpeed);
-	  oldPlaneX = planeX;
-	  planeX = planeX * cos(rotSpeed) - planeY * sin(rotSpeed);
-	  planeY = oldPlaneX * sin(rotSpeed) + planeY * cos(rotSpeed);
-	}
-	*/
   }
-//printf("_____TEST_10_____\n");
 //put_frame(mlx);
 return (0);
 }

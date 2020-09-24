@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/23 14:05:14 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/24 15:48:34 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,39 @@ char	**creat_world_map(char *file, size_t width, size_t height)
 	//printf("____TEST_PARSING_7____\n");
 	return (world_map);
 }
+void	get_texture(char *s, t_mlx *mlx)
+{
+	size_t	i;
+	void	*texture;
+	t_texture *txt;
+	int		a;
+
+	a = 64;
+	i = 1;
+	txt = malloc(sizeof(t_texture));
+	while (s[i] == ' ')
+		i++;
+	if (open(&s[i], O_RDONLY) == -1)
+	{
+		printf("ERROR NO TEXTURES. 1\n");
+		exit(-1);
+	}
+	texture = mlx_xpm_file_to_image(mlx->mlx, &s[i], &a, &a);
+	printf("s[0] = %c\n", s[0]);
+	if (s[0] == 'S')
+		txt->south =
+		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
+	if (s[0] == 'N')
+		txt->north =
+		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
+	if (s[0] == 'E')
+		txt->east =
+		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
+	if (s[0] == 'W')
+		txt->west =
+		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
+	mlx->texture = txt;
+}
 
 void    parsing(char *file, t_mlx *mlx)
 {
@@ -100,6 +133,8 @@ void    parsing(char *file, t_mlx *mlx)
 	while (ret == 1)
 	{
 		ret = get_next_line(fd, &line);
+		if (line[0] == 'S' || line[0] == 'N' || line[0] == 'E' || line[0] == 'W')
+			get_texture(line, mlx);
 		while (*line == ' ')
 			line++;
 		if (*line == '1')
