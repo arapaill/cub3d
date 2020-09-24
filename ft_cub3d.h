@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/24 09:33:54 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/24 11:46:05 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@
 # include <fcntl.h>
 # include <stdio.h>
 
-#define RGB_Red 16711680
-#define RGB_Green 65280
-#define RGB_Blue 255
-#define RGB_White 16777215
-#define RGB_Yellow 16776960
+# define RGB_Red 16711680
+# define RGB_Green 65280
+# define RGB_Blue 255
+# define RGB_White 16777215
+# define RGB_Yellow 16776960
 
 # define mapWidth 34
 # define mapHeight 25
@@ -38,6 +38,8 @@
 # define screenHeight 1080
 # define texWidth 64
 # define texHeight 64
+# define movespeed 0.1
+# define rotspeed 0.3
 
 typedef struct  s_player
 {
@@ -68,4 +70,6 @@ typedef struct  s_mlx
 }               t_mlx;
 
 void    parsing(char *file, t_mlx *mlx);
+int		key_check( int key, t_mlx *mlx);
+int     raycasting(t_mlx *mlx);
 #endif

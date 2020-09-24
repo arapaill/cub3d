@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/24 10:10:29 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/24 11:29:27 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ int raycasting(t_mlx *mlx)
 	double deltadistx;
 	double deltadisty;
 	double perpwalldist;
-	double moveSpeed;
-	double rotSpeed;
 	double wallX;
 	int texX;
 	double step;
@@ -174,7 +172,7 @@ int raycasting(t_mlx *mlx)
 
 		step = 1.0 * texHeight / lineheight;
 		texPos = (drawstart - h / 2 + lineheight / 2) * step;
-		for (y = drawstart; y<drawend; y++)
+		for (y = drawstart; y < drawend; y++)
 		{
 			texY = (int)texPos & (texHeight - 1);
 			texPos += step;
@@ -204,9 +202,6 @@ int raycasting(t_mlx *mlx)
 	  //verLine(x, drawStart, drawEnd, color);
 	//printf("_____TEST_9_____\n");
 
-	//speed modifiers
-	moveSpeed = 1.0; //the constant value is in squares/second
-	rotSpeed = 3.0; //the constant value is in radians/second
 	/*readKeys();
 	//move forward if no wall in front of you
 	if(keyDown(UP_KEY))
@@ -215,12 +210,21 @@ int raycasting(t_mlx *mlx)
 	  if(worldMap[(int)(posX)][(int)(posY + dirY * moveSpeed)] == 0) posY += dirY * moveSpeed;
 	}
 	//move backwards if no wall behind you
+	
+	___________________
+	___________________
+
+
 	if(keyDown(DOWN_KEY))
 	{
 	  if(worldMap[(int)(posX - dirX * moveSpeed)][(int)(posY)] == 0) posX -= dirX * moveSpeed;
 	  if(worldMap[(int)(posX)][(int)(posY - dirY * moveSpeed)] == 0) posY -= dirY * moveSpeed;
 	}
 	//rotate to the right
+
+_________________________
+__________________________
+
 	if(keyDown(RIGHT_KEY))
 	{
 	  //both camera direction and camera plane must be rotated
@@ -253,7 +257,7 @@ void	player_init(t_mlx *mlx)
 	t_player *player;
 
 	player = malloc(sizeof(t_player));
-	player->posX = 22;
+	player->posX = 21;
 	player->posY = 12;
 	player->dirX = -1;
 	player->dirY = 0;
@@ -291,7 +295,6 @@ int		main(int argc, char *argv[])
 	raycasting(mlx);
 	//mlx->mlx = mlx_new_image(mlx, screenHeight, screenWidth);
 	//put_image(mlx);
-	//mlx_hook(mlx->window, 2, 0, move, mlx);
 	/*
 	for (int x = 0; x < screenWidth; x++)
 		for (int y = 0; y < screenHeight; y++)
@@ -301,6 +304,7 @@ int		main(int argc, char *argv[])
 			}
 			*/
 	//mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->frame, 0, 0);
+	mlx_hook(mlx->window, 2, 0, key_check, mlx);
 	mlx_loop(mlx->mlx);
 	return (0);
 }
