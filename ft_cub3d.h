@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/24 15:22:41 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/25 15:14:23 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define texWidth 64
 # define texHeight 64
 # define movespeed 0.3
-# define rotspeed 0.05
+# define rotspeed 0.1
 
 typedef struct  s_texture
 {

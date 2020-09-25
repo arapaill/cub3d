@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/24 15:48:34 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/25 15:09:20 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,10 @@ void	get_texture(char *s, t_mlx *mlx)
 {
 	size_t	i;
 	void	*texture;
-	t_texture *txt;
 	int		a;
 
 	a = 64;
 	i = 1;
-	txt = malloc(sizeof(t_texture));
 	while (s[i] == ' ')
 		i++;
 	if (open(&s[i], O_RDONLY) == -1)
@@ -100,18 +98,23 @@ void	get_texture(char *s, t_mlx *mlx)
 	texture = mlx_xpm_file_to_image(mlx->mlx, &s[i], &a, &a);
 	printf("s[0] = %c\n", s[0]);
 	if (s[0] == 'S')
-		txt->south =
+		mlx->texture->south =
 		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-	if (s[0] == 'N')
-		txt->north =
+	else if (s[0] == 'N')
+		mlx->texture->north =
 		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-	if (s[0] == 'E')
-		txt->east =
+	else if (s[0] == 'W')
+		mlx->texture->west =
 		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-	if (s[0] == 'W')
-		txt->west =
+	else if (s[0] == 'E')
+		mlx->texture->east =
 		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-	mlx->texture = txt;
+	else
+		printf("ERROR NO TEXTURES. 1\n");
+			printf("WEST  :%d\n", (int)(mlx->texture->west));
+			printf("EAST  :%d\n", (int)(mlx->texture->east));
+			printf("SOUTH :%d\n", (int)(mlx->texture->south));
+			printf("NORTH :%d\n", (int)(mlx->texture->north));
 }
 
 void    parsing(char *file, t_mlx *mlx)
@@ -130,6 +133,7 @@ void    parsing(char *file, t_mlx *mlx)
 	i = 0;
 	fd = open(file, O_RDONLY);
 	//printf("____TEST_PARSING_1____\n");
+	mlx->texture = malloc(sizeof(t_texture));
 	while (ret == 1)
 	{
 		ret = get_next_line(fd, &line);

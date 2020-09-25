@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/24 16:05:27 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/25 15:25:28 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	put_frame(t_mlx *mlx)
 	mlx->frame = mlx_new_image(mlx->mlx, screenWidth, screenHeight);
 	mlx->data =
 		(int*)mlx_get_data_addr(mlx->frame, &mlx->bpp, &mlx->sl, &mlx->endian);
-		printf("%d\n", mlx->bpp);
+		//printf("%d\n", mlx->bpp);
 }
 
 /*
@@ -176,14 +176,11 @@ int raycasting(t_mlx *mlx)
 		{
 			texY = (int)texPos & (texHeight - 1);
 			texPos += step;
-			if (side == 1)
-				texY = (int)texPos & (texHeight - 1);
-			texPos += step;
-			printf("TEST1\n");
-			printf("%d\n",mlx->texture->west[(texHeight * texY) + texX]);
-			printf("%d\n",mlx->texture->east[(texHeight * texY) + texX]);
-			printf("%d\n",mlx->texture->north[(texHeight * texY) + texX]);
-			printf("%d\n",mlx->texture->south[(texHeight * texY) + texX]);
+			//printf("test1 %d\n",(texHeight * texY) + texX);
+			//printf("%d\n", mlx->texture->west[(texHeight * texY) + texX]);
+			//printf("%d\n", (mlx->texture->west[(texHeight * texY) + texX]));
+			//printf("%d\n", mlx->texture->north[(texHeight * texY) + texX]);
+			//printf("%d\n", mlx->texture->south[(texHeight * texY) + texX]);
 			if (side == 1)
 			{
 				if (raydiry >= 0)
@@ -198,13 +195,13 @@ int raycasting(t_mlx *mlx)
 				else
 					mlx->color = mlx->texture->south[(texHeight * texY) + texX];
 			}
-			printf("TEST2\n");
-			mlx->data[x - 1 + y * mlx->screen_width] = mlx->color;
+			//printf("TEST2\n");
+			mlx->data[x - 1 + y * screenWidth] = mlx->color;
 			
 			//printf("%X\n", mlx->color);
 		}
   }
-//put_frame(mlx);
+put_frame(mlx);
 return (0);
 }
 void	player_init(t_mlx *mlx)
@@ -221,15 +218,6 @@ void	player_init(t_mlx *mlx)
 	mlx->player = player;
 
 }
-/*
-void	put_image(t_mlx *mlx)
-{
-	int *dst;
-
-	dst = mlx->data + (64 * 64 + 64 * (mlx->bpp / 8));
-	*(unsigned int*)dst = mlx->color;
-}
-*/
 
 int		main(int argc, char *argv[])
 {
@@ -261,5 +249,6 @@ int		main(int argc, char *argv[])
 	//mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->frame, 0, 0);
 	mlx_hook(mlx->window, 2, 0, key_check, mlx);
 	mlx_loop(mlx->mlx);
+	free (mlx);
 	return (0);
 }
