@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/25 15:09:20 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/28 14:26:44 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ void	get_texture(char *s, t_mlx *mlx)
 		exit(-1);
 	}
 	texture = mlx_xpm_file_to_image(mlx->mlx, &s[i], &a, &a);
-	printf("s[0] = %c\n", s[0]);
 	if (s[0] == 'S')
 		mlx->texture->south =
 		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
@@ -109,12 +108,15 @@ void	get_texture(char *s, t_mlx *mlx)
 	else if (s[0] == 'E')
 		mlx->texture->east =
 		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
+	else if (s[0] == 'F')
+		mlx->texture->floor = 
+		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
+	else if (s[0] == 'C')
+		mlx->texture->ceiling = 
+		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
+
 	else
 		printf("ERROR NO TEXTURES. 1\n");
-			printf("WEST  :%d\n", (int)(mlx->texture->west));
-			printf("EAST  :%d\n", (int)(mlx->texture->east));
-			printf("SOUTH :%d\n", (int)(mlx->texture->south));
-			printf("NORTH :%d\n", (int)(mlx->texture->north));
 }
 
 void    parsing(char *file, t_mlx *mlx)
@@ -137,7 +139,8 @@ void    parsing(char *file, t_mlx *mlx)
 	while (ret == 1)
 	{
 		ret = get_next_line(fd, &line);
-		if (line[0] == 'S' || line[0] == 'N' || line[0] == 'E' || line[0] == 'W')
+		if (line[0] == 'S' || line[0] == 'N' || line[0] == 'E' ||
+		 line[0] == 'W' || line[0] == 'F' || line[0] == 'C')
 			get_texture(line, mlx);
 		while (*line == ' ')
 			line++;
@@ -164,9 +167,4 @@ void    parsing(char *file, t_mlx *mlx)
 	mlx->map_width = w;
 	mlx->map_height = h;
 	mlx->map = creat_world_map(file, w, h);
-	while (mlx->map[i] != '\0')
-	{
-		printf("%s\n", mlx->map[i]);
-		i++;
-	}
 }

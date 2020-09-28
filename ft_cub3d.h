@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/25 15:14:23 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/28 09:34:56 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct  s_texture
     int         *east;
     int         *west;
     int         *floor;
-    int         *sky;
+    int         *ceiling;
 }               t_texture;
 
 typedef struct  s_player

@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/25 15:25:28 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/28 14:32:53 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,38 +23,95 @@ void	put_frame(t_mlx *mlx)
 	mlx->frame = mlx_new_image(mlx->mlx, screenWidth, screenHeight);
 	mlx->data =
 		(int*)mlx_get_data_addr(mlx->frame, &mlx->bpp, &mlx->sl, &mlx->endian);
-		//printf("%d\n", mlx->bpp);
 }
 
-/*
-int worldMap[mapWidth][mapHeight]=  
+void	RGBA_floor_ceiling(t_mlx *mlx)
 {
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},-+++++++++++++++99
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-};
-*/
+	int x;
+	int y;
+
+	x = 0;
+	y = 0;
+	while (x < mlx->screen_width)
+	{
+		while (y < mlx->screen_height / 2)
+			mlx->data[x + (y++ * mlx->screen_width)] = RGB_Red;
+		x++;
+		y = 0;
+	}
+	x = 0;
+	y = mlx->screen_height / 2;
+	while (x < mlx->screen_width)
+	{
+		while (y < mlx->screen_height)
+			mlx->data[x + (y++ * mlx->screen_width)] = RGB_Blue;
+		x++;
+		y = mlx->screen_height / 2;
+	}
+}
+
+void	floor_ceiling(t_mlx *mlx)
+{
+	float	rayDirX0;
+	float	rayDirY0;
+	float	rayDirX1;
+	float	rayDirY1;
+	float	posZ;
+	float	rowdistance;
+	float	floorstepX;
+	float	floorstepY;
+	float 	floorX;
+	float	floorY;
+	int		cellX;
+	int		cellY;
+	int		texX;
+	int		texY;
+	int		color;
+	int		p;
+	int		y;
+	int		i;
+	
+	i = 0;
+	y = 0;
+	if(mlx->texture->floor > 0 && mlx->texture->ceiling > 0)
+	{
+		while(y++ < screenHeight)
+		{
+			rayDirX0 = mlx->player->dirX - mlx->player->planeX;
+			rayDirY0 = mlx->player->dirY - mlx->player->planeY;
+			rayDirX1 = mlx->player->dirX + mlx->player->planeX;
+			rayDirY1 = mlx->player->dirY + mlx->player->planeY;
+			p = y - screenHeight / 2;
+			posZ = 0.5 * screenHeight;
+			rowdistance = posZ / p;
+			floorstepX = rowdistance * (rayDirX1 - rayDirX0) / screenWidth;
+			floorstepY = rowdistance * (rayDirY1 - rayDirY1) / screenWidth;
+			floorX = mlx->player->posX + rowdistance * rayDirX0;
+			floorY = mlx->player->posY + rowdistance * rayDirY0;
+			while(i < screenWidth)
+			{
+				cellX = (int)(floorX);
+				cellY = (int)(floorY);
+				texX = (int)(texWidth * (floorX - cellX)) & (texWidth - 1);
+				texY = (int)(texHeight * (floorY - cellY)) & (texHeight - 1);
+				floorX += floorstepX;
+				floorY += floorstepY;
+				color = mlx->texture->floor[texWidth * texY + texX];
+				color = (color >> 1) & 8355711;
+				//printf("color : %d\n", color);
+				mlx->data[i + (y * screenWidth)] = color;
+				color = mlx->texture->ceiling[texWidth * texY + texX];
+				color = (color >> 1) & 8355711;
+				mlx->data[i +((screenHeight - y - 1) * screenWidth)] = color;
+				i++;
+			}
+		}
+	}
+	else
+		RGBA_floor_ceiling(mlx);
+	put_frame(mlx);
+}
+
 int raycasting(t_mlx *mlx)
 {
 
@@ -74,7 +131,6 @@ int raycasting(t_mlx *mlx)
 	double camerax;
 	double raydirx;
 	double raydiry;
-	//length of ray from current position to next x or y-side
 	double sidedistx;
 	double sidedisty;
 	double deltadistx;
@@ -85,12 +141,9 @@ int raycasting(t_mlx *mlx)
 	double step;
 	double texPos;
 	int texY;
-	//double oldDirX;
-	//double oldPlaneX;
 	hit = 0;
 	w = screenWidth;
 	h = screenHeight;
-	//printf("_____TEST_1_____\n");
   while(x++ < w)
   {
 		camerax = 2 * x / (double)w - 1;
@@ -176,11 +229,6 @@ int raycasting(t_mlx *mlx)
 		{
 			texY = (int)texPos & (texHeight - 1);
 			texPos += step;
-			//printf("test1 %d\n",(texHeight * texY) + texX);
-			//printf("%d\n", mlx->texture->west[(texHeight * texY) + texX]);
-			//printf("%d\n", (mlx->texture->west[(texHeight * texY) + texX]));
-			//printf("%d\n", mlx->texture->north[(texHeight * texY) + texX]);
-			//printf("%d\n", mlx->texture->south[(texHeight * texY) + texX]);
 			if (side == 1)
 			{
 				if (raydiry >= 0)
@@ -195,15 +243,13 @@ int raycasting(t_mlx *mlx)
 				else
 					mlx->color = mlx->texture->south[(texHeight * texY) + texX];
 			}
-			//printf("TEST2\n");
 			mlx->data[x - 1 + y * screenWidth] = mlx->color;
-			
-			//printf("%X\n", mlx->color);
 		}
-  }
-put_frame(mlx);
-return (0);
+	}
+	put_frame(mlx);
+	return (0);
 }
+
 void	player_init(t_mlx *mlx)
 {
 	t_player *player;
@@ -216,7 +262,6 @@ void	player_init(t_mlx *mlx)
 	player->planeX = 0;
 	player->planeY = 0.86;
 	mlx->player = player;
-
 }
 
 int		main(int argc, char *argv[])
@@ -235,20 +280,10 @@ int		main(int argc, char *argv[])
 	mlx->window = mlx_new_window(mlx->mlx, screenWidth, screenHeight, "Cub3D");
 	mlx->frame = NULL;
 	put_frame(mlx);
+	//floor_ceiling(mlx);
 	raycasting(mlx);
-	//mlx->mlx = mlx_new_image(mlx, screenHeight, screenWidth);
-	//put_image(mlx);
-	/*
-	for (int x = 0; x < screenWidth; x++)
-		for (int y = 0; y < screenHeight; y++)
-			{
-				//mlx->data[x + y * screenWidth] = 0xFF000000;
-				mlx_pixel_put(mlx->mlx, mlx->window, x, y, 0x00FF0000);
-			}
-			*/
-	//mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->frame, 0, 0);
 	mlx_hook(mlx->window, 2, 0, key_check, mlx);
 	mlx_loop(mlx->mlx);
-	free (mlx);
+	free(mlx);
 	return (0);
 }
