@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 10:34:54 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/24 12:22:51 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/29 16:43:42 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int			key_check(int key, t_mlx *mlx)
 	if (key == ESC_KEY)
 		exit(0);
 	mlx_clear_window(mlx->mlx, mlx->window);
+	floor_ceiling(mlx);
 	raycasting(mlx);
 	return (1);
 }

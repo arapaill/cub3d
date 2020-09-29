@@ -6,14 +6,14 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/28 14:26:44 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/29 16:13:30 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3d.h"
 
 
-char	**creat_world_map(char *file, size_t width, size_t height)
+static char	**creat_world_map(char *file, size_t width, size_t height)
 {
 	char	*line;
 	char	**world_map;
@@ -80,7 +80,7 @@ char	**creat_world_map(char *file, size_t width, size_t height)
 	//printf("____TEST_PARSING_7____\n");
 	return (world_map);
 }
-void	get_texture(char *s, t_mlx *mlx)
+static void	get_texture(char *s, t_mlx *mlx)
 {
 	size_t	i;
 	void	*texture;
@@ -92,7 +92,7 @@ void	get_texture(char *s, t_mlx *mlx)
 		i++;
 	if (open(&s[i], O_RDONLY) == -1)
 	{
-		printf("ERROR NO TEXTURES. 1\n");
+		printf("ERROR NO TEXTURES.\n");
 		exit(-1);
 	}
 	texture = mlx_xpm_file_to_image(mlx->mlx, &s[i], &a, &a);
@@ -114,9 +114,8 @@ void	get_texture(char *s, t_mlx *mlx)
 	else if (s[0] == 'C')
 		mlx->texture->ceiling = 
 		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-
 	else
-		printf("ERROR NO TEXTURES. 1\n");
+		printf("ERROR NO TEXTURES.\n");
 }
 
 void    parsing(char *file, t_mlx *mlx)

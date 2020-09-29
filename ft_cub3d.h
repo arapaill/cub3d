@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/28 09:34:56 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/29 16:43:35 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 # define screenHeight 1080
 # define texWidth 64
 # define texHeight 64
-# define movespeed 0.3
+# define movespeed 0.5
 # define rotspeed 0.1
 
 typedef struct  s_texture
@@ -83,4 +83,5 @@ typedef struct  s_mlx
 void    parsing(char *file, t_mlx *mlx);
 int		key_check( int key, t_mlx *mlx);
 int     raycasting(t_mlx *mlx);
+void	floor_ceiling(t_mlx *mlx);
 #endif
