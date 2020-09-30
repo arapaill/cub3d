@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/29 16:45:23 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/30 11:55:43 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	RGBA_floor_ceiling(t_mlx *mlx)
 	{
 		while (y < screenHeight / 2)
 		{
-			mlx->data[x + (y++ * screenWidth)] = RGB_Red;
+			mlx->data[x + (y++ * screenWidth)] = mlx->texture->RGB_floor;
 			//printf(" y = %d\n", y);
 		}
 		x++;
@@ -48,7 +48,7 @@ void	RGBA_floor_ceiling(t_mlx *mlx)
 	while (x < screenWidth)
 	{
 		while (y < screenHeight)
-			mlx->data[x + (y++ * screenWidth)] = RGB_Blue;
+			mlx->data[x + (y++ * screenWidth)] = mlx->texture->RGB_ceiling;
 		x++;
 		y = screenHeight / 2;
 	}
@@ -77,8 +77,11 @@ void	floor_ceiling(t_mlx *mlx)
 	
 	i = 0;
 	y = 0;
-	if(mlx->texture->floor == 0 && mlx->texture->ceiling == 0)
+//	printf("text floor : %d, text sky : %d\n", (int)(mlx->texture->floor),(int)(mlx->texture->ceiling));
+	//printf("text RGB_floor : %d, text RGB_sky : %d\n", (int)(mlx->texture->RGB_floor),(int)(mlx->texture->RGB_ceiling));
+	if(mlx->texture->RGB_floor == 0 && mlx->texture->RGB_ceiling == 0)
 	{
+		printf("_____TEST____\n");
 		while(y++ < screenHeight)
 		{
 			rayDirX0 = mlx->player->dirX - mlx->player->planeX;
@@ -102,7 +105,6 @@ void	floor_ceiling(t_mlx *mlx)
 				floorY += floorstepY;
 				color = mlx->texture->floor[texWidth * texY + texX];
 				color = (color >> 1) & 8355711;
-				printf("color : %d\n", color);
 				mlx->data[i + (y * screenWidth)] = color;
 				color = mlx->texture->ceiling[texWidth * texY + texX];
 				color = (color >> 1) & 8355711;
@@ -110,11 +112,10 @@ void	floor_ceiling(t_mlx *mlx)
 				i++;
 			}
 		}
+		//put_frame(mlx);
 	}
 	else
 		RGBA_floor_ceiling(mlx);
-
-	//put_frame(mlx);
 }
 
 int raycasting(t_mlx *mlx)
@@ -149,7 +150,7 @@ int raycasting(t_mlx *mlx)
 	hit = 0;
 	w = screenWidth;
 	h = screenHeight;
-  while(x < w)
+  while(x++ < w)
   {
 	  //floor_ceiling(mlx);
 		camerax = 2 * x / (double)w - 1;
@@ -251,7 +252,6 @@ int raycasting(t_mlx *mlx)
 			}
 			mlx->data[x - 1 + y * screenWidth] = mlx->color;
 		}
-	x++;
 	}
 	put_frame(mlx);
 	return (0);

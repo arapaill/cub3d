@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/29 16:13:30 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/30 11:41:58 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,28 @@ static char	**creat_world_map(char *file, size_t width, size_t height)
 	//printf("____TEST_PARSING_7____\n");
 	return (world_map);
 }
+
+int		fc_atoi(char *s)
+{
+	int		i;
+	int		r;
+	int		g;
+	int		b;
+
+	i = 0;
+	while (s[i] == ' ')
+		i++;
+	r = ft_atoi(&s[i]);
+	while (ft_isdigit(s[i]) || s[i] == ' ')
+		i++;
+	g = ft_atoi(&s[++i]);
+	while (ft_isdigit(s[i]) || s[i] == ' ')
+		i++;
+	b = ft_atoi(&s[++i]);
+	//printf("r = %d, g = %d, b = %d \n", r, g, b);
+	return (r + (g * 256) + (b * 256 * 256));
+}
+
 static void	get_texture(char *s, t_mlx *mlx)
 {
 	size_t	i;
@@ -90,7 +112,8 @@ static void	get_texture(char *s, t_mlx *mlx)
 	i = 1;
 	while (s[i] == ' ')
 		i++;
-	if (open(&s[i], O_RDONLY) == -1)
+	//printf("s[i] = %c\n", s[i]);
+	if (open(&s[i], O_RDONLY) == -1 && ft_isdigit(s[i]) == 0)
 	{
 		printf("ERROR NO TEXTURES.\n");
 		exit(-1);
@@ -109,13 +132,27 @@ static void	get_texture(char *s, t_mlx *mlx)
 		mlx->texture->east =
 		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
 	else if (s[0] == 'F')
-		mlx->texture->floor = 
-		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
+	{
+		if (!(ft_isalpha(s[i])))
+			mlx->texture->RGB_floor = fc_atoi(&s[1]);
+		else
+		{
+			mlx->texture->floor =
+			(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
+			mlx->texture->RGB_floor = 0;
+		}
+	}
 	else if (s[0] == 'C')
-		mlx->texture->ceiling = 
-		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-	else
-		printf("ERROR NO TEXTURES.\n");
+	{
+		if (!(ft_isalpha(s[i])))
+			mlx->texture->RGB_ceiling = fc_atoi(&s[1]);
+		else
+		{
+			mlx->texture->ceiling =
+			(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
+			mlx->texture->RGB_ceiling = 0;
+		}
+	}
 }
 
 void    parsing(char *file, t_mlx *mlx)
