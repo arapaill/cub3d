@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/30 11:41:58 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/30 14:20:03 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static char	**creat_world_map(char *file, size_t width, size_t height)
 	return (world_map);
 }
 
-int		fc_atoi(char *s)
+int			fc_atoi(char *s)
 {
 	int		i;
 	int		r;
@@ -102,6 +102,26 @@ int		fc_atoi(char *s)
 	return (r + (g * 256) + (b * 256 * 256));
 }
 
+void	height_width(char *s, t_mlx *mlx)
+{
+	size_t i;
+
+	i = 1;
+	while (s[i] == ' ')
+		i++;
+	mlx->screen_width = ft_atoi(&s[i]);
+	while (ft_isdigit(s[i]))
+		i++;
+	while (s[i] != ' ')
+		i++;
+	mlx->screen_height = ft_atoi(&s[i]);
+	if (mlx->screen_width > 2560)
+		mlx->screen_width = 2560;
+	if (mlx->screen_height > 1440)
+		mlx->screen_height = 1440;
+	//printf("W : %d\nH : %d\n", mlx->screen_width, mlx->screen_height);
+}
+
 static void	get_texture(char *s, t_mlx *mlx)
 {
 	size_t	i;
@@ -112,7 +132,7 @@ static void	get_texture(char *s, t_mlx *mlx)
 	i = 1;
 	while (s[i] == ' ')
 		i++;
-	//printf("s[i] = %c\n", s[i]);
+	//printf("s[0] = %c\n", s[0]);
 	if (open(&s[i], O_RDONLY) == -1 && ft_isdigit(s[i]) == 0)
 	{
 		printf("ERROR NO TEXTURES.\n");
@@ -153,9 +173,11 @@ static void	get_texture(char *s, t_mlx *mlx)
 			mlx->texture->RGB_ceiling = 0;
 		}
 	}
+	if (s[0] == 'R')
+		height_width(s, mlx);
 }
 
-void    parsing(char *file, t_mlx *mlx)
+void			parsing(char *file, t_mlx *mlx)
 {
 	char	*line;
 	int		fd;
@@ -176,7 +198,7 @@ void    parsing(char *file, t_mlx *mlx)
 	{
 		ret = get_next_line(fd, &line);
 		if (line[0] == 'S' || line[0] == 'N' || line[0] == 'E' ||
-		 line[0] == 'W' || line[0] == 'F' || line[0] == 'C')
+		line[0] == 'W' || line[0] == 'F' || line[0] == 'C' || line[0] == 'R')
 			get_texture(line, mlx);
 		while (*line == ' ')
 			line++;

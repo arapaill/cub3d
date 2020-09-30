@@ -1,9 +1,11 @@
+
+R 1920, 1080
 S pics/greystone.xpm
 N pics/redbrick.xpm
 E pics/bluestone.xpm
 W pics/eagle.xpm
-F pics/eagle.xpm
-C pics/bluestone.xpm
+F 0.255.255
+C 255.255.0
 
 
 111111111111111111111111

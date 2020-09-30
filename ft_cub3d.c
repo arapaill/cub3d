@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/30 11:55:43 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/09/30 14:07:17 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	put_frame(t_mlx *mlx)
 		mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->frame, 0, 0);
 		mlx_destroy_image(mlx->mlx, mlx->frame);
 	}
-	mlx->frame = mlx_new_image(mlx->mlx, screenWidth, screenHeight);
+	mlx->frame = mlx_new_image(mlx->mlx, mlx->screen_width, mlx->screen_height);
 	mlx->data =
 		(int*)mlx_get_data_addr(mlx->frame, &mlx->bpp, &mlx->sl, &mlx->endian);
 }
@@ -32,11 +32,11 @@ void	RGBA_floor_ceiling(t_mlx *mlx)
 
 	x = 0;
 	y = 0;
-	while (x < screenWidth)
+	while (x < mlx->screen_width)
 	{
-		while (y < screenHeight / 2)
+		while (y < mlx->screen_height / 2)
 		{
-			mlx->data[x + (y++ * screenWidth)] = mlx->texture->RGB_floor;
+			mlx->data[x + (y++ * mlx->screen_width)] = mlx->texture->RGB_floor;
 			//printf(" y = %d\n", y);
 		}
 		x++;
@@ -44,13 +44,13 @@ void	RGBA_floor_ceiling(t_mlx *mlx)
 	}
 	//printf(" x = %d\n", x);
 	x = 0;
-	y = screenHeight / 2;
-	while (x < screenWidth)
+	y = mlx->screen_height / 2;
+	while (x < mlx->screen_width)
 	{
-		while (y < screenHeight)
-			mlx->data[x + (y++ * screenWidth)] = mlx->texture->RGB_ceiling;
+		while (y < mlx->screen_height)
+			mlx->data[x + (y++ * mlx->screen_width)] = mlx->texture->RGB_ceiling;
 		x++;
-		y = screenHeight / 2;
+		y = mlx->screen_height / 2;
 	}
 }
 
@@ -81,22 +81,23 @@ void	floor_ceiling(t_mlx *mlx)
 	//printf("text RGB_floor : %d, text RGB_sky : %d\n", (int)(mlx->texture->RGB_floor),(int)(mlx->texture->RGB_ceiling));
 	if(mlx->texture->RGB_floor == 0 && mlx->texture->RGB_ceiling == 0)
 	{
-		printf("_____TEST____\n");
-		while(y++ < screenHeight)
+		//printf("_____TEST____\n");
+		while(y++ < mlx->screen_height)
 		{
 			rayDirX0 = mlx->player->dirX - mlx->player->planeX;
 			rayDirY0 = mlx->player->dirY - mlx->player->planeY;
 			rayDirX1 = mlx->player->dirX + mlx->player->planeX;
 			rayDirY1 = mlx->player->dirY + mlx->player->planeY;
-			p = y - screenHeight / 2;
-			posZ = 0.5 * screenHeight;
+			p = y - mlx->screen_height / 2;
+			posZ = 0.5 * mlx->screen_height;
 			rowdistance = posZ / p;
-			floorstepX = rowdistance * (rayDirX1 - rayDirX0) / screenWidth;
-			floorstepY = rowdistance * (rayDirY1 - rayDirY1) / screenWidth;
+			floorstepX = rowdistance * (rayDirX1 - rayDirX0) / mlx->screen_width;
+			floorstepY = rowdistance * (rayDirY1 - rayDirY1) / mlx->screen_width;
 			floorX = mlx->player->posX + rowdistance * rayDirX0;
 			floorY = mlx->player->posY + rowdistance * rayDirY0;
-			while(i < screenWidth)
+			while(i++ < mlx->screen_width)
 			{
+				//printf("i : %d\n", i);
 				cellX = (int)(floorX);
 				cellY = (int)(floorY);
 				texX = (int)(texWidth * (floorX - cellX)) & (texWidth - 1);
@@ -105,14 +106,12 @@ void	floor_ceiling(t_mlx *mlx)
 				floorY += floorstepY;
 				color = mlx->texture->floor[texWidth * texY + texX];
 				color = (color >> 1) & 8355711;
-				mlx->data[i + (y * screenWidth)] = color;
+				mlx->data[i + (y * mlx->screen_width)] = color;
 				color = mlx->texture->ceiling[texWidth * texY + texX];
 				color = (color >> 1) & 8355711;
-				mlx->data[i +((screenHeight - y - 1) * screenWidth)] = color;
-				i++;
+				mlx->data[i +((mlx->screen_height - y - 1) * mlx->screen_width)] = color;
 			}
 		}
-		//put_frame(mlx);
 	}
 	else
 		RGBA_floor_ceiling(mlx);
@@ -148,8 +147,8 @@ int raycasting(t_mlx *mlx)
 	double texPos;
 	int texY;
 	hit = 0;
-	w = screenWidth;
-	h = screenHeight;
+	w = mlx->screen_width;
+	h = mlx->screen_height;
   while(x++ < w)
   {
 	  //floor_ceiling(mlx);
@@ -250,7 +249,7 @@ int raycasting(t_mlx *mlx)
 				else
 					mlx->color = mlx->texture->south[(texHeight * texY) + texX];
 			}
-			mlx->data[x - 1 + y * screenWidth] = mlx->color;
+			mlx->data[x - 1 + y * mlx->screen_width] = mlx->color;
 		}
 	}
 	put_frame(mlx);
@@ -271,7 +270,6 @@ void	player_init(t_mlx *mlx)
 	mlx->player = player;
 }
 
-
 int		main(int argc, char *argv[])
 {
 	t_mlx	*mlx;
@@ -285,7 +283,7 @@ int		main(int argc, char *argv[])
 		parsing(argv[1], mlx);
 	else
 		return (1);
-	mlx->window = mlx_new_window(mlx->mlx, screenWidth, screenHeight, "ft_Cub3D");
+	mlx->window = mlx_new_window(mlx->mlx, mlx->screen_width, mlx->screen_height, "ft_cub3D");
 	mlx->frame = NULL;
 	put_frame(mlx);
 	floor_ceiling(mlx);
