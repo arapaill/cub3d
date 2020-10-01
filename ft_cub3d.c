@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/01 14:06:40 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/01 16:19:12 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,6 +274,20 @@ void	player_init(t_mlx *mlx)
 	mlx->player = player;
 }
 
+void	player_orientation(t_mlx *mlx, int x, int y)
+{
+	mlx->player->posX = (double)x + 0.5;
+	mlx->player->posY = (double)y + 0.5;
+	if (mlx->map[x][y] == 'E')
+		rot_right(mlx, 1.6);
+	if (mlx->map[x][y] == 'S')
+		rot_right(mlx, 3.1);
+	if (mlx->map[x][y] == 'W')
+		rot_right(mlx, 4.7);
+	if (mlx->map[x][y] == 'N')
+		rot_right(mlx, 6.3);
+	mlx->map[x][y] = '0';
+}
 
 void check_player_pos(t_mlx *mlx)
 {
@@ -286,15 +300,9 @@ void check_player_pos(t_mlx *mlx)
 	{
 		while (y < mlx->map_width)
 		{
-			//printf("y = %zu\n",y);
 			if (mlx->map[x][y] == 'N' || mlx->map[x][y] == 'S' 
 			|| mlx->map[x][y] == 'E' || mlx->map[x][y] == 'W')
-			{
-				mlx->player->posX = (double)x + 0.5;
-				mlx->player->posY = (double)y + 0.5;
-				mlx->map[x][y] = '0';
-			}
-			
+				player_orientation(mlx, x, y);
 			y++;
 		}
 		y = 0;

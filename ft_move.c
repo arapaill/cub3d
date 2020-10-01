@@ -6,13 +6,13 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 10:34:54 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/01 11:51:37 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/01 16:15:22 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3d.h"
 
-void	rot_left(t_mlx *mlx)
+void	rot_left(t_mlx *mlx, double rot_speed)
 {
 	double old_dir_x;
 	double old_plane_x;
@@ -20,16 +20,16 @@ void	rot_left(t_mlx *mlx)
 	old_dir_x = mlx->player->dirX;
 	old_plane_x = mlx->player->planeX;
 	mlx->player->dirX = mlx->player->dirX *
-	cos(rotspeed) - mlx->player->dirY * sin(rotspeed);
+	cos(rot_speed) - mlx->player->dirY * sin(rot_speed);
 	mlx->player->dirY = old_dir_x *
-	sin(rotspeed) + mlx->player->dirY * cos(rotspeed);
+	sin(rot_speed) + mlx->player->dirY * cos(rot_speed);
 	mlx->player->planeX = mlx->player->planeX *
-	cos(rotspeed) - mlx->player->planeY * sin(rotspeed);
+	cos(rot_speed) - mlx->player->planeY * sin(rot_speed);
 	mlx->player->planeY = old_plane_x *
-	sin(rotspeed) + mlx->player->planeY * cos(rotspeed);
+	sin(rot_speed) + mlx->player->planeY * cos(rot_speed);
 }
 
-void	rot_right(t_mlx *mlx)
+void	rot_right(t_mlx *mlx, double rot_speed)
 {
 	double old_dir_x;
 	double old_plane_x;
@@ -37,13 +37,13 @@ void	rot_right(t_mlx *mlx)
 	old_dir_x = mlx->player->dirX;
 	old_plane_x = mlx->player->planeX;
 	mlx->player->dirX = mlx->player->dirX *
-	cos(-rotspeed) - mlx->player->dirY * sin(-rotspeed);
+	cos(-rot_speed) - mlx->player->dirY * sin(-rot_speed);
 	mlx->player->dirY = old_dir_x *
-	sin(-rotspeed) + mlx->player->dirY * cos(-rotspeed);
+	sin(-rot_speed) + mlx->player->dirY * cos(-rot_speed);
 	mlx->player->planeX = mlx->player->planeX *
-	 cos(-rotspeed) - mlx->player->planeY * sin(-rotspeed);
+	 cos(-rot_speed) - mlx->player->planeY * sin(-rot_speed);
 	mlx->player->planeY = old_plane_x *
-	sin(-rotspeed) + mlx->player->planeY * cos(-rotspeed);
+	sin(-rot_speed) + mlx->player->planeY * cos(-rot_speed);
 }
 
 static void	left_key(t_mlx *mlx)
@@ -97,9 +97,9 @@ int			key_check(int key, t_mlx *mlx)
 	if (key == D_KEY)
 		right_key(mlx);
 	if (key == RIGHT_KEY)
-		rot_right(mlx);
+		rot_right(mlx, 0.1);
 	if (key == LEFT_KEY)
-		rot_left(mlx);
+		rot_left(mlx, 0.1);
 	if (key == ESC_KEY)
 		exit(0);
 	mlx_clear_window(mlx->mlx, mlx->window);
