@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/30 14:07:17 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/01 14:06:40 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,57 +61,61 @@ void	floor_ceiling(t_mlx *mlx)
 	float	rayDirX1;
 	float	rayDirY1;
 	float	posZ;
-	float	rowdistance;
-	float	floorstepX;
-	float	floorstepY;
+	float	rowDistance;
+	float	floorStepX;
+	float	floorStepY;
 	float 	floorX;
 	float	floorY;
 	int		cellX;
 	int		cellY;
-	int		texX;
-	int		texY;
+	int 	tx;
+	int 	ty;
+
 	int		color;
 	int		p;
 	int		y;
-	int		i;
+	int		x;
+	int		h;
 	
-	i = 0;
 	y = 0;
+	h = mlx->screen_height;
 //	printf("text floor : %d, text sky : %d\n", (int)(mlx->texture->floor),(int)(mlx->texture->ceiling));
 	//printf("text RGB_floor : %d, text RGB_sky : %d\n", (int)(mlx->texture->RGB_floor),(int)(mlx->texture->RGB_ceiling));
 	if(mlx->texture->RGB_floor == 0 && mlx->texture->RGB_ceiling == 0)
 	{
-		//printf("_____TEST____\n");
-		while(y++ < mlx->screen_height)
-		{
-			rayDirX0 = mlx->player->dirX - mlx->player->planeX;
-			rayDirY0 = mlx->player->dirY - mlx->player->planeY;
-			rayDirX1 = mlx->player->dirX + mlx->player->planeX;
-			rayDirY1 = mlx->player->dirY + mlx->player->planeY;
-			p = y - mlx->screen_height / 2;
-			posZ = 0.5 * mlx->screen_height;
-			rowdistance = posZ / p;
-			floorstepX = rowdistance * (rayDirX1 - rayDirX0) / mlx->screen_width;
-			floorstepY = rowdistance * (rayDirY1 - rayDirY1) / mlx->screen_width;
-			floorX = mlx->player->posX + rowdistance * rayDirX0;
-			floorY = mlx->player->posY + rowdistance * rayDirY0;
-			while(i++ < mlx->screen_width)
+		while(++y < h)
 			{
-				//printf("i : %d\n", i);
-				cellX = (int)(floorX);
-				cellY = (int)(floorY);
-				texX = (int)(texWidth * (floorX - cellX)) & (texWidth - 1);
-				texY = (int)(texHeight * (floorY - cellY)) & (texHeight - 1);
-				floorX += floorstepX;
-				floorY += floorstepY;
-				color = mlx->texture->floor[texWidth * texY + texX];
-				color = (color >> 1) & 8355711;
-				mlx->data[i + (y * mlx->screen_width)] = color;
-				color = mlx->texture->ceiling[texWidth * texY + texX];
-				color = (color >> 1) & 8355711;
-				mlx->data[i +((mlx->screen_height - y - 1) * mlx->screen_width)] = color;
+				rayDirX0 = mlx->player->dirX - mlx->player->planeX;
+				rayDirY0 = mlx->player->dirY - mlx->player->planeY;
+				rayDirX1 = mlx->player->dirX + mlx->player->planeX;
+				rayDirY1 = mlx->player->dirY + mlx->player->planeY;
+				
+				 p = y - mlx->screen_height / 2;
+				posZ = 0.5 * mlx->screen_height;
+				rowDistance = posZ / p;
+				
+				floorStepX = rowDistance * (rayDirX1 - rayDirX0) / mlx->screen_width;
+				floorStepY = rowDistance * (rayDirY1 - rayDirY0) / mlx->screen_width;
+
+				floorX = mlx->player->posX + rowDistance * rayDirX0;
+				floorY = mlx->player->posY + rowDistance * rayDirY0;
+				x = 0;
+				while(++x < (int)(mlx->screen_width))
+				{
+					cellX = (int)(floorX);
+					cellY = (int)(floorY);
+					tx = (int)(texWidth * (floorX - cellX)) & (texWidth - 1);
+					ty = (int)(texHeight * (floorY - cellY)) & (texHeight - 1);
+					floorX += floorStepX;
+					floorY += floorStepY;
+					color = mlx->texture->floor[texWidth * ty + tx];
+					color = (color >> 1) & 8355711;
+					mlx->data[x + (y * mlx->screen_width)] = color;        
+					color = mlx->texture->ceiling[texWidth * ty + tx];
+					color = (color >> 1) & 8355711;
+					mlx->data[x + ((mlx->screen_height - y - 1) * mlx->screen_width)] = color;  
+				}
 			}
-		}
 	}
 	else
 		RGBA_floor_ceiling(mlx);
@@ -261,13 +265,41 @@ void	player_init(t_mlx *mlx)
 	t_player *player;
 
 	player = malloc(sizeof(t_player));
-	player->posX = 21;
-	player->posY = 12;
+	player->posX = 0;
+	player->posY = 0;
 	player->dirX = -1;
 	player->dirY = 0;
 	player->planeX = 0;
 	player->planeY = 0.86;
 	mlx->player = player;
+}
+
+
+void check_player_pos(t_mlx *mlx)
+{
+	int x;
+	int y;
+
+	x = 0;
+	y = 0;
+	while (x < mlx->map_height)
+	{
+		while (y < mlx->map_width)
+		{
+			//printf("y = %zu\n",y);
+			if (mlx->map[x][y] == 'N' || mlx->map[x][y] == 'S' 
+			|| mlx->map[x][y] == 'E' || mlx->map[x][y] == 'W')
+			{
+				mlx->player->posX = (double)x + 0.5;
+				mlx->player->posY = (double)y + 0.5;
+				mlx->map[x][y] = '0';
+			}
+			
+			y++;
+		}
+		y = 0;
+		x++;
+	}
 }
 
 int		main(int argc, char *argv[])
@@ -283,6 +315,7 @@ int		main(int argc, char *argv[])
 		parsing(argv[1], mlx);
 	else
 		return (1);
+	check_player_pos(mlx);
 	mlx->window = mlx_new_window(mlx->mlx, mlx->screen_width, mlx->screen_height, "ft_cub3D");
 	mlx->frame = NULL;
 	put_frame(mlx);

@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/30 09:42:55 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/01 11:51:51 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@
 
 # define mapWidth 34
 # define mapHeight 25
-# define screenWidth 1920
-# define screenHeight 1080
 # define texWidth 64
 # define texHeight 64
 # define movespeed 0.5
@@ -84,6 +82,8 @@ typedef struct  s_mlx
 
 void    parsing(char *file, t_mlx *mlx);
 int		key_check( int key, t_mlx *mlx);
+void	rot_right(t_mlx *mlx);
+void	rot_left(t_mlx *mlx);
 int     raycasting(t_mlx *mlx);
 void	floor_ceiling(t_mlx *mlx);
 #endif

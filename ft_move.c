@@ -6,13 +6,13 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 10:34:54 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/29 16:43:42 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/01 11:51:37 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3d.h"
 
-static void	rot_left(t_mlx *mlx)
+void	rot_left(t_mlx *mlx)
 {
 	double old_dir_x;
 	double old_plane_x;
@@ -29,7 +29,7 @@ static void	rot_left(t_mlx *mlx)
 	sin(rotspeed) + mlx->player->planeY * cos(rotspeed);
 }
 
-static void	rot_right(t_mlx *mlx)
+void	rot_right(t_mlx *mlx)
 {
 	double old_dir_x;
 	double old_plane_x;
