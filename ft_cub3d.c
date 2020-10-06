@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/06 10:32:20 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/06 14:57:03 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,9 @@ void	floor_ceiling(t_mlx *mlx)
 					mlx->data[x + (y * mlx->screen_width)] = color;        
 					color = mlx->texture->ceiling[texWidth * ty + tx];
 					color = (color >> 1) & 8355711;
-					mlx->data[x + ((mlx->screen_height - y - 1) * mlx->screen_width)] = color;  
+					mlx->data[x + ((mlx->screen_height - y - 1) * mlx->screen_width)] = color;
 				}
+
 			}
 	}
 	else
@@ -153,9 +154,10 @@ int raycasting(t_mlx *mlx)
 	hit = 0;
 	w = mlx->screen_width;
 	h = mlx->screen_height;
-  while(x++ < w)
+		if (!(mlx->zbuffer = malloc(sizeof(double *) * mlx->screen_width)))
+			error_manager(3);
+  while(++x < w)
   {
-	  //floor_ceiling(mlx);
 		camerax = 2 * x / (double)w - 1;
 		raydirx = mlx->player->dirX + mlx->player->planeX * camerax;
 		raydiry = mlx->player->dirY + mlx->player->planeY * camerax;
@@ -255,6 +257,7 @@ int raycasting(t_mlx *mlx)
 			}
 			mlx->data[x - 1 + y * mlx->screen_width] = mlx->color;
 		}
+		mlx->zbuffer[x] = perpwalldist;
 	}
 	put_frame(mlx);
 	return (0);
@@ -265,12 +268,16 @@ void	player_init(t_mlx *mlx)
 	t_player *player;
 
 	player = malloc(sizeof(t_player));
+	
 	player->posX = 0;
 	player->posY = 0;
 	player->dirX = -1;
 	player->dirY = 0;
 	player->planeX = 0;
 	player->planeY = 0.86;
+	player->sprite_x = -1;
+	player->sprite_y = -1;
+	mlx->zbuffer = NULL;
 	mlx->player = player;
 }
 

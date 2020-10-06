@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/06 10:26:57 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/06 15:57:39 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ typedef struct s_point
 	int     y;
 }           t_point;
 
+typedef struct s_sort
+{
+	double	first;
+	int		second;
+}				t_sort
+
 typedef struct  s_texture
 {
 	int         *south;
@@ -57,6 +63,13 @@ typedef struct  s_texture
 	int         RGB_ceiling;
 }               t_texture;
 
+typedef struct s_sprite
+{
+	int			*spriteorder;
+	double		*spriteist;
+	t_point		*p_sprite;
+}				t_sprite;
+
 typedef struct  s_player
 {
 	double      posX;
@@ -67,6 +80,8 @@ typedef struct  s_player
 	double      planeY;
 	double      spawnX;
 	double      spawnY;
+	double		sprite_x;
+	double		sprite_y;
 
 }               t_player;
 typedef struct  s_mlx
@@ -84,8 +99,10 @@ typedef struct  s_mlx
 	int         sl;
 	int         endian;
 	int         color;
+	double		*zbuffer;
 	t_player    *player;
 	t_texture   *texture;
+	int			spritenbr;
 }               t_mlx;
 
 void    parsing(char *file, t_mlx *mlx);

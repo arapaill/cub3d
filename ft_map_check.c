@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 09:58:24 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/06 10:42:51 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/06 15:57:46 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int		map_error(t_mlx *mlx, char **map)
 		j = -1;
 		while (++j < mlx->map_width)
 		{
+			if (map[i][j] == '2')
+				mlx->spritenbr++;
 			if (map[i][j] < '0' || map[i][j] > '3')
 				return (freemap(map, 1, mlx));
 			if (map[i][j] == '3' && (i == 0 || i ==
