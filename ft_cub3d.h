@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/06 15:57:39 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/06 16:12:36 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_sort
 {
 	double	first;
 	int		second;
-}				t_sort
+}				t_sort;
 
 typedef struct  s_texture
 {
@@ -66,7 +66,7 @@ typedef struct  s_texture
 typedef struct s_sprite
 {
 	int			*spriteorder;
-	double		*spriteist;
+	double		*spritedist;
 	t_point		*p_sprite;
 }				t_sprite;
 
@@ -113,4 +113,5 @@ int     raycasting(t_mlx *mlx);
 void	floor_ceiling(t_mlx *mlx);
 int     map_check(t_mlx *mlx);
 void    error_manager(int error);
+void	parsing_sprite(t_mlx *mlx, t_sprite *sprite);
 #endif
