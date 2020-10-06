@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/01 16:05:52 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/06 10:42:21 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static char	**creat_world_map(char *file, size_t width, size_t height)
 	ret = 1;
 	i = 0;
 	j = 0;
-	world_map = malloc(sizeof(char*) * (height + 1));
+	if (!(world_map = malloc(sizeof(char*) * (height + 1))))
+		error_manager(3);
 	world_map[height] = 0;
 	fd = open(file, O_RDONLY);
 	while (ret == 1)
@@ -38,7 +39,8 @@ static char	**creat_world_map(char *file, size_t width, size_t height)
 		free(line);
 	}
 	i = 0;
-	world_map[i] = malloc(sizeof(char*) * (height + 1));
+	if(!(world_map[i] = malloc(sizeof(char*) * (height + 1))))
+		error_manager(3);
 	while (i < width)
 	{
 		if (line[i] != 0 && line[i] != '\n')
@@ -57,7 +59,8 @@ static char	**creat_world_map(char *file, size_t width, size_t height)
 	while (j < height)
 	{
 		ret = get_next_line(fd, &line);
-		world_map[j] = malloc(sizeof(char) * (width + 1));
+		if (!(world_map[j] = malloc(sizeof(char) * (width + 1))))
+			error_manager(3);
 		while (i < width)
 		{
 			if (line[i] != 0 && line[i] != '\n')
@@ -74,13 +77,14 @@ static char	**creat_world_map(char *file, size_t width, size_t height)
 		i = 0;
 		free(line);
 	}
+	/*
 	for(size_t x = 0; x < height; x++)
 	{
 		for(size_t y = 0; y < width; y++)
 			printf("%c", world_map[x][y]);
 		printf("\n");
 	}
-	
+	*/
 	return (world_map);
 }
 
@@ -134,10 +138,7 @@ static void	get_texture(char *s, t_mlx *mlx)
 	while (s[i] == ' ')
 		i++;
 	if (open(&s[i], O_RDONLY) == -1 && ft_isdigit(s[i]) == 0)
-	{
-		printf("ERROR NO TEXTURES.\n");
-		exit(-1);
-	}
+		error_manager(2);
 	texture = mlx_xpm_file_to_image(mlx->mlx, &s[i], &a, &a);
 	if (s[0] == 'S')
 		mlx->texture->south =
@@ -192,7 +193,8 @@ void			parsing(char *file, t_mlx *mlx)
 	h = 1;
 	i = 0;
 	fd = open(file, O_RDONLY);
-	mlx->texture = malloc(sizeof(t_texture));
+	if (!(mlx->texture = malloc(sizeof(t_texture))))
+		error_manager(3);
 	while (ret == 1)
 	{
 		ret = get_next_line(fd, &line);

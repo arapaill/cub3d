@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/01 16:17:12 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/06 10:26:57 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,45 +39,53 @@
 # define movespeed 0.5
 # define rotspeed 0.1
 
+typedef struct s_point
+{
+	int     x;
+	int     y;
+}           t_point;
+
 typedef struct  s_texture
 {
-    int         *south;
-    int         *north;
-    int         *east;
-    int         *west;
-    int         *floor;
-    int         *ceiling;
-    int         RGB_floor;
-    int         RGB_ceiling;
+	int         *south;
+	int         *north;
+	int         *east;
+	int         *west;
+	int         *floor;
+	int         *ceiling;
+	int         RGB_floor;
+	int         RGB_ceiling;
 }               t_texture;
 
 typedef struct  s_player
 {
-    double      posX;
-    double      posY;
-    double      dirX;
-    double      dirY;
-    double      planeX;
-    double      planeY;
+	double      posX;
+	double      posY;
+	double      dirX;
+	double      dirY;
+	double      planeX;
+	double      planeY;
+	double      spawnX;
+	double      spawnY;
 
 }               t_player;
 typedef struct  s_mlx
 {
-    void        *mlx;
-    void        *window;
-    int         screen_width;
-    int         screen_height;
-    char        **map;
-    int         map_width;
-    int         map_height;
-    void        *frame;
-    int        *data;
-    int         bpp;
-    int         sl;
-    int         endian;
-    int         color;
-    t_player    *player;
-    t_texture   *texture;
+	void        *mlx;
+	void        *window;
+	int         screen_width;
+	int         screen_height;
+	char        **map;
+	int         map_width;
+	int         map_height;
+	void        *frame;
+	int        *data;
+	int         bpp;
+	int         sl;
+	int         endian;
+	int         color;
+	t_player    *player;
+	t_texture   *texture;
 }               t_mlx;
 
 void    parsing(char *file, t_mlx *mlx);
@@ -86,4 +94,6 @@ void	rot_right(t_mlx *mlx, double rot_speed);
 void	rot_left(t_mlx *mlx, double rot_speed);
 int     raycasting(t_mlx *mlx);
 void	floor_ceiling(t_mlx *mlx);
+int     map_check(t_mlx *mlx);
+void    error_manager(int error);
 #endif

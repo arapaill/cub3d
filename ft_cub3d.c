@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/01 16:19:12 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/06 10:32:20 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,6 +276,8 @@ void	player_init(t_mlx *mlx)
 
 void	player_orientation(t_mlx *mlx, int x, int y)
 {
+	mlx->player->spawnX = x;
+	mlx->player->spawnY = y;
 	mlx->player->posX = (double)x + 0.5;
 	mlx->player->posY = (double)y + 0.5;
 	if (mlx->map[x][y] == 'E')
@@ -310,6 +312,7 @@ void check_player_pos(t_mlx *mlx)
 	}
 }
 
+
 int		main(int argc, char *argv[])
 {
 	t_mlx	*mlx;
@@ -324,6 +327,7 @@ int		main(int argc, char *argv[])
 	else
 		return (1);
 	check_player_pos(mlx);
+	map_check(mlx);
 	mlx->window = mlx_new_window(mlx->mlx, mlx->screen_width, mlx->screen_height, "ft_cub3D");
 	mlx->frame = NULL;
 	put_frame(mlx);
