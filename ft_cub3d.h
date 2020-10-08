@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/06 16:12:36 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/08 13:12:10 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct  s_texture
 	int         *west;
 	int         *floor;
 	int         *ceiling;
+	int			*sprite;
 	int         RGB_floor;
 	int         RGB_ceiling;
 }               t_texture;
@@ -67,7 +68,21 @@ typedef struct s_sprite
 {
 	int			*spriteorder;
 	double		*spritedist;
+	double		spriteX;
+	double		spriteY;
 	t_point		*p_sprite;
+	double		invdet;
+	double		transformX;
+	double		transformY;
+	int			spriteScreenX;
+	int 		spriteHeight;
+	int 		spriteWidth;
+	int			color;
+	t_point		drawStart;
+	t_point		drawEnd;
+	t_point		tex;
+	
+	int			stripe;
 }				t_sprite;
 
 typedef struct  s_player
@@ -114,4 +129,5 @@ void	floor_ceiling(t_mlx *mlx);
 int     map_check(t_mlx *mlx);
 void    error_manager(int error);
 void	parsing_sprite(t_mlx *mlx, t_sprite *sprite);
+void	add_sprites(t_mlx *mlx);
 #endif

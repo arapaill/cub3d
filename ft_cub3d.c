@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/06 14:57:03 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/08 13:08:56 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,6 +259,8 @@ int raycasting(t_mlx *mlx)
 		}
 		mlx->zbuffer[x] = perpwalldist;
 	}
+
+		add_sprites(mlx);
 	put_frame(mlx);
 	return (0);
 }
