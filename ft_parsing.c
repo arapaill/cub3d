@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/08 11:29:23 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/08 16:10:50 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,9 +176,11 @@ static void	get_texture(char *s, t_mlx *mlx)
 	}
 	else if (s[0] == 'R')
 		height_width(s, mlx);
-	else if (s[0] == 'B')
+	if (s[0] == 'B')
+	{
 		mlx->texture->sprite =
 		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
+	}
 }
 
 void			parsing(char *file, t_mlx *mlx)
@@ -202,7 +204,7 @@ void			parsing(char *file, t_mlx *mlx)
 	{
 		ret = get_next_line(fd, &line);
 		if (line[0] == 'S' || line[0] == 'N' || line[0] == 'E' ||
-		line[0] == 'W' || line[0] == 'F' || line[0] == 'C' || line[0] == 'R')
+		line[0] == 'W' || line[0] == 'F' || line[0] == 'C' || line[0] == 'R' || line[0] == 'B')
 			get_texture(line, mlx);
 		while (line[i] == ' ')
 			i++;

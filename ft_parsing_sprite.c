@@ -6,13 +6,13 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 15:50:17 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/08 12:22:07 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/08 16:20:34 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3d.h"
 
-void	pinpoint_sprite(t_sprite *sprite, t_mlx *mlx)
+void	pinpoint_sprite(t_mlx *mlx, t_sprite *sprite)
 {
 	int		i;
 	int		j;
@@ -28,6 +28,7 @@ void	pinpoint_sprite(t_sprite *sprite, t_mlx *mlx)
 			{
 				sprite->p_sprite[nb].x = i;
 				sprite->p_sprite[nb].y = j;
+				mlx->map[i][j] = '0';
 				nb++;
 			}
 	}
@@ -41,5 +42,5 @@ void	parsing_sprite(t_mlx *mlx, t_sprite *sprite)
 		error_manager(3);
 	if (!(sprite->p_sprite = malloc(sizeof(t_point) * mlx->spritenbr)))
 		error_manager(3);
-	pinpoint_sprite(sprite, mlx);
+	pinpoint_sprite(mlx, sprite);
 }
