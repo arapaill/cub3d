@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/08 13:12:10 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/08 14:40:05 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ typedef struct  s_mlx
 	t_player    *player;
 	t_texture   *texture;
 	int			spritenbr;
+	t_sprite	*sprite;
 }               t_mlx;
 
 void    parsing(char *file, t_mlx *mlx);

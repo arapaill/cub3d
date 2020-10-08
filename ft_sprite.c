@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 12:23:53 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/08 13:10:33 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/08 14:55:40 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	sortsprite(int *order, double *dist, int amount)
 		dist[i] = sprite[i].first;
 		order[i] = sprite[i].second;
 	}
+	free (sprite);
 }
 
 void	drawsprite(t_mlx *mlx, t_sprite *sprite)
@@ -63,7 +64,7 @@ void	drawsprite(t_mlx *mlx, t_sprite *sprite)
 	i = -1;
 	while (++i < mlx->spritenbr)
 	{
-		printf("____TEST_1____\n");
+		//printf("____TEST_1____\n");
 		sprite->spriteX = sprite->p_sprite[sprite->spriteorder[i]].x - mlx->player->posX;
 		sprite->spriteY = sprite->p_sprite[sprite->spriteorder[i]].y - mlx->player->posY;
 		sprite->invdet = 1.0 /(mlx->player->planeX * mlx->player->dirY - mlx->player->dirX * mlx->player->planeY);
@@ -87,7 +88,7 @@ void	drawsprite(t_mlx *mlx, t_sprite *sprite)
 		sprite->stripe = sprite->drawStart.x - 1;
 		while (++(sprite->stripe) < sprite->drawEnd.x)
 		{
-			printf("____TEST_2____\n");
+			//printf("____TEST_2____\n");
 			sprite->tex.x = (int)(256 * (sprite->stripe - (-(sprite->spriteWidth) / 2 + sprite->spriteScreenX)) * texWidth / sprite->spriteWidth) / 256;
 			if(sprite->transformY > 0 && sprite->stripe > 0 && sprite->stripe < mlx->screen_width && sprite->transformY < mlx->zbuffer[sprite->stripe])
 			y = sprite->drawStart.y - 1;
@@ -97,9 +98,10 @@ void	drawsprite(t_mlx *mlx, t_sprite *sprite)
 				sprite->tex.y = ((d * texHeight) / sprite->spriteHeight) / 256;
 				sprite->color = 0xFFFFF;
 				//sprite->color = mlx->texture->sprite[(texWidth * sprite->tex.y) + sprite->tex.x];
-				if ((sprite->color & 0x00FFFFFF) != 0)
-					mlx->data[sprite->stripe +
-					(y * mlx->screen_width)] = sprite->color;
+				//printf("data :%d, \n, ")
+				 if ((sprite->color & 0x00FFFFFF) != 0)
+				 	mlx->data[sprite->stripe +
+				 	(y * mlx->screen_width)] = sprite->color;
 			}
 		}
 		//texture[sprite[spriteOrder[i]].texture][texWidth * texY + texX];
@@ -110,10 +112,8 @@ void	add_sprites(t_mlx *mlx)
 {
 	int			i;
 	t_sprite	*sprite;
-printf("____TEST_1____\n");
-	if (!(sprite = malloc(sizeof(t_sprite))))
-		error_manager(3);
-	parsing_sprite(mlx, sprite);
+//printf("____TEST_1____\n");
+	sprite = mlx->sprite;
 	i = -1;
 	while (++i < mlx->spritenbr)
 	{
@@ -123,5 +123,4 @@ printf("____TEST_1____\n");
 	}
 	sortsprite(sprite->spriteorder, sprite->spritedist, mlx->spritenbr);
 	drawsprite(mlx, sprite);
-	free(sprite);
 }

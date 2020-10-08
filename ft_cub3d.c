@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/08 13:08:56 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/08 14:44:55 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,7 +326,10 @@ int		main(int argc, char *argv[])
 {
 	t_mlx	*mlx;
 
-	mlx = malloc(sizeof(t_mlx));
+	if(!(mlx = malloc(sizeof(t_mlx))))
+		error_manager(3);
+	if(!(mlx->sprite = malloc(sizeof(t_sprite))))
+		error_manager(3);
 	mlx->mlx = mlx_init();
 	if (mlx->mlx == 0)
 		return (1);
@@ -337,6 +340,7 @@ int		main(int argc, char *argv[])
 		return (1);
 	check_player_pos(mlx);
 	map_check(mlx);
+	parsing_sprite(mlx, mlx->sprite);
 	mlx->window = mlx_new_window(mlx->mlx, mlx->screen_width, mlx->screen_height, "ft_cub3D");
 	mlx->frame = NULL;
 	put_frame(mlx);
