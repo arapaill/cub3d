@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/09 14:21:57 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/09 16:02:20 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	RGBA_floor_ceiling(t_mlx *mlx)
 	{
 		while (y < mlx->screen_height / 2)
 		{
-			mlx->data[x + (y++ * mlx->screen_width)] = mlx->texture->RGB_floor;
+			mlx->data[x + (y++ * mlx->screen_width)] = mlx->texture->rgb_floor;
 			//printf(" y = %d\n", y);
 		}
 		x++;
@@ -49,7 +49,7 @@ void	RGBA_floor_ceiling(t_mlx *mlx)
 	while (x < mlx->screen_width)
 	{
 		while (y < mlx->screen_height)
-			mlx->data[x + (y++ * mlx->screen_width)] = mlx->texture->RGB_ceiling;
+			mlx->data[x + (y++ * mlx->screen_width)] = mlx->texture->rgb_ceiling;
 		x++;
 		y = mlx->screen_height / 2;
 	}
@@ -81,15 +81,15 @@ void	floor_ceiling(t_mlx *mlx)
 	y = 0;
 	h = mlx->screen_height;
 //	printf("text floor : %d, text sky : %d\n", (int)(mlx->texture->floor),(int)(mlx->texture->ceiling));
-	//printf("text RGB_floor : %d, text RGB_sky : %d\n", (int)(mlx->texture->RGB_floor),(int)(mlx->texture->RGB_ceiling));
-	if(mlx->texture->RGB_floor == 0 && mlx->texture->RGB_ceiling == 0)
+	//printf("text rgb_floor : %d, text RGB_sky : %d\n", (int)(mlx->texture->rgb_floor),(int)(mlx->texture->rgb_ceiling));
+	if(mlx->texture->rgb_floor == 0 && mlx->texture->rgb_ceiling == 0)
 	{
 		while(++y < h)
 			{
-				rayDirX0 = mlx->player->dirX - mlx->player->planeX;
-				rayDirY0 = mlx->player->dirY - mlx->player->planeY;
-				rayDirX1 = mlx->player->dirX + mlx->player->planeX;
-				rayDirY1 = mlx->player->dirY + mlx->player->planeY;
+				rayDirX0 = mlx->player->dir.x - mlx->player->plane.x;
+				rayDirY0 = mlx->player->dir.y - mlx->player->plane.y;
+				rayDirX1 = mlx->player->dir.x + mlx->player->plane.x;
+				rayDirY1 = mlx->player->dir.y + mlx->player->plane.y;
 				
 				 p = y - mlx->screen_height / 2;
 				posZ = 0.5 * mlx->screen_height;
@@ -98,21 +98,21 @@ void	floor_ceiling(t_mlx *mlx)
 				floorStepX = rowDistance * (rayDirX1 - rayDirX0) / mlx->screen_width;
 				floorStepY = rowDistance * (rayDirY1 - rayDirY0) / mlx->screen_width;
 
-				floorX = mlx->player->posX + rowDistance * rayDirX0;
-				floorY = mlx->player->posY + rowDistance * rayDirY0;
+				floorX = mlx->player->pos.x + rowDistance * rayDirX0;
+				floorY = mlx->player->pos.y + rowDistance * rayDirY0;
 				x = 0;
 				while(++x < (int)(mlx->screen_width))
 				{
 					cellX = (int)(floorX);
 					cellY = (int)(floorY);
-					tx = (int)(texWidth * (floorX - cellX)) & (texWidth - 1);
-					ty = (int)(texHeight * (floorY - cellY)) & (texHeight - 1);
+					tx = (int)(TEXWIDTH * (floorX - cellX)) & (TEXWIDTH - 1);
+					ty = (int)(TEXHEIGHT * (floorY - cellY)) & (TEXHEIGHT - 1);
 					floorX += floorStepX;
 					floorY += floorStepY;
-					color = mlx->texture->floor[texWidth * ty + tx];
+					color = mlx->texture->floor[TEXWIDTH * ty + tx];
 					color = (color >> 1) & 8355711;
 					mlx->data[x + (y * mlx->screen_width)] = color;        
-					color = mlx->texture->ceiling[texWidth * ty + tx];
+					color = mlx->texture->ceiling[TEXWIDTH * ty + tx];
 					color = (color >> 1) & 8355711;
 					mlx->data[x + ((mlx->screen_height - y - 1) * mlx->screen_width)] = color;
 				}
@@ -160,11 +160,11 @@ int raycasting(t_mlx *mlx)
   while(++x < w)
   {
 		camerax = 2 * x / (double)w - 1;
-		raydirx = mlx->player->dirX + mlx->player->planeX * camerax;
-		raydiry = mlx->player->dirY + mlx->player->planeY * camerax;
+		raydirx = mlx->player->dir.x + mlx->player->plane.x * camerax;
+		raydiry = mlx->player->dir.y + mlx->player->plane.y * camerax;
 
-		mapx = (int)mlx->player->posX;
-		mapy = (int)mlx->player->posY;
+		mapx = (int)mlx->player->pos.x;
+		mapy = (int)mlx->player->pos.y;
 
 		deltadistx = (raydiry == 0) ? 0 : ((raydirx == 0) ? 1 : fabs(1 / raydirx));
 		deltadisty = (raydirx == 0) ? 0 : ((raydiry == 0) ? 1 : fabs(1 / raydiry));
@@ -174,22 +174,22 @@ int raycasting(t_mlx *mlx)
 		if (raydirx < 0)
 		{
 			stepx = -1;
-			sidedistx = (mlx->player->posX - mapx) * deltadistx;
+			sidedistx = (mlx->player->pos.x - mapx) * deltadistx;
 		}
 		else
 		{
 			stepx = 1;
-			sidedistx = (mapx + 1.0 - mlx->player->posX) * deltadistx;
+			sidedistx = (mapx + 1.0 - mlx->player->pos.x) * deltadistx;
 		}
 		if (raydiry < 0)
 		{
 			stepy = -1;
-			sidedisty = (mlx->player->posY - mapy) * deltadisty;
+			sidedisty = (mlx->player->pos.y - mapy) * deltadisty;
 		}
 		else
 		{
 			stepy = 1;
-			sidedisty = (mapy + 1.0 - mlx->player->posY) * deltadisty;
+			sidedisty = (mapy + 1.0 - mlx->player->pos.y) * deltadisty;
 		}
 
 		while (hit == 0)
@@ -211,10 +211,10 @@ int raycasting(t_mlx *mlx)
 		}
 		if (side == 0)
 			perpwalldist =
-				(mapx - mlx->player->posX + (1 - stepx) / 2) / raydirx;
+				(mapx - mlx->player->pos.x + (1 - stepx) / 2) / raydirx;
 		else
 			perpwalldist =
-				(mapy - mlx->player->posY + (1 - stepy) / 2) / raydiry;
+				(mapy - mlx->player->pos.y + (1 - stepy) / 2) / raydiry;
 
 		lineheight = (int)(h / perpwalldist);
 		drawstart = -lineheight / 2 + h / 2;
@@ -225,36 +225,36 @@ int raycasting(t_mlx *mlx)
 			drawend = h - 1;
 
 		if (side == 0)
-			wallX = mlx->player->posY + perpwalldist * raydiry;
+			wallX = mlx->player->pos.y + perpwalldist * raydiry;
 		else
-			wallX = mlx->player->posX + perpwalldist * raydirx;
+			wallX = mlx->player->pos.x + perpwalldist * raydirx;
 		wallX -= floor((wallX));
 
-		texX = (int)(wallX * (double)texWidth);
+		texX = (int)(wallX * (double)TEXWIDTH);
 		if (side == 0 && raydirx > 0)
-			texX = texWidth - texX - 1;
+			texX = TEXWIDTH - texX - 1;
 		if (side == 1 && raydiry < 0)
-			texX = texWidth - texX - 1;
+			texX = TEXWIDTH - texX - 1;
 
-		step = 1.0 * texHeight / lineheight;
+		step = 1.0 * TEXHEIGHT / lineheight;
 		texPos = (drawstart - h / 2 + lineheight / 2) * step;
 		for (y = drawstart; y < drawend; y++)
 		{
-			texY = (int)texPos & (texHeight - 1);
+			texY = (int)texPos & (TEXHEIGHT - 1);
 			texPos += step;
 			if (side == 1)
 			{
 				if (raydiry >= 0)
-					mlx->color = mlx->texture->west[(texHeight * texY) + texX];
+					mlx->color = mlx->texture->west[(TEXHEIGHT * texY) + texX];
 				else
-					mlx->color = mlx->texture->east[(texHeight * texY) + texX];
+					mlx->color = mlx->texture->east[(TEXHEIGHT * texY) + texX];
 			}
 			else
 			{
 				if (raydirx >= 0)
-					mlx->color = mlx->texture->north[(texHeight * texY) + texX];
+					mlx->color = mlx->texture->north[(TEXHEIGHT * texY) + texX];
 				else
-					mlx->color = mlx->texture->south[(texHeight * texY) + texX];
+					mlx->color = mlx->texture->south[(TEXHEIGHT * texY) + texX];
 			}
 			mlx->data[x - 1 + y * mlx->screen_width] = mlx->color;
 		}
@@ -272,29 +272,27 @@ void	player_init(t_mlx *mlx)
 
 	player = malloc(sizeof(t_player));
 	
-	player->posX = 0;
-	player->posY = 0;
-	player->dirX = -1;
-	player->dirY = 0;
-	player->planeX = 0;
-	player->planeY = 0.86;
-	player->sprite_x = -1;
-	player->sprite_y = -1;
+	player->pos.x = 0;
+	player->pos.y = 0;
+	player->dir.x = -1;
+	player->dir.y = 0;
+	player->plane.x = 0;
+	player->plane.y = 0.86;
 	mlx->zbuffer = NULL;
 	mlx->player = player;
 }
 
 void	player_orientation(t_mlx *mlx, int x, int y)
 {
-	if(mlx->player->spawnX == -1)
+	if(mlx->player->spawn.x == -1)
 	{
-		mlx->player->spawnX = x;
-		mlx->player->spawnY = y;
+		mlx->player->spawn.x = x;
+		mlx->player->spawn.y = y;
 	}
 	else
 		error_manager(4, mlx);
-	mlx->player->posX = (double)x + 0.5;
-	mlx->player->posY = (double)y + 0.5;
+	mlx->player->pos.x = (double)x + 0.5;
+	mlx->player->pos.y = (double)y + 0.5;
 	if (mlx->map[x][y] == 'E')
 		rot_right(mlx, 1.6);
 	if (mlx->map[x][y] == 'S')
@@ -313,8 +311,8 @@ void check_player_pos(t_mlx *mlx)
 
 	x = 0;
 	y = 0;
-	mlx->player->spawnX = -1;
-	mlx->player->spawnY = -1;
+	mlx->player->spawn.x = -1;
+	mlx->player->spawn.y = -1;
 	while (x < mlx->map_height)
 	{
 		while (y < mlx->map_width)
@@ -327,7 +325,7 @@ void check_player_pos(t_mlx *mlx)
 		y = 0;
 		x++;
 	}
-		if (mlx->player->spawnX == -1 || mlx->player->spawnY == -1)
+		if (mlx->player->spawn.x == -1 || mlx->player->spawn.y == -1)
 		error_manager(4, mlx);
 }
 
@@ -357,7 +355,7 @@ int		main(int argc, char *argv[])
 	floor_ceiling(mlx);
 	raycasting(mlx);
 	mlx_hook(mlx->window, 2, 0, key_check, mlx);
-	mlx_hook(mlx->window, 17L, 0, serpilliere, mlx);
+	mlx_hook(mlx->window, 17L, 0, (int (*)())(serpilliere), mlx);
 	mlx_loop(mlx->mlx);
 	serpilliere(mlx);
 	return (0);

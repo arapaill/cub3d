@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 09:58:24 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/09 11:24:07 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/09 15:40:39 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ int		map_check(t_mlx *mlx)
 	t_point	start;
 	t_point	size;
 
-	start.x = mlx->player->spawnX;
-	start.y = mlx->player->spawnY;
+	start.x = mlx->player->spawn.x;
+	start.y = mlx->player->spawn.y;
 	size.x = mlx->map_height;
 	size.y = mlx->map_width;
 	if (!(cp_map = (char **)malloc((sizeof(char *) * mlx->map_height) + 1)))

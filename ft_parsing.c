@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/09 11:09:11 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/09 15:47:15 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,23 +155,23 @@ static void	get_texture(char *s, t_mlx *mlx)
 	else if (s[0] == 'F')
 	{
 		if (!(ft_isalpha(s[i])))
-			mlx->texture->RGB_floor = fc_atoi(&s[1]);
+			mlx->texture->rgb_floor = fc_atoi(&s[1]);
 		else
 		{
 			mlx->texture->floor =
 			(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-			mlx->texture->RGB_floor = 0;
+			mlx->texture->rgb_floor = 0;
 		}
 	}
 	else if (s[0] == 'C')
 	{
 		if (!(ft_isalpha(s[i])))
-			mlx->texture->RGB_ceiling = fc_atoi(&s[1]);
+			mlx->texture->rgb_ceiling = fc_atoi(&s[1]);
 		else
 		{
 			mlx->texture->ceiling =
 			(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-			mlx->texture->RGB_ceiling = 0;
+			mlx->texture->rgb_ceiling = 0;
 		}
 	}
 	else if (s[0] == 'R')
