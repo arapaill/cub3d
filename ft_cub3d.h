@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/08 14:40:05 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/09 10:01:50 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ typedef struct s_point
 	int     y;
 }           t_point;
 
+typedef struct s_double
+{
+	double	x;
+	double	y;
+}				t_double;
+
 typedef struct s_sort
 {
 	double	first;
@@ -70,7 +76,7 @@ typedef struct s_sprite
 	double		*spritedist;
 	double		spriteX;
 	double		spriteY;
-	t_point		*p_sprite;
+	t_double		*p_sprite;
 	double		invdet;
 	double		transformX;
 	double		transformY;

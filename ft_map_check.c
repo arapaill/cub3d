@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 09:58:24 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/06 15:57:46 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/09 10:20:44 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int		map_error(t_mlx *mlx, char **map)
 	int j;
 
 	i = -1;
+	mlx->spritenbr = 0;
 	while (++i < mlx->map_height)
 	{
 		j = -1;

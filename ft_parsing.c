@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/08 16:10:50 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/09 10:11:47 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	**creat_world_map(char *file, size_t width, size_t height)
 		free(line);
 	}
 	i = 0;
-	if(!(world_map[i] = malloc(sizeof(char*) * (height + 1))))
+	if (!(world_map[i] = malloc(sizeof(char*) * (height + 1))))
 		error_manager(3);
 	while (i < width)
 	{

@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/08 14:44:55 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/09 10:10:44 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -348,6 +348,5 @@ int		main(int argc, char *argv[])
 	raycasting(mlx);
 	mlx_hook(mlx->window, 2, 0, key_check, mlx);
 	mlx_loop(mlx->mlx);
-	free(mlx);
 	return (0);
 }
