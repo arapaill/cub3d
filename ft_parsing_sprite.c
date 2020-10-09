@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 15:50:17 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/09 10:31:21 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/09 11:07:01 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	pinpoint_sprite(t_mlx *mlx, t_sprite *sprite)
 void	parsing_sprite(t_mlx *mlx, t_sprite *sprite)
 {
 	if (!(sprite->spriteorder = malloc(sizeof(int) * mlx->spritenbr)))
-		error_manager(3);
+		error_manager(3, mlx);
 	if (!(sprite->spritedist = malloc(sizeof(double) * mlx->spritenbr)))
-		error_manager(3);
+		error_manager(3, mlx);
 	if (!(sprite->p_sprite = malloc(sizeof(t_double) * mlx->spritenbr)))
-		error_manager(3);
+		error_manager(3, mlx);
 	pinpoint_sprite(mlx, sprite);
 }

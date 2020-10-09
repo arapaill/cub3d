@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 09:58:24 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/09 10:20:44 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/09 11:24:07 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		freemap(char **map, int n, t_mlx *mlx)
 	free(map);
 	map = NULL;
 	if (n != 0)
-		error_manager(n);
+		error_manager(n, mlx);
 	return (n);
 }
 
@@ -95,12 +95,12 @@ int		map_check(t_mlx *mlx)
 	size.x = mlx->map_height;
 	size.y = mlx->map_width;
 	if (!(cp_map = (char **)malloc((sizeof(char *) * mlx->map_height) + 1)))
-		error_manager(3);
+		error_manager(3, mlx);
 	x = -1;
 	while (++x < mlx->map_height)
 	{
 		if (!(cp_map[x] = (char *)malloc((sizeof(char) * mlx->map_width) + 1)))
-			error_manager(3);
+			error_manager(3, mlx);
 		y = -1;
 		while (++y < mlx->map_width)
 		{

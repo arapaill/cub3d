@@ -6,14 +6,14 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/09 10:11:47 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/09 11:09:11 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3d.h"
 
 
-static char	**creat_world_map(char *file, size_t width, size_t height)
+static char	**creat_world_map(char *file, size_t width, size_t height, t_mlx *mlx)
 {
 	char	*line;
 	char	**world_map;
@@ -26,7 +26,7 @@ static char	**creat_world_map(char *file, size_t width, size_t height)
 	i = 0;
 	j = 0;
 	if (!(world_map = malloc(sizeof(char*) * (height + 1))))
-		error_manager(3);
+		error_manager(3, mlx);
 	world_map[height] = 0;
 	fd = open(file, O_RDONLY);
 	while (ret == 1)
@@ -40,7 +40,7 @@ static char	**creat_world_map(char *file, size_t width, size_t height)
 	}
 	i = 0;
 	if (!(world_map[i] = malloc(sizeof(char*) * (height + 1))))
-		error_manager(3);
+		error_manager(3, mlx);
 	while (i < width)
 	{
 		if (line[i] != 0 && line[i] != '\n')
@@ -60,7 +60,7 @@ static char	**creat_world_map(char *file, size_t width, size_t height)
 	{
 		ret = get_next_line(fd, &line);
 		if (!(world_map[j] = malloc(sizeof(char) * (width + 1))))
-			error_manager(3);
+			error_manager(3, mlx);
 		while (i < width)
 		{
 			if (line[i] != 0 && line[i] != '\n')
@@ -138,7 +138,7 @@ static void	get_texture(char *s, t_mlx *mlx)
 	while (s[i] == ' ')
 		i++;
 	if (open(&s[i], O_RDONLY) == -1 && ft_isdigit(s[i]) == 0)
-		error_manager(2);
+		error_manager(2, mlx);
 	texture = mlx_xpm_file_to_image(mlx->mlx, &s[i], &a, &a);
 	if (s[0] == 'S')
 		mlx->texture->south =
@@ -199,7 +199,7 @@ void			parsing(char *file, t_mlx *mlx)
 	i = 0;
 	fd = open(file, O_RDONLY);
 	if (!(mlx->texture = malloc(sizeof(t_texture))))
-		error_manager(3);
+		error_manager(3, mlx);
 	while (ret == 1)
 	{
 		ret = get_next_line(fd, &line);
@@ -228,5 +228,5 @@ void			parsing(char *file, t_mlx *mlx)
 	close(fd);
 	mlx->map_width = w;
 	mlx->map_height = h;
-	mlx->map = creat_world_map(file, w, h);
+	mlx->map = creat_world_map(file, w, h, mlx);
 }

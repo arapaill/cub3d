@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 12:23:53 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/09 10:45:56 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/09 11:09:23 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ void	ordersprites(t_sort *sprite, int amount, double *dist)
 	}
 }
 
-void	sortsprite(int *order, double *dist, int amount)
+void	sortsprite(int *order, double *dist, int amount, t_mlx *mlx)
 {
 	t_sort		*sprite;
 	int			i;
 
 	if (!(sprite = malloc(sizeof(t_sort) * amount)))
-		error_manager(3);
+		error_manager(3, mlx);
 	i = -1;
 	while (++i < amount)
 	{
@@ -55,6 +55,7 @@ void	sortsprite(int *order, double *dist, int amount)
 		dist[i] = sprite[i].first;
 		order[i] = sprite[i].second;
 	}
+	free(sprite);
 }
 
 void	drawsprite(t_mlx *mlx, t_sprite *sprite)
@@ -141,6 +142,6 @@ void	add_sprites(t_mlx *mlx)
 		sqrt(pow(mlx->player->posX - sprite->p_sprite[i].x, 2) +
 		pow(mlx->player->posY - sprite->p_sprite[i].y, 2));
 	}
-	sortsprite(sprite->spriteorder, sprite->spritedist, mlx->spritenbr);
+	sortsprite(sprite->spriteorder, sprite->spritedist, mlx->spritenbr, mlx);
 	drawsprite(mlx, sprite);
 }

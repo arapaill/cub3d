@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/09 10:01:50 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/09 11:11:05 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,9 @@ void	rot_left(t_mlx *mlx, double rot_speed);
 int     raycasting(t_mlx *mlx);
 void	floor_ceiling(t_mlx *mlx);
 int     map_check(t_mlx *mlx);
-void    error_manager(int error);
+int		freemap(char **map, int n, t_mlx *mlx);
+void	error_manager(int error, t_mlx *mlx);
+void	serpilliere(t_mlx *mlx);
 void	parsing_sprite(t_mlx *mlx, t_sprite *sprite);
 void	add_sprites(t_mlx *mlx);
 #endif

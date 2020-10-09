@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/09 10:10:44 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/09 14:21:57 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 void	put_frame(t_mlx *mlx)
 {
+	
 	if (mlx->frame != NULL)
 	{
 		mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->frame, 0, 0);
@@ -155,7 +156,7 @@ int raycasting(t_mlx *mlx)
 	w = mlx->screen_width;
 	h = mlx->screen_height;
 		if (!(mlx->zbuffer = malloc(sizeof(double *) * mlx->screen_width)))
-			error_manager(3);
+			error_manager(3, mlx);
   while(++x < w)
   {
 		camerax = 2 * x / (double)w - 1;
@@ -285,8 +286,13 @@ void	player_init(t_mlx *mlx)
 
 void	player_orientation(t_mlx *mlx, int x, int y)
 {
-	mlx->player->spawnX = x;
-	mlx->player->spawnY = y;
+	if(mlx->player->spawnX == -1)
+	{
+		mlx->player->spawnX = x;
+		mlx->player->spawnY = y;
+	}
+	else
+		error_manager(4, mlx);
 	mlx->player->posX = (double)x + 0.5;
 	mlx->player->posY = (double)y + 0.5;
 	if (mlx->map[x][y] == 'E')
@@ -307,6 +313,8 @@ void check_player_pos(t_mlx *mlx)
 
 	x = 0;
 	y = 0;
+	mlx->player->spawnX = -1;
+	mlx->player->spawnY = -1;
 	while (x < mlx->map_height)
 	{
 		while (y < mlx->map_width)
@@ -319,6 +327,8 @@ void check_player_pos(t_mlx *mlx)
 		y = 0;
 		x++;
 	}
+		if (mlx->player->spawnX == -1 || mlx->player->spawnY == -1)
+		error_manager(4, mlx);
 }
 
 
@@ -327,10 +337,11 @@ int		main(int argc, char *argv[])
 	t_mlx	*mlx;
 
 	if(!(mlx = malloc(sizeof(t_mlx))))
-		error_manager(3);
+		error_manager(3, mlx);
 	if(!(mlx->sprite = malloc(sizeof(t_sprite))))
-		error_manager(3);
+		error_manager(3, mlx);
 	mlx->mlx = mlx_init();
+	mlx->frame = NULL;
 	if (mlx->mlx == 0)
 		return (1);
 	player_init(mlx);
@@ -342,11 +353,12 @@ int		main(int argc, char *argv[])
 	map_check(mlx);
 	parsing_sprite(mlx, mlx->sprite);
 	mlx->window = mlx_new_window(mlx->mlx, mlx->screen_width, mlx->screen_height, "ft_cub3D");
-	mlx->frame = NULL;
 	put_frame(mlx);
 	floor_ceiling(mlx);
 	raycasting(mlx);
 	mlx_hook(mlx->window, 2, 0, key_check, mlx);
+	mlx_hook(mlx->window, 17L, 0, serpilliere, mlx);
 	mlx_loop(mlx->mlx);
+	serpilliere(mlx);
 	return (0);
 }

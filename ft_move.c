@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 10:34:54 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/08 13:12:22 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/09 11:54:37 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int			key_check(int key, t_mlx *mlx)
 	if (key == LEFT_KEY)
 		rot_left(mlx, 0.1);
 	if (key == ESC_KEY)
-		exit(0);
+		serpilliere(mlx);
 	mlx_clear_window(mlx->mlx, mlx->window);
 	floor_ceiling(mlx);
 	raycasting(mlx);
