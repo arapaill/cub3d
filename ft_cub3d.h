@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/09 16:04:10 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/19 16:23:11 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@
 # include <stdio.h>
 # define TEXWIDTH 64
 # define TEXHEIGHT 64
-# define MOVESPEED 0.5
+# define MOVESPEED 0.3
+# define IMG_DEPTH 3
+# define FILE_HEADER_SIZE 14
+# define INFO_HEADER_SIZE 40
+# define FILENAME "capture.bmp"
 
 typedef struct	s_point
 {
@@ -37,6 +41,13 @@ typedef struct	s_double
 	double		x;
 	double		y;
 }				t_double;
+
+typedef struct	s_float
+{
+	float		x;
+	float		y;
+}				t_float;
+
 
 typedef struct	s_sort
 {
@@ -83,6 +94,44 @@ typedef struct	s_player
 	t_double	spawn;
 }				t_player;
 
+typedef struct	s_ray
+{
+	int			w;
+	int			h;
+	int			x;
+	int			y;
+	int			hit;
+	int			lineheight;
+	int			drawstart;
+	int			drawend;
+	int			side;
+	t_point		map;
+	t_point		d_step;
+	t_point		tex;
+	double		camerax;
+	double		perpwalldist;
+	double		wallx;
+	double		step;
+	double		texpos;
+	t_double	raydir;
+	t_double	sidedist;
+	t_double	deltadist;
+
+}				t_ray;
+
+typedef struct	s_fnc
+{
+	t_float	raydira;
+	t_float	raydirb;
+	t_float	floorstep;
+	t_float	floor;
+	t_float	cell;
+	t_point	t;
+	float		posz;
+	float		rowdistance;
+	int		color;
+}				t_fnc;
+
 typedef struct	s_mlx
 {
 	void		*mlx;
@@ -103,6 +152,9 @@ typedef struct	s_mlx
 	t_texture	*texture;
 	int			spritenbr;
 	t_sprite	*sprite;
+	int			capture;
+	t_ray		*ray;
+	t_fnc		*fnc;
 }				t_mlx;
 
 void			parsing(char *file, t_mlx *mlx);
@@ -117,4 +169,13 @@ void			error_manager(int error, t_mlx *mlx);
 void			serpilliere(t_mlx *mlx);
 void			parsing_sprite(t_mlx *mlx, t_sprite *sprite);
 void			add_sprites(t_mlx *mlx);
+void			bmp_capture(t_mlx *mlx);
+void			put_frame(t_mlx *mlx);
+
+/*
+**	raycasting
+*/
+
+void			pre_hit(t_mlx *mlx, t_ray *ray);
+void			hit(t_mlx *mlx, t_ray *ray);
 #endif

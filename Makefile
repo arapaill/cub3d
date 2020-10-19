@@ -6,18 +6,16 @@
 #    By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/07 12:55:46 by arapaill          #+#    #+#              #
-#    Updated: 2020/10/09 15:49:28 by arapaill         ###   ########.fr        #
+#    Updated: 2020/10/19 15:58:45 by arapaill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-
 
 CC = gcc
 CFLAGS = #-Wall -Wextra -Werror
 MFLAGS =  -I minilibx -L minilibx -lmlx -framework OpenGL -framework AppKit
 CFLAGS = -Wall -Wextra -g -fsanitize=address
 MFLAGS =  -I minilibx -L minilibx -lmlx -framework OpenGL -framework AppKit
-SRC = ft_cub3d.c ft_parsing.c ft_move.c ft_map_check.c ft_error_manager.c ft_sprite.c ft_parsing_sprite.c
+SRC = ft_cub3d.c ft_parsing.c ft_move.c ft_map_check.c ft_error_manager.c ft_sprite.c ft_parsing_sprite.c ft_save.c ft_raycasting.c ft_raycasting_nxt.c ft_floor_ceiling.c
 NAME = ft_cub3D
 LIB = ar rcs
 
@@ -47,5 +45,11 @@ exec:		all
 			@echo "\033[32m[✓]\033[0m		[$(NAME) and main.c compiled]"
 			@echo "\033[32m[✓]\033[0m		[a.out executed]\n"
 			@./a.out map.cub
+
+save:		all
+			@echo "\033[32m[✓]\033[0m		[$(NAME) and main.c compiled]"
+			@echo "\033[32m[✓]\033[0m		[a.out executed]\n"
+			@./a.out map.cub --save
+			@open capture.bmp
 norm:
 			norminette $(SRC) ft_cub3d.h

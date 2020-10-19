@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/09 15:47:15 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/19 13:01:29 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static char	**creat_world_map(char *file, size_t width, size_t height, t_mlx *ml
 	return (world_map);
 }
 
-int			fc_atoi(char *s)
+static int			fc_atoi(char *s)
 {
 	int		i;
 	int		r;
@@ -108,7 +108,7 @@ int			fc_atoi(char *s)
 	return (r + (g * 256) + (b * 256 * 256));
 }
 
-void	height_width(char *s, t_mlx *mlx)
+static void			height_width(char *s, t_mlx *mlx)
 {
 	size_t i;
 
@@ -127,7 +127,7 @@ void	height_width(char *s, t_mlx *mlx)
 		mlx->screen_height = 1440;
 }
 
-static void	get_texture(char *s, t_mlx *mlx)
+static void			get_texture(char *s, t_mlx *mlx)
 {
 	size_t	i;
 	void	*texture;
