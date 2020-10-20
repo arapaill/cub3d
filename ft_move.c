@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 10:34:54 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/20 08:45:52 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/20 16:22:35 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	down_key(t_mlx *mlx)
 
 static void	right_key(t_mlx *mlx)
 {
+	printf("_______TEST______\n");
 	if (mlx->map[(int)(mlx->player->pos.x + mlx->player->dir.y * MOVESPEED)]
 	[(int)mlx->player->pos.y] == '0')
 		mlx->player->pos.x += mlx->player->dir.y * MOVESPEED;
@@ -63,9 +64,9 @@ int			key_check(int key, t_mlx *mlx)
 	if (key == D_KEY)
 		right_key(mlx);
 	if (key == RIGHT_KEY)
-		rot_right(mlx, 0.1);
+		rot_right(mlx, 0.3);
 	if (key == LEFT_KEY)
-		rot_left(mlx, 0.1);
+		rot_left(mlx, 0.3);
 	if (key == ESC_KEY)
 		serpilliere(mlx);
 	mlx_clear_window(mlx->mlx, mlx->window);
