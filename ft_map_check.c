@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 09:58:24 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/09 15:40:39 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/20 08:59:58 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,20 +82,11 @@ int		map_error(t_mlx *mlx, char **map)
 	return (freemap(map, 0, mlx));
 }
 
-int		map_check(t_mlx *mlx)
+void	map_space(t_mlx *mlx, char **cp_map)
 {
-	char	**cp_map;
 	int		x;
 	int		y;
-	t_point	start;
-	t_point	size;
 
-	start.x = mlx->player->spawn.x;
-	start.y = mlx->player->spawn.y;
-	size.x = mlx->map_height;
-	size.y = mlx->map_width;
-	if (!(cp_map = (char **)malloc((sizeof(char *) * mlx->map_height) + 1)))
-		error_manager(3, mlx);
 	x = -1;
 	while (++x < mlx->map_height)
 	{
@@ -109,6 +100,21 @@ int		map_check(t_mlx *mlx)
 				cp_map[x][y] = '0';
 		}
 	}
+}
+
+int		map_check(t_mlx *mlx)
+{
+	char	**cp_map;
+	t_point	start;
+	t_point	size;
+
+	start.x = mlx->player->spawn.x;
+	start.y = mlx->player->spawn.y;
+	size.x = mlx->map_height;
+	size.y = mlx->map_width;
+	if (!(cp_map = (char **)malloc((sizeof(char *) * mlx->map_height) + 1)))
+		error_manager(3, mlx);
+	map_space(mlx, cp_map);
 	visit_neighboor(cp_map, size, start, start);
 	return (map_error(mlx, cp_map));
 }

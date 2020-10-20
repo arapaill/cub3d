@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 15:57:50 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/19 16:32:20 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/20 08:39:24 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,74 @@ void	rgba_floor_ceiling(t_mlx *mlx)
 	while (x < mlx->screen_width)
 	{
 		while (y < mlx->screen_height / 2)
-		{
 			mlx->data[x + (y++ * mlx->screen_width)] = mlx->texture->rgb_floor;
-			//printf(" y = %d\n", y);
-		}
 		x++;
 		y = 0;
 	}
-	//printf(" x = %d\n", x);
 	x = 0;
 	y = mlx->screen_height / 2;
 	while (x < mlx->screen_width)
 	{
 		while (y < mlx->screen_height)
-			mlx->data[x + (y++ * mlx->screen_width)] = mlx->texture->rgb_ceiling;
+			mlx->data[x +
+			(y++ * mlx->screen_width)] = mlx->texture->rgb_ceiling;
 		x++;
 		y = mlx->screen_height / 2;
 	}
 }
 
+void	rollfnc(t_mlx *mlx, t_fnc *fnc, int y)
+{
+	int		x;
+
+	x = 0;
+	while (++x < (int)(mlx->screen_width))
+	{
+		fnc->cell.x = (int)(fnc->floor.x);
+		fnc->cell.y = (int)(fnc->floor.y);
+		fnc->t.x = (int)(TEXWIDTH *
+		(fnc->floor.x - fnc->cell.x)) & (TEXWIDTH - 1);
+		fnc->t.y = (int)(TEXHEIGHT *
+		(fnc->floor.y - fnc->cell.y)) & (TEXHEIGHT - 1);
+		fnc->floor.x += fnc->floorstep.x;
+		fnc->floor.y += fnc->floorstep.y;
+		fnc->color = mlx->texture->floor
+		[TEXWIDTH * fnc->t.y + fnc->t.x];
+		fnc->color = (fnc->color >> 1) & 8355711;
+		mlx->data[x + (y * mlx->screen_width)] = fnc->color;
+		fnc->color = mlx->texture->ceiling
+		[TEXWIDTH * fnc->t.y + fnc->t.x];
+		fnc->color = (fnc->color >> 1) & 8355711;
+		mlx->data[x + ((mlx->screen_height - y - 1) *
+		mlx->screen_width)] = fnc->color;
+	}
+}
+
+void	prepfnc(t_mlx *mlx, t_fnc *fnc, int y)
+{
+	int		p;
+
+	fnc->raydira.x = mlx->player->dir.x - mlx->player->plane.x;
+	fnc->raydira.y = mlx->player->dir.y - mlx->player->plane.y;
+	fnc->raydirb.x = mlx->player->dir.x + mlx->player->plane.x;
+	fnc->raydirb.y = mlx->player->dir.y + mlx->player->plane.y;
+	p = y - mlx->screen_height / 2;
+	fnc->posz = 0.5 * mlx->screen_height;
+	fnc->rowdistance = fnc->posz / p;
+	fnc->floorstep.x = fnc->rowdistance *
+	(fnc->raydirb.x - fnc->raydira.x) / mlx->screen_width;
+	fnc->floorstep.y = fnc->rowdistance *
+	(fnc->raydirb.y - fnc->raydira.y) / mlx->screen_width;
+	fnc->floor.x = mlx->player->pos.x +
+	fnc->rowdistance * fnc->raydira.x;
+	fnc->floor.y = mlx->player->pos.y +
+	fnc->rowdistance * fnc->raydira.y;
+}
+
 void	floor_ceiling(t_mlx *mlx)
 {
-	t_fnc	*fnc
-	int		p;
+	t_fnc	*fnc;
 	int		y;
-	int		x;
 	int		h;
 
 	fnc = mlx->fnc;
@@ -56,33 +99,8 @@ void	floor_ceiling(t_mlx *mlx)
 	{
 		while (++y < h)
 		{
-			rayDirX0 = mlx->player->dir.x - mlx->player->plane.x;
-			rayDirY0 = mlx->player->dir.y - mlx->player->plane.y;
-			rayDirX1 = mlx->player->dir.x + mlx->player->plane.x;
-			rayDirY1 = mlx->player->dir.y + mlx->player->plane.y;
-			p = y - mlx->screen_height / 2;
-			posZ = 0.5 * mlx->screen_height;
-			rowDistance = posZ / p;
-			floorStepX = rowDistance * (rayDirX1 - rayDirX0) / mlx->screen_width;
-			floorStepY = rowDistance * (rayDirY1 - rayDirY0) / mlx->screen_width;
-			floorX = mlx->player->pos.x + rowDistance * rayDirX0;
-			floorY = mlx->player->pos.y + rowDistance * rayDirY0;
-			x = 0;
-			while (++x < (int)(mlx->screen_width))
-			{
-				cellX = (int)(floorX);
-				cellY = (int)(floorY);
-				tx = (int)(TEXWIDTH * (floorX - cellX)) & (TEXWIDTH - 1);
-				ty = (int)(TEXHEIGHT * (floorY - cellY)) & (TEXHEIGHT - 1);
-				floorX += floorStepX;
-				floorY += floorStepY;
-				color = mlx->texture->floor[TEXWIDTH * ty + tx];
-				color = (color >> 1) & 8355711;
-				mlx->data[x + (y * mlx->screen_width)] = color;        
-				color = mlx->texture->ceiling[TEXWIDTH * ty + tx];
-				color = (color >> 1) & 8355711;
-				mlx->data[x + ((mlx->screen_height - y - 1) * mlx->screen_width)] = color;
-			}
+			prepfnc(mlx, fnc, y);
+			rollfnc(mlx, fnc, y);
 		}
 	}
 	else

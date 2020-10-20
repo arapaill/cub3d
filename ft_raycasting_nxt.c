@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 15:49:52 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/19 16:30:39 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/20 08:49:25 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	put_frame(t_mlx *mlx)
 	mlx->data =
 		(int*)mlx_get_data_addr(mlx->frame, &mlx->bpp, &mlx->sl, &mlx->endian);
 }
-
 
 void	pre_hit(t_mlx *mlx, t_ray *ray)
 {

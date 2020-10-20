@@ -6,13 +6,13 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 08:47:56 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/19 13:00:19 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/20 08:47:33 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3d.h"
 
-static void	bmp_write_pixels(int fd, t_mlx *mlx, unsigned char *bmp_data)
+static void		bmp_write_pixels(int fd, t_mlx *mlx, unsigned char *bmp_data)
 {
 	int				height;
 	int				width;
@@ -57,7 +57,7 @@ unsigned char *file_header, unsigned char *info_header)
 	return (1);
 }
 
-static void	bmp_header_fill(t_mlx *mlx,
+static void		bmp_header_fill(t_mlx *mlx,
 unsigned char *file_header, unsigned char *info_header)
 {
 	int				file_size;
@@ -87,7 +87,7 @@ unsigned char *file_header, unsigned char *info_header)
 	info_header[14] = (unsigned char)(IMG_DEPTH * 8);
 }
 
-void	bmp_capture(t_mlx *mlx)
+void			bmp_capture(t_mlx *mlx)
 {
 	unsigned char	file_header[FILE_HEADER_SIZE];
 	unsigned char	info_header[INFO_HEADER_SIZE];

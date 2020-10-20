@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/19 16:30:41 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/20 09:01:35 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,28 @@ void	check_player_pos(t_mlx *mlx)
 		error_manager(4, mlx);
 }
 
+void	engine(t_mlx *mlx, int argc, char *argv[])
+{
+	if (argc == 3 && ft_strncmp(argv[2], "--save\0", 7) == 0)
+		mlx->capture = 1;
+	else if ((argc == 3 && mlx->capture != 1)
+	|| (argc != 2 && mlx->capture == 0))
+		error_manager(6, mlx);
+	parsing(argv[1], mlx);
+	check_player_pos(mlx);
+	map_check(mlx);
+	parsing_sprite(mlx, mlx->sprite);
+	mlx->window = mlx_new_window(mlx->mlx,
+	mlx->screen_width, mlx->screen_height, "ft_cub3d");
+	put_frame(mlx);
+	floor_ceiling(mlx);
+	raycasting(mlx);
+	mlx_hook(mlx->window, 2, 0, key_check, mlx);
+	mlx_hook(mlx->window, 17L, 0, (int (*)())(serpilliere), mlx);
+	mlx_loop(mlx->mlx);
+	serpilliere(mlx);
+}
+
 int		main(int argc, char *argv[])
 {
 	t_mlx	*mlx;
@@ -92,21 +114,6 @@ int		main(int argc, char *argv[])
 	if (mlx->mlx == 0)
 		return (1);
 	player_init(mlx);
-	if (argc == 3 && ft_strncmp(argv[2], "--save\0", 7) == 0)
-		mlx->capture = 1;
-	else if ((argc == 3 && mlx->capture != 1) || (argc != 2 && mlx->capture == 0))
-		error_manager(6, mlx);
-	parsing(argv[1], mlx);
-	check_player_pos(mlx);
-	map_check(mlx);
-	parsing_sprite(mlx, mlx->sprite);
-	mlx->window = mlx_new_window(mlx->mlx, mlx->screen_width, mlx->screen_height, "ft_cub3D");
-	put_frame(mlx);
-	floor_ceiling(mlx);
-	raycasting(mlx);
-	mlx_hook(mlx->window, 2, 0, key_check, mlx);
-	mlx_hook(mlx->window, 17L, 0, (int (*)())(serpilliere), mlx);
-	mlx_loop(mlx->mlx);
-	serpilliere(mlx);
+	engine(mlx, argc, argv);
 	return (0);
 }

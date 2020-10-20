@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/19 16:23:11 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/20 11:35:22 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <stdio.h>
 # define TEXWIDTH 64
 # define TEXHEIGHT 64
-# define MOVESPEED 0.3
+# define MOVESPEED 0.5
 # define IMG_DEPTH 3
 # define FILE_HEADER_SIZE 14
 # define INFO_HEADER_SIZE 40
@@ -47,7 +47,6 @@ typedef struct	s_float
 	float		x;
 	float		y;
 }				t_float;
-
 
 typedef struct	s_sort
 {
@@ -121,15 +120,15 @@ typedef struct	s_ray
 
 typedef struct	s_fnc
 {
-	t_float	raydira;
-	t_float	raydirb;
-	t_float	floorstep;
-	t_float	floor;
-	t_float	cell;
-	t_point	t;
+	t_float		raydira;
+	t_float		raydirb;
+	t_float		floorstep;
+	t_float		floor;
+	t_float		cell;
+	t_point		t;
 	float		posz;
 	float		rowdistance;
-	int		color;
+	int			color;
 }				t_fnc;
 
 typedef struct	s_mlx
@@ -161,14 +160,11 @@ void			parsing(char *file, t_mlx *mlx);
 int				key_check(int key, t_mlx *mlx);
 void			rot_right(t_mlx *mlx, double rot_speed);
 void			rot_left(t_mlx *mlx, double rot_speed);
-int				raycasting(t_mlx *mlx);
 void			floor_ceiling(t_mlx *mlx);
 int				map_check(t_mlx *mlx);
 int				freemap(char **map, int n, t_mlx *mlx);
 void			error_manager(int error, t_mlx *mlx);
 void			serpilliere(t_mlx *mlx);
-void			parsing_sprite(t_mlx *mlx, t_sprite *sprite);
-void			add_sprites(t_mlx *mlx);
 void			bmp_capture(t_mlx *mlx);
 void			put_frame(t_mlx *mlx);
 
@@ -178,4 +174,15 @@ void			put_frame(t_mlx *mlx);
 
 void			pre_hit(t_mlx *mlx, t_ray *ray);
 void			hit(t_mlx *mlx, t_ray *ray);
+int				raycasting(t_mlx *mlx);
+
+/*
+**	sprite
+*/
+
+void			ordersprites(t_sort *sprite, int amount, double *dist);
+void			sortsprite(int *order, double *dist, int amount, t_mlx *mlx);
+void			parsing_sprite(t_mlx *mlx, t_sprite *sprite);
+void			add_sprites(t_mlx *mlx);
+
 #endif

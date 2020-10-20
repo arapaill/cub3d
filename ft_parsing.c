@@ -6,12 +6,11 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/19 13:01:29 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/20 11:44:52 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3d.h"
-
 
 static char	**creat_world_map(char *file, size_t width, size_t height, t_mlx *mlx)
 {
@@ -77,14 +76,6 @@ static char	**creat_world_map(char *file, size_t width, size_t height, t_mlx *ml
 		i = 0;
 		free(line);
 	}
-	/*
-	for(size_t x = 0; x < height; x++)
-	{
-		for(size_t y = 0; y < width; y++)
-			printf("%c", world_map[x][y]);
-		printf("\n");
-	}
-	*/
 	return (world_map);
 }
 
@@ -127,6 +118,63 @@ static void			height_width(char *s, t_mlx *mlx)
 		mlx->screen_height = 1440;
 }
 
+void				text_fc(char c, char *s, t_mlx *mlx, void *texture)
+{
+	int		i;
+
+	i = 0;
+	while (s[i] == ' ')
+		i++;
+	if (c == 'F')
+	{
+		if (!(ft_isalpha(s[i])))
+			mlx->texture->rgb_floor = fc_atoi(&s[1]);
+		else
+		{
+			mlx->texture->floor =
+			(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
+		}
+	}
+	else if (c == 'C')
+	{
+		if (!(ft_isalpha(s[i])))
+			mlx->texture->rgb_ceiling = fc_atoi(&s[1]);
+		else
+		{
+			mlx->texture->ceiling =
+			(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
+		}
+	}
+}
+
+void				text_snwebr(char c, char *s, t_mlx *mlx, void *texture)
+{
+	int		i;
+
+	i = 0;
+	while (s[i] == ' ')
+		i++;
+	if (c == 'S')
+		mlx->texture->south =
+		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
+	else if (c == 'N')
+		mlx->texture->north =
+		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
+	else if (c == 'W')
+		mlx->texture->west =
+		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
+	else if (c == 'E')
+		mlx->texture->east =
+		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
+	if (c == 'B')
+	{
+		mlx->texture->sprite =
+		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
+	}
+	else if (c == 'R')
+		height_width(s, mlx);
+}
+
 static void			get_texture(char *s, t_mlx *mlx)
 {
 	size_t	i;
@@ -140,71 +188,27 @@ static void			get_texture(char *s, t_mlx *mlx)
 	if (open(&s[i], O_RDONLY) == -1 && ft_isdigit(s[i]) == 0)
 		error_manager(2, mlx);
 	texture = mlx_xpm_file_to_image(mlx->mlx, &s[i], &a, &a);
-	if (s[0] == 'S')
-		mlx->texture->south =
-		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-	else if (s[0] == 'N')
-		mlx->texture->north =
-		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-	else if (s[0] == 'W')
-		mlx->texture->west =
-		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-	else if (s[0] == 'E')
-		mlx->texture->east =
-		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-	else if (s[0] == 'F')
-	{
-		if (!(ft_isalpha(s[i])))
-			mlx->texture->rgb_floor = fc_atoi(&s[1]);
-		else
-		{
-			mlx->texture->floor =
-			(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-			mlx->texture->rgb_floor = 0;
-		}
-	}
-	else if (s[0] == 'C')
-	{
-		if (!(ft_isalpha(s[i])))
-			mlx->texture->rgb_ceiling = fc_atoi(&s[1]);
-		else
-		{
-			mlx->texture->ceiling =
-			(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-			mlx->texture->rgb_ceiling = 0;
-		}
-	}
-	else if (s[0] == 'R')
-		height_width(s, mlx);
-	if (s[0] == 'B')
-	{
-		mlx->texture->sprite =
-		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-	}
+	mlx->texture->rgb_floor = 0;
+	mlx->texture->rgb_ceiling = 0;
+	text_fc(s[0], s, mlx, texture);
+	text_snwebr(s[0], s, mlx, texture);
 }
 
-void			parsing(char *file, t_mlx *mlx)
+int				id_check(t_mlx *mlx, char *line, int fd)
 {
-	char	*line;
-	int		fd;
-	int		ret;
-	size_t	w;
-	size_t	h;
-	size_t	tmp;
 	int		i;
+	int		ret;
+	int		w;
 
+	i = 0;
 	ret = 1;
 	w = 0;
-	h = 1;
-	i = 0;
-	fd = open(file, O_RDONLY);
-	if (!(mlx->texture = malloc(sizeof(t_texture))))
-		error_manager(3, mlx);
 	while (ret == 1)
 	{
 		ret = get_next_line(fd, &line);
 		if (line[0] == 'S' || line[0] == 'N' || line[0] == 'E' ||
-		line[0] == 'W' || line[0] == 'F' || line[0] == 'C' || line[0] == 'R' || line[0] == 'B')
+		line[0] == 'W' || line[0] == 'F' ||
+		line[0] == 'C' || line[0] == 'R' || line[0] == 'B')
 			get_texture(line, mlx);
 		while (line[i] == ' ')
 			i++;
@@ -216,6 +220,17 @@ void			parsing(char *file, t_mlx *mlx)
 		}
 		free(line);
 	}
+	return (w);
+}
+
+int				gnl(char *line, int fd, int w)
+{
+	int		h;
+	int		tmp;
+	int		ret;
+
+	ret = 1;
+	h = 1;
 	while (ret == 1)
 	{
 		ret = get_next_line(fd, &line);
@@ -225,6 +240,22 @@ void			parsing(char *file, t_mlx *mlx)
 		h++;
 		free(line);
 	}
+	return (h);
+}
+
+void			parsing(char *file, t_mlx *mlx)
+{
+	char	*line;
+	int		fd;
+	size_t	w;
+	int		h;
+
+	fd = open(file, O_RDONLY);
+	line = NULL;
+	if (!(mlx->texture = malloc(sizeof(t_texture))))
+		error_manager(3, mlx);
+	w = id_check(mlx, line, fd);
+	h = gnl(line, fd, w);
 	close(fd);
 	mlx->map_width = w;
 	mlx->map_height = h;
