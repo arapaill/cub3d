@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 09:58:24 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/20 08:59:58 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/20 14:06:44 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,11 @@ int		map_error(t_mlx *mlx, char **map)
 	int j;
 
 	i = -1;
-	mlx->spritenbr = 0;
 	while (++i < mlx->map_height)
 	{
 		j = -1;
 		while (++j < mlx->map_width)
 		{
-			if (map[i][j] == '2')
-				mlx->spritenbr++;
 			if (map[i][j] < '0' || map[i][j] > '3')
 				return (freemap(map, 1, mlx));
 			if (map[i][j] == '3' && (i == 0 || i ==
@@ -88,6 +85,7 @@ void	map_space(t_mlx *mlx, char **cp_map)
 	int		y;
 
 	x = -1;
+	mlx->spritenbr = 0;
 	while (++x < mlx->map_height)
 	{
 		if (!(cp_map[x] = (char *)malloc((sizeof(char) * mlx->map_width) + 1)))
@@ -95,8 +93,10 @@ void	map_space(t_mlx *mlx, char **cp_map)
 		y = -1;
 		while (++y < mlx->map_width)
 		{
+			if (mlx->map[x][y] == '2')
+				mlx->spritenbr++;
 			cp_map[x][y] = mlx->map[x][y];
-			if (cp_map[x][y] == ' ')
+			if (cp_map[x][y] == ' ' || cp_map[x][y] == '2')
 				cp_map[x][y] = '0';
 		}
 	}

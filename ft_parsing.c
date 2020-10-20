@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/20 11:44:52 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/20 15:01:37 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void				text_fc(char c, char *s, t_mlx *mlx, void *texture)
 {
 	int		i;
 
-	i = 0;
+	i = 1;
 	while (s[i] == ' ')
 		i++;
 	if (c == 'F')
@@ -188,8 +188,6 @@ static void			get_texture(char *s, t_mlx *mlx)
 	if (open(&s[i], O_RDONLY) == -1 && ft_isdigit(s[i]) == 0)
 		error_manager(2, mlx);
 	texture = mlx_xpm_file_to_image(mlx->mlx, &s[i], &a, &a);
-	mlx->texture->rgb_floor = 0;
-	mlx->texture->rgb_ceiling = 0;
 	text_fc(s[0], s, mlx, texture);
 	text_snwebr(s[0], s, mlx, texture);
 }
@@ -203,6 +201,8 @@ int				id_check(t_mlx *mlx, char *line, int fd)
 	i = 0;
 	ret = 1;
 	w = 0;
+	mlx->texture->rgb_floor = 0;
+	mlx->texture->rgb_ceiling = 0;
 	while (ret == 1)
 	{
 		ret = get_next_line(fd, &line);
