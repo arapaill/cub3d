@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/21 10:59:30 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/21 12:21:46 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ void			height_width(char *s, t_mlx *mlx)
 		mlx->screen_width = 2560;
 	if (mlx->screen_height > 1440)
 		mlx->screen_height = 1440;
+	if (mlx->screen_height < 1)
+		error_manager(7, mlx);
+	if (mlx->screen_width < 1)
+		error_manager(7, mlx);
 }
 
 int				gnl(char *line, int fd, int w)

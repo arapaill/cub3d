@@ -1,16 +1,16 @@
 
-R 1920, 1080
-S pics/greystone.xpm
-N pics/redbrick.xpm
-E pics/bluestone.xpm
-W pics/eagle.xpm
+R 2000, 1080
+SO pics/greystone.xpm
+NO pics/redbrick.xpm
+EA pics/bluestone.xpm
+WE pics/eagle.xpm
 F pics/greystone.xpm
 C pics/wood.xpm
-B pics/barrel.xpm
+S pics/barrel.xpm
 
 
                                                  111111111111111111111 11111111111111               
-                                                 1000000000000000000021000000000000001              
+                                                 1000000000000000000001000000000000001              
                                                  100000002000000S000010000000000000001111           
                                                  10000002220000000000000000000000000010001          
                                                  10100000200000000000000000000000000000101         

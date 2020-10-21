@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 10:24:20 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/20 08:42:47 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/21 12:22:33 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,24 @@ void	serpilliere(t_mlx *mlx)
 	size_t x;
 
 	x = 0;
-	if (!(mlx->map))
-		while (mlx->map[x] != NULL)
+	if (mlx->map)
+		while (mlx->map[x])
 			free(mlx->map[x++]);
-	if (!(mlx->map))
+	if (mlx->map)
 		free(mlx->map);
 	if (mlx != NULL)
 	{
-		if (!(mlx->zbuffer))
+		if (mlx->zbuffer)
 			free(mlx->zbuffer);
 		if (mlx->frame != NULL)
 			mlx_destroy_image(mlx->mlx, mlx->frame);
-		if (!(mlx->player))
+		if (mlx->player)
 			free(mlx->player);
-		if (!(mlx->texture))
+		if (mlx->texture)
 			free(mlx->texture);
-		if (!(mlx->sprite))
+		if (mlx->sprite)
 			free(mlx->sprite);
-		if (!(mlx->mlx))
+		if (mlx->mlx)
 			free(mlx->mlx);
 		free(mlx);
 	}
@@ -55,5 +55,7 @@ void	error_manager(int error, t_mlx *mlx)
 		ft_putstr_fd("CAPTURE ERROR\n", 1);
 	else if (error == 6)
 		ft_putstr_fd("ARGUMENTS ERROR\n", 1);
+	else if (error == 7)
+		ft_putstr_fd("RESOLUTION ERROR\n", 1);
 	serpilliere(mlx);
 }
