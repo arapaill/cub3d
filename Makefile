@@ -6,13 +6,13 @@
 #    By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/07 12:55:46 by arapaill          #+#    #+#              #
-#    Updated: 2020/10/21 11:08:09 by arapaill         ###   ########.fr        #
+#    Updated: 2020/10/21 11:20:48 by arapaill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 MFLAGS =  -I minilibx -L minilibx -lmlx -framework OpenGL -framework AppKit
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 MFLAGS =  -I minilibx -L minilibx -lmlx -framework OpenGL -framework AppKit
 SRC = ft_cub3d.c ft_parsing.c ft_parsing_id.c  ft_pars_map.c ft_move.c ft_map_check.c ft_error_manager.c ft_sprite.c ft_parsing_sprite.c ft_save.c ft_raycasting.c ft_raycasting_nxt.c ft_floor_ceiling.c ft_rotation.c ft_sprite_nxt.c
 NAME = cub3d
