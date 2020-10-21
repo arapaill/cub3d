@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/20 16:21:04 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/21 10:56:43 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,14 @@ typedef struct	s_fnc
 	int			color;
 }				t_fnc;
 
+typedef struct	s_map_pars
+{
+	char		*line;
+	char		**world_map;
+	int			fd;
+	int			ret;
+}				t_pars;
+
 typedef struct	s_mlx
 {
 	void		*mlx;
@@ -154,9 +162,9 @@ typedef struct	s_mlx
 	int			capture;
 	t_ray		*ray;
 	t_fnc		*fnc;
+	t_pars		*pars;
 }				t_mlx;
 
-void			parsing(char *file, t_mlx *mlx);
 int				key_check(int key, t_mlx *mlx);
 void			rot_right(t_mlx *mlx, double rot_speed);
 void			rot_left(t_mlx *mlx, double rot_speed);
@@ -185,4 +193,14 @@ void			sortsprite(int *order, double *dist, int amount, t_mlx *mlx);
 void			parsing_sprite(t_mlx *mlx, t_sprite *sprite);
 void			add_sprites(t_mlx *mlx);
 
+/*
+** Parsing
+*/
+
+void			parsing(char *file, t_mlx *mlx);
+char			**creat_world_map(char *file, t_mlx *mlx);
+int				id_check(t_mlx *mlx, char *line, int fd);
+int				fc_atoi(char *s);
+void			height_width(char *s, t_mlx *mlx);
+int				gnl(char *line, int fd, int w);
 #endif

@@ -6,13 +6,13 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 10:59:17 by arapaill          #+#    #+#             */
-/*   Updated: 2020/09/08 08:54:35 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/21 11:04:36 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char		*ft_strdup_GNL(char *s)
+char		*ft_strdup_gnl(char *s)
 {
 	char			*str;
 	size_t			i;
@@ -20,7 +20,7 @@ char		*ft_strdup_GNL(char *s)
 	if (s == NULL)
 		return (0);
 	i = 0;
-	if (!(str = malloc((sizeof(char) * (ft_strlen_GNL(s) + 1)))))
+	if (!(str = malloc((sizeof(char) * (ft_strlen_gnl(s) + 1)))))
 		return (0);
 	while (s[i] != '\0')
 	{
@@ -31,7 +31,7 @@ char		*ft_strdup_GNL(char *s)
 	return (str);
 }
 
-int			ft_strchr_GNL(const char *s, int c)
+int			ft_strchr_gnl(const char *s, int c)
 {
 	int i;
 
@@ -47,7 +47,7 @@ int			ft_strchr_GNL(const char *s, int c)
 	return (0);
 }
 
-void		*ft_memcpy_GNL(void *dst, const void *src, size_t n)
+void		*ft_memcpy_gnl(void *dst, const void *src, size_t n)
 {
 	size_t			i;
 	unsigned char	*pdst;
@@ -68,7 +68,7 @@ void		*ft_memcpy_GNL(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
-int			ft_strlen_GNL(const char *str)
+int			ft_strlen_gnl(const char *str)
 {
 	size_t i;
 
@@ -80,7 +80,7 @@ int			ft_strlen_GNL(const char *str)
 	return (i);
 }
 
-char		*ft_strjoin_GNL(char *s1, char *s2)
+char		*ft_strjoin_gnl(char *s1, char *s2)
 {
 	char	*array;
 	size_t	len1;
@@ -89,13 +89,13 @@ char		*ft_strjoin_GNL(char *s1, char *s2)
 	if (s2 == NULL)
 		return (NULL);
 	if (s1 == NULL)
-		return (ft_strdup_GNL(s2));
-	len1 = ft_strlen_GNL(s1);
-	len2 = ft_strlen_GNL(s2);
+		return (ft_strdup_gnl(s2));
+	len1 = ft_strlen_gnl(s1);
+	len2 = ft_strlen_gnl(s2);
 	if (!(array = malloc(sizeof(char ) * (len1 + len2 + 1))))
 		return (NULL);
-	ft_memcpy_GNL(array, s1, len1);
-	ft_memcpy_GNL(&array[len1], s2, len2 + 1);
+	ft_memcpy_gnl(array, s1, len1);
+	ft_memcpy_gnl(&array[len1], s2, len2 + 1);
 	free(s1);
 	s1 = NULL;
 	return (array);
