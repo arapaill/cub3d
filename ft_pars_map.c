@@ -6,11 +6,38 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 09:43:29 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/21 10:51:46 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/23 15:40:51 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_cub3d.h"
+
+void	size_file(t_mlx *mlx, char *file)
+{
+	int		fd;
+	int		ret;
+	char	*line;
+	int		w;
+	int		i;
+
+	fd = open(file, O_RDONLY);
+	ret = 1;
+	i = 0;
+	while (ret == 1)
+	{
+		ret = get_next_line(fd, &line);
+		while (line[i] == ' ')
+			i++;
+		if (line[i] == '1')
+		{
+			if (w < (int)ft_strlen(line))
+				w = ft_strlen(line);
+		}
+		free(line);
+	}
+	close(fd);
+	mlx->map_width = w;
+}
 
 void	fill_map_nxt(t_mlx *mlx, t_pars *pars, int i, int j)
 {

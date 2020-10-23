@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/23 09:49:56 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/23 15:38:26 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <stdio.h>
 # define TEXWIDTH 64
 # define TEXHEIGHT 64
-# define MOVESPEED 0.05
+# define MOVESPEED 0.3
 # define IMG_DEPTH 3
 # define FILE_HEADER_SIZE 14
 # define INFO_HEADER_SIZE 40
@@ -199,8 +199,12 @@ void			add_sprites(t_mlx *mlx);
 
 void			parsing(char *file, t_mlx *mlx);
 char			**creat_world_map(char *file, t_mlx *mlx);
-int				id_check(t_mlx *mlx, char *line, int fd);
+void			id_check(t_mlx *mlx, char *line, int fd);
 int				fc_atoi(char *s);
 void			height_width(char *s, t_mlx *mlx);
+void			get_texture(char *s, t_mlx *mlx);
 int				gnl(char *line, int fd, int w);
+void			text_fc(char *s, t_mlx *mlx, void *texture);
+void			text_snwebr(char *s, t_mlx *mlx, void *texture);
+void			size_file(t_mlx *mlx, char *file);
 #endif

@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/23 10:59:12 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/23 15:39:13 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,30 @@ int				gnl(char *line, int fd, int w)
 	return (h);
 }
 
+void			get_texture(char *s, t_mlx *mlx)
+{
+	size_t	i;
+	void	*texture;
+	int		a;
+
+	a = 64;
+	i = 2;
+	while (s[i] == ' ')
+		i++;
+	if (open(&s[i], O_RDONLY) == -1 && ft_isdigit(s[i]) == 0)
+		error_manager(2, mlx);
+	texture = mlx_xpm_file_to_image(mlx->mlx, &s[i], &a, &a);
+	text_fc(s, mlx, texture);
+	text_snwebr(s, mlx, texture);
+}
+
 void			parsing(char *file, t_mlx *mlx)
 {
 	char	*line;
 	int		fd;
-	size_t	w;
 	int		h;
 
+	size_file(mlx, file);
 	fd = open(file, O_RDONLY);
 	line = NULL;
 	if (!(mlx->texture = malloc(sizeof(t_texture))))
@@ -93,10 +110,11 @@ void			parsing(char *file, t_mlx *mlx)
 	mlx->texture->west = NULL;
 	mlx->texture->east = NULL;
 	mlx->texture->sprite = NULL;
-	w = id_check(mlx, line, fd);
-	h = gnl(line, fd, w);
+	mlx->texture->ceiling = NULL;
+	mlx->texture->floor = NULL;
+	id_check(mlx, line, fd);
+	h = gnl(line, fd, mlx->map_width);
 	close(fd);
-	mlx->map_width = w;
 	mlx->map_height = h;
 	mlx->map = creat_world_map(file, mlx);
 }

@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 09:58:24 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/20 14:06:44 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/23 15:44:22 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,11 @@ void	map_space(t_mlx *mlx, char **cp_map)
 			if (mlx->map[x][y] == '2')
 				mlx->spritenbr++;
 			cp_map[x][y] = mlx->map[x][y];
-			if (cp_map[x][y] == ' ' || cp_map[x][y] == '2')
+			if (cp_map[x][y] == ' ')
+			{
 				cp_map[x][y] = '0';
+				mlx->map[x][y] = '0';
+			}
 		}
 	}
 }

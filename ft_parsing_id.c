@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 10:53:29 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/23 11:36:55 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/23 15:44:43 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,23 +64,6 @@ void				text_snwebr(char *s, t_mlx *mlx, void *texture)
 		height_width(s, mlx);
 }
 
-void				get_texture(char *s, t_mlx *mlx)
-{
-	size_t	i;
-	void	*texture;
-	int		a;
-
-	a = 64;
-	i = 2;
-	while (s[i] == ' ')
-		i++;
-	if (open(&s[i], O_RDONLY) == -1 && ft_isdigit(s[i]) == 0)
-		error_manager(2, mlx);
-	texture = mlx_xpm_file_to_image(mlx->mlx, &s[i], &a, &a);
-	text_fc(s, mlx, texture);
-	text_snwebr(s, mlx, texture);
-}
-
 void				id(t_mlx *mlx, char *line)
 {
 	int		i;
@@ -100,15 +83,25 @@ void				id(t_mlx *mlx, char *line)
 		get_texture(line, mlx);
 }
 
-int					id_check(t_mlx *mlx, char *line, int fd)
+void				id_error(t_mlx *mlx)
+{
+	if (mlx->texture->south == NULL || mlx->texture->north == NULL
+	|| mlx->texture->west == NULL || mlx->texture->east == NULL
+	|| mlx->texture->sprite == NULL)
+		error_manager(2, mlx);
+	if (mlx->texture->floor == NULL && mlx->texture->rgb_floor == 0)
+		error_manager(2, mlx);
+	if (mlx->texture->ceiling == NULL && mlx->texture->rgb_floor == 0)
+		error_manager(2, mlx);
+}
+
+void				id_check(t_mlx *mlx, char *line, int fd)
 {
 	int		i;
 	int		ret;
-	int		w;
 
 	i = 0;
 	ret = 1;
-	w = 0;
 	while (ret == 1)
 	{
 		ret = get_next_line(fd, &line);
@@ -117,14 +110,10 @@ int					id_check(t_mlx *mlx, char *line, int fd)
 			i++;
 		if (line[i] == '1')
 		{
-			w = ft_strlen(line);
 			free(line);
 			break ;
 		}
 		free(line);
 	}
-	if (mlx->texture->south == NULL || mlx->texture->north == NULL
-	|| mlx->texture->west == NULL || mlx->texture->east == NULL)
-		error_manager(2, mlx);
-	return (w);
+	id_error(mlx);
 }

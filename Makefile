@@ -6,7 +6,7 @@
 #    By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/07 12:55:46 by arapaill          #+#    #+#              #
-#    Updated: 2020/10/23 10:05:30 by arapaill         ###   ########.fr        #
+#    Updated: 2020/10/23 11:42:35 by arapaill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,4 +53,4 @@ save:		all
 			@./$(NAME) map.cub --save
 			@open capture.bmp
 norm:
-			norminette $(SRC) ft_cub3d.h
+			norminette $(SRC) ft_cub3d.h keynote.h
