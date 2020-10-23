@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/21 12:02:32 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/23 10:03:58 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	check_player_pos(t_mlx *mlx)
 
 void	engine(t_mlx *mlx, char *argv[])
 {
+	if (ft_strncmp(argv[1], "map.cub\0", 8) != 0)
+		error_manager(6, mlx);
 	parsing(argv[1], mlx);
 	check_player_pos(mlx);
 	map_check(mlx);
@@ -98,6 +100,7 @@ int		main(int argc, char *argv[])
 	if (!(mlx = malloc(sizeof(t_mlx))))
 		error_manager(3, mlx);
 	mlx->capture = 0;
+	mlx->mlx = mlx_init();
 	if (argc == 3 && ft_strncmp(argv[2], "--save\0", 7) == 0)
 		mlx->capture = 1;
 	else if ((argc == 3 && mlx->capture != 1)
@@ -109,7 +112,6 @@ int		main(int argc, char *argv[])
 		error_manager(3, mlx);
 	if (!(mlx->fnc = malloc(sizeof(t_fnc))))
 		error_manager(3, mlx);
-	mlx->mlx = mlx_init();
 	mlx->frame = NULL;
 	if (mlx->mlx == 0)
 		return (1);

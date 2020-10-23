@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/21 13:13:06 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/23 09:49:56 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <stdio.h>
 # define TEXWIDTH 64
 # define TEXHEIGHT 64
-# define MOVESPEED 0.8
+# define MOVESPEED 0.05
 # define IMG_DEPTH 3
 # define FILE_HEADER_SIZE 14
 # define INFO_HEADER_SIZE 40

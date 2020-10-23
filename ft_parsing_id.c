@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 10:53:29 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/21 13:35:21 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/23 10:23:49 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,25 @@ void				get_texture(char *s, t_mlx *mlx)
 	text_snwebr(s, mlx, texture);
 }
 
+void				id(t_mlx *mlx, char *line)
+{
+	int		i;
+
+	i = 0;
+	if (line[i] == '\0')
+		error_manager(6, mlx);
+	while (line[i] == ' ')
+	{
+		i++;
+		if (line[i] == '\0')
+			error_manager(6, mlx);
+	}
+	if (line[0] == 'S' || line[0] == 'N' || line[0] == 'E' ||
+	line[0] == 'W' || line[0] == 'F' ||
+	line[0] == 'C' || line[0] == 'R')
+		get_texture(line, mlx);
+}
+
 int					id_check(t_mlx *mlx, char *line, int fd)
 {
 	int		i;
@@ -93,10 +112,7 @@ int					id_check(t_mlx *mlx, char *line, int fd)
 	while (ret == 1)
 	{
 		ret = get_next_line(fd, &line);
-		if (line[0] == 'S' || line[0] == 'N' || line[0] == 'E' ||
-		line[0] == 'W' || line[0] == 'F' ||
-		line[0] == 'C' || line[0] == 'R')
-			get_texture(line, mlx);
+		id(mlx, line);
 		while (line[i] == ' ')
 			i++;
 		if (line[i] == '1')
