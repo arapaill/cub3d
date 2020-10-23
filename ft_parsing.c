@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/23 10:13:55 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/23 10:59:12 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,11 @@ void			parsing(char *file, t_mlx *mlx)
 		error_manager(3, mlx);
 	mlx->texture->rgb_floor = 0;
 	mlx->texture->rgb_ceiling = 0;
+	mlx->texture->south = NULL;
+	mlx->texture->north = NULL;
+	mlx->texture->west = NULL;
+	mlx->texture->east = NULL;
+	mlx->texture->sprite = NULL;
 	w = id_check(mlx, line, fd);
 	h = gnl(line, fd, w);
 	close(fd);
