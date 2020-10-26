@@ -6,7 +6,7 @@
 #    By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/07 12:55:46 by arapaill          #+#    #+#              #
-#    Updated: 2020/10/23 11:42:35 by arapaill         ###   ########.fr        #
+#    Updated: 2020/10/26 10:28:58 by arapaill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,9 @@ CC = gcc
 MFLAGS =  -I minilibx -L minilibx -lmlx -framework OpenGL -framework AppKit
 CFLAGS = -Wall -Wextra -Werror
 MFLAGS =  -I minilibx -L minilibx -lmlx -framework OpenGL -framework AppKit
-SRC = ft_cub3d.c ft_parsing.c ft_parsing_id.c ft_pars_map.c ft_move.c ft_map_check.c ft_error_manager.c ft_sprite.c ft_parsing_sprite.c ft_save.c ft_raycasting.c ft_raycasting_nxt.c ft_floor_ceiling.c ft_rotation.c ft_sprite_nxt.c
+SRC = 	src/ft_cub3d.c src/ft_check_name.c src/ft_parsing.c src/ft_parsing_id.c src/ft_pars_map.c \
+		src/ft_move.c src/ft_map_check.c src/ft_error_manager.c src/ft_sprite.c src/ft_parsing_sprite.c \
+		src/ft_save.c src/ft_raycasting.c src/ft_raycasting_nxt.c src/ft_floor_ceiling.c src/ft_rotation.c src/ft_sprite_nxt.c
 NAME = cub3d
 LIB = ar rcs
 

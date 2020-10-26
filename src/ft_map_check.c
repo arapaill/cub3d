@@ -6,11 +6,11 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 09:58:24 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/26 10:01:25 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/26 10:29:56 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3d.h"
+#include "../ft_cub3d.h"
 
 int		freemap(char **map, int n, t_mlx *mlx)
 {

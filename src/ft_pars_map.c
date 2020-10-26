@@ -6,11 +6,11 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 09:43:29 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/26 09:43:15 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/26 10:30:01 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3d.h"
+#include "../ft_cub3d.h"
 
 void	size_file(t_mlx *mlx, char *file)
 {

@@ -6,11 +6,11 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/26 10:00:42 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/26 10:29:54 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cub3d.h"
+#include "../ft_cub3d.h"
 
 void	player_init(t_mlx *mlx)
 {

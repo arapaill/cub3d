@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/23 15:38:26 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/26 10:01:21 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ void			error_manager(int error, t_mlx *mlx);
 void			serpilliere(t_mlx *mlx);
 void			bmp_capture(t_mlx *mlx);
 void			put_frame(t_mlx *mlx);
+void			check_name(t_mlx *mlx, char *s);
 
 /*
 **	raycasting
