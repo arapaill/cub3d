@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 09:43:29 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/26 10:30:01 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/26 14:51:53 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	size_file(t_mlx *mlx, char *file)
 	int		i;
 
 	fd = open(file, O_RDONLY);
+	if (read(fd, 0, 0))
+		error_manager(6, mlx);
 	ret = 1;
 	i = 0;
 	while (ret == 1)
