@@ -6,7 +6,7 @@
 #    By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/07 12:55:46 by arapaill          #+#    #+#              #
-#    Updated: 2020/10/26 10:28:58 by arapaill         ###   ########.fr        #
+#    Updated: 2020/10/29 11:17:35 by arapaill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ CFLAGS = -Wall -Wextra -Werror
 MFLAGS =  -I minilibx -L minilibx -lmlx -framework OpenGL -framework AppKit
 SRC = 	src/ft_cub3d.c src/ft_check_name.c src/ft_parsing.c src/ft_parsing_id.c src/ft_pars_map.c \
 		src/ft_move.c src/ft_map_check.c src/ft_error_manager.c src/ft_sprite.c src/ft_parsing_sprite.c \
-		src/ft_save.c src/ft_raycasting.c src/ft_raycasting_nxt.c src/ft_floor_ceiling.c src/ft_rotation.c src/ft_sprite_nxt.c
+		src/ft_save.c src/ft_raycasting.c src/ft_raycasting_nxt.c src/ft_floor_ceiling.c src/ft_rotation.c \
+		src/ft_sprite_nxt.c src/ft_map_separete.c src/ft_init_data.c 
 NAME = cub3d
 LIB = ar rcs
 

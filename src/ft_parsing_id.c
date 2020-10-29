@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 10:53:29 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/26 10:30:05 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/29 10:06:51 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,20 @@ void				text_fc(char *s, t_mlx *mlx, void *texture)
 	i = 1;
 	while (s[i] == ' ')
 		i++;
-	if (s[0] == 'F')
+	if (s[0] == 'F' && no_double(mlx, s[0]))
 	{
 		if (!(ft_isalpha(s[i])))
-			mlx->texture->rgb_floor = fc_atoi(&s[1]);
+			mlx->texture->rgb_floor = fc_atoi(&s[1], mlx);
 		else
 		{
 			mlx->texture->floor =
 			(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
 		}
 	}
-	else if (s[0] == 'C')
+	else if (s[0] == 'C' && no_double(mlx, s[0]))
 	{
 		if (!(ft_isalpha(s[i])))
-			mlx->texture->rgb_ceiling = fc_atoi(&s[1]);
+			mlx->texture->rgb_ceiling = fc_atoi(&s[1], mlx);
 		else
 		{
 			mlx->texture->ceiling =
@@ -43,25 +43,25 @@ void				text_fc(char *s, t_mlx *mlx, void *texture)
 
 void				text_snwebr(char *s, t_mlx *mlx, void *texture)
 {
-	if (s[0] == 'S' && s[1] == 'O')
+	if (s[0] == 'S' && s[1] == 'O' && no_double(mlx, s[0]))
 		mlx->texture->south =
 		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-	else if (s[0] == 'N' && s[1] == 'O')
+	else if (s[0] == 'N' && s[1] == 'O' && no_double(mlx, s[0]))
 		mlx->texture->north =
 		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-	else if (s[0] == 'W' && s[1] == 'E')
+	else if (s[0] == 'W' && s[1] == 'E' && no_double(mlx, s[0]))
 		mlx->texture->west =
 		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-	else if (s[0] == 'E' && s[1] == 'A')
+	else if (s[0] == 'E' && s[1] == 'A' && no_double(mlx, s[0]))
 		mlx->texture->east =
 		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-	if (s[0] == 'S' && s[1] == ' ')
-	{
+	else if (s[0] == 'S' && s[1] == ' ' && no_double(mlx, 'P'))
 		mlx->texture->sprite =
 		(int*)mlx_get_data_addr(texture, &mlx->bpp, &mlx->sl, &mlx->endian);
-	}
-	else if (s[0] == 'R' && s[1] == ' ')
+	else if (s[0] == 'R' && s[1] == ' ' && no_double(mlx, s[0]))
 		height_width(s, mlx);
+	else if (s[0] == 'R' && s[1] != ' ')
+		error_manager(2, mlx);
 }
 
 void				id(t_mlx *mlx, char *line)
@@ -81,6 +81,8 @@ void				id(t_mlx *mlx, char *line)
 	line[0] == 'W' || line[0] == 'F' ||
 	line[0] == 'C' || line[0] == 'R')
 		get_texture(line, mlx);
+	else if (ft_isalpha(line[0]))
+		error_manager(2, mlx);
 }
 
 void				id_error(t_mlx *mlx)

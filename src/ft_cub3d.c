@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/26 10:29:54 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/29 11:18:03 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	player_init(t_mlx *mlx)
 {
 	t_player *player;
 
-	player = malloc(sizeof(t_player));
+	player = mlx->player;
 	player->pos.x = 0;
 	player->pos.y = 0;
 	player->dir.x = -1;
@@ -80,6 +80,7 @@ void	engine(t_mlx *mlx, char *argv[])
 	parsing(argv[1], mlx);
 	check_player_pos(mlx);
 	map_check(mlx);
+	map_separete(mlx, argv[1]);
 	parsing_sprite(mlx, mlx->sprite);
 	mlx->window = mlx_new_window(mlx->mlx,
 	mlx->screen_width, mlx->screen_height, "ft_cub3d");
@@ -95,23 +96,20 @@ void	engine(t_mlx *mlx, char *argv[])
 int		main(int argc, char *argv[])
 {
 	t_mlx	*mlx;
+	int		fd;
 
 	if (!(mlx = malloc(sizeof(t_mlx))))
 		error_manager(3, mlx);
-	mlx->capture = 0;
-	mlx->mlx = mlx_init();
+	init_data_mlx(mlx);
 	if (argc == 3 && ft_strncmp(argv[2], "--save\0", 7) == 0)
 		mlx->capture = 1;
 	else if ((argc == 3 && mlx->capture != 1)
 	|| (argc != 2 && mlx->capture == 0))
 		error_manager(6, mlx);
-	if (!(mlx->sprite = malloc(sizeof(t_sprite))))
-		error_manager(3, mlx);
-	if (!(mlx->ray = malloc(sizeof(t_ray))))
-		error_manager(3, mlx);
-	if (!(mlx->fnc = malloc(sizeof(t_fnc))))
-		error_manager(3, mlx);
-	mlx->frame = NULL;
+	if ((fd = open(argv[1], O_RDONLY)) < 0)
+		error_manager(6, mlx);
+	else
+		close(fd);
 	if (mlx->mlx == 0)
 		return (1);
 	player_init(mlx);

@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 09:58:24 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/26 10:29:56 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/29 10:45:38 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,17 @@ int		freemap(char **map, int n, t_mlx *mlx)
 	int		i;
 
 	i = -1;
-	while (++i < mlx->map_height)
+	if (mlx && mlx->map_height && map && map[i])
 	{
-		free(map[i]);
-		map[i] = NULL;
+		while (++i < mlx->map_height && map && map[i])
+		{
+			free(map[i]);
+			map[i] = NULL;
+		}
+		if (map)
+			free(map);
+		map = NULL;
 	}
-	free(map);
-	map = NULL;
 	if (n != 0)
 		error_manager(n, mlx);
 	return (n);
@@ -98,6 +102,8 @@ void	map_space(t_mlx *mlx, char **cp_map)
 			cp_map[x][y] = mlx->map[x][y];
 			if (cp_map[x][y] == ' ' || mlx->map[x][y] == '2')
 				cp_map[x][y] = '0';
+			if (mlx->map[x][y] == ' ')
+				mlx->map[x][y] = '0';
 		}
 	}
 }

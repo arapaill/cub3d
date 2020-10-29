@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/26 10:01:21 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/29 11:22:04 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,8 @@ void			serpilliere(t_mlx *mlx);
 void			bmp_capture(t_mlx *mlx);
 void			put_frame(t_mlx *mlx);
 void			check_name(t_mlx *mlx, char *s);
+void			map_separete(t_mlx *mlx, char *file);
+void			init_data_mlx(t_mlx *mlx);
 
 /*
 **	raycasting
@@ -201,11 +203,12 @@ void			add_sprites(t_mlx *mlx);
 void			parsing(char *file, t_mlx *mlx);
 char			**creat_world_map(char *file, t_mlx *mlx);
 void			id_check(t_mlx *mlx, char *line, int fd);
-int				fc_atoi(char *s);
+int				fc_atoi(char *s, t_mlx *mlx);
 void			height_width(char *s, t_mlx *mlx);
 void			get_texture(char *s, t_mlx *mlx);
 int				gnl(char *line, int fd, int w);
 void			text_fc(char *s, t_mlx *mlx, void *texture);
 void			text_snwebr(char *s, t_mlx *mlx, void *texture);
 void			size_file(t_mlx *mlx, char *file);
+int				no_double(t_mlx *mlx, char c);
 #endif

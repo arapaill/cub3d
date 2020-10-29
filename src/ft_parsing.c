@@ -6,13 +6,13 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/26 10:30:12 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/29 11:06:39 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_cub3d.h"
 
-int				fc_atoi(char *s)
+int				fc_atoi(char *s, t_mlx *mlx)
 {
 	int		i;
 	int		r;
@@ -25,10 +25,19 @@ int				fc_atoi(char *s)
 	r = ft_atoi(&s[i]);
 	while (ft_isdigit(s[i]) || s[i] == ' ')
 		i++;
+	if (s[i] != ',')
+		error_manager(2, mlx);
 	g = ft_atoi(&s[++i]);
 	while (ft_isdigit(s[i]) || s[i] == ' ')
 		i++;
+	if (s[i] != ',')
+		error_manager(2, mlx);
 	b = ft_atoi(&s[++i]);
+	while (ft_isdigit(s[i]) || s[i] == ' ')
+		i++;
+	if (r > 255 || g > 255 || b > 255 ||
+	r < 0 || g < 0 || b < 0 || s[i])
+		error_manager(2, mlx);
 	return (r + (g * 256) + (b * 256 * 256));
 }
 
@@ -41,8 +50,6 @@ void			height_width(char *s, t_mlx *mlx)
 		i++;
 	mlx->screen_width = ft_atoi(&s[i]);
 	while (ft_isdigit(s[i]))
-		i++;
-	while (s[i] != ' ')
 		i++;
 	mlx->screen_height = ft_atoi(&s[i]);
 	if (mlx->screen_width > 2560)
@@ -70,7 +77,8 @@ int				gnl(char *line, int fd, int w)
 		if (w < tmp)
 			w = tmp;
 		h++;
-		free(line);
+		if (line)
+			free(line);
 	}
 	return (h);
 }
@@ -101,17 +109,6 @@ void			parsing(char *file, t_mlx *mlx)
 	size_file(mlx, file);
 	fd = open(file, O_RDONLY);
 	line = NULL;
-	if (!(mlx->texture = malloc(sizeof(t_texture))))
-		error_manager(3, mlx);
-	mlx->texture->rgb_floor = 0;
-	mlx->texture->rgb_ceiling = 0;
-	mlx->texture->south = NULL;
-	mlx->texture->north = NULL;
-	mlx->texture->west = NULL;
-	mlx->texture->east = NULL;
-	mlx->texture->sprite = NULL;
-	mlx->texture->ceiling = NULL;
-	mlx->texture->floor = NULL;
 	id_check(mlx, line, fd);
 	h = gnl(line, fd, mlx->map_width);
 	close(fd);
