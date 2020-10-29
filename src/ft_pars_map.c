@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 09:43:29 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/29 11:21:38 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/29 12:21:35 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	size_file(t_mlx *mlx, char *file)
 	i = 0;
 	while (ret == 1)
 	{
-		ret = get_next_line(fd, &line);
+		if ((ret = get_next_line(fd, &line)) == -1)
+			error_manager(3, mlx);
 		while (line[i] == ' ')
 			i++;
 		if (line[i] == '1')
@@ -33,8 +34,7 @@ void	size_file(t_mlx *mlx, char *file)
 			if (w < (int)ft_strlen(line))
 				w = ft_strlen(line);
 		}
-		if (line)
-			free(line);
+		free(line);
 	}
 	close(fd);
 	mlx->map_width = w;
@@ -62,6 +62,7 @@ void	fill_map_nxt(t_mlx *mlx, t_pars *pars, int i, int j)
 		pars->world_map[j++][mlx->map_width] = 0;
 		i = 0;
 		free(pars->line);
+		pars->line = NULL;
 	}
 }
 
@@ -86,6 +87,7 @@ void	space_map(t_mlx *mlx, t_pars *pars)
 	}
 	pars->world_map[j++][mlx->map_width] = 0;
 	free(pars->line);
+	pars->line = NULL;
 	i = 0;
 	fill_map_nxt(mlx, pars, i, j);
 }
@@ -97,12 +99,14 @@ void	fill_map(t_mlx *mlx, t_pars *pars)
 	i = 0;
 	while (pars->ret == 1)
 	{
-		pars->ret = get_next_line(pars->fd, &pars->line);
+		if ((pars->ret = get_next_line(pars->fd, &pars->line)) == -1)
+			error_manager(3, mlx);
 		while (pars->line[i] == ' ')
 			i++;
 		if (pars->line[i] == '1')
 			break ;
 		free(pars->line);
+		pars->line = NULL;
 	}
 	i = 0;
 	if (!(pars->world_map[i] = malloc(sizeof(char*) * (mlx->map_height + 1))))

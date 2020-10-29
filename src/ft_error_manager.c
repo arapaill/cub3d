@@ -6,11 +6,62 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 10:24:20 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/29 10:46:14 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/29 12:20:15 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_cub3d.h"
+
+void	free_sprite(t_mlx *mlx)
+{
+	if (!(mlx->sprite))
+		return ;
+	if (mlx->sprite->spriteorder)
+		free(mlx->sprite->spriteorder);
+	if (mlx->sprite->spritedist)
+		free(mlx->sprite->spritedist);
+	if (mlx->sprite->p_sprite)
+		free(mlx->sprite->p_sprite);
+	free(mlx->sprite);
+}
+
+void	free_pars(t_mlx *mlx)
+{
+	size_t	x;
+
+	x = 0;
+	if (!(mlx->pars))
+		return ;
+	if (mlx->pars->line)
+		free(mlx->pars->line);
+	free(mlx->pars);
+}
+
+void	free_text(t_mlx *mlx)
+{
+	free_sprite(mlx);
+	free_pars(mlx);
+	if (!(mlx->texture))
+		return ;
+	if (mlx->texture->south)
+		free(mlx->texture->south);
+	if (mlx->texture->north)
+		free(mlx->texture->north);
+	if (mlx->texture->west)
+		free(mlx->texture->west);
+	if (mlx->texture->east)
+		free(mlx->texture->east);
+	if (mlx->texture->sprite)
+		free(mlx->texture->sprite);
+	if (mlx->texture->ceiling)
+		free(mlx->texture->ceiling);
+	if (mlx->texture->floor)
+		free(mlx->texture->floor);
+	if (mlx->ray)
+		free(mlx->ray);
+	free(mlx->texture);
+	free(mlx);
+}
 
 void	serpilliere(t_mlx *mlx)
 {
@@ -30,13 +81,11 @@ void	serpilliere(t_mlx *mlx)
 			mlx_destroy_image(mlx->mlx, mlx->frame);
 		if (mlx->player)
 			free(mlx->player);
-		if (mlx->texture)
-			free(mlx->texture);
-		if (mlx->sprite)
-			free(mlx->sprite);
 		if (mlx->mlx)
 			free(mlx->mlx);
-		free(mlx);
+		if (mlx->fnc)
+			free(mlx->fnc);
+		free_text(mlx);
 	}
 	exit(0);
 }

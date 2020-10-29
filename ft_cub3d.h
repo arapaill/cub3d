@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:52:34 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/29 11:22:04 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/29 12:29:01 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ void			id_check(t_mlx *mlx, char *line, int fd);
 int				fc_atoi(char *s, t_mlx *mlx);
 void			height_width(char *s, t_mlx *mlx);
 void			get_texture(char *s, t_mlx *mlx);
-int				gnl(char *line, int fd, int w);
+int				gnl(char *line, int fd, int w, t_mlx *mlx);
 void			text_fc(char *s, t_mlx *mlx, void *texture);
 void			text_snwebr(char *s, t_mlx *mlx, void *texture);
 void			size_file(t_mlx *mlx, char *file);

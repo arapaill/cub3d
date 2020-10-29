@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 12:48:38 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/29 11:18:03 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/29 11:26:50 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void	player_init(t_mlx *mlx)
 	player->dir.y = 0;
 	player->plane.x = 0;
 	player->plane.y = 0.86;
-	mlx->zbuffer = NULL;
-	mlx->player = player;
 }
 
 void	player_orientation(t_mlx *mlx, int x, int y)

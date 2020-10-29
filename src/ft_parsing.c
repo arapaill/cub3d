@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 10:18:10 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/29 11:06:39 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/29 12:29:03 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void			height_width(char *s, t_mlx *mlx)
 		error_manager(7, mlx);
 }
 
-int				gnl(char *line, int fd, int w)
+int				gnl(char *line, int fd, int w, t_mlx *mlx)
 {
 	int		h;
 	int		tmp;
@@ -72,7 +72,8 @@ int				gnl(char *line, int fd, int w)
 	h = 1;
 	while (ret == 1)
 	{
-		ret = get_next_line(fd, &line);
+		if ((ret = get_next_line(fd, &line)) == -1)
+			error_manager(3, mlx);
 		tmp = ft_strlen(line);
 		if (w < tmp)
 			w = tmp;
@@ -110,7 +111,7 @@ void			parsing(char *file, t_mlx *mlx)
 	fd = open(file, O_RDONLY);
 	line = NULL;
 	id_check(mlx, line, fd);
-	h = gnl(line, fd, mlx->map_width);
+	h = gnl(line, fd, mlx->map_width, mlx);
 	close(fd);
 	mlx->map_height = h;
 	mlx->map = creat_world_map(file, mlx);

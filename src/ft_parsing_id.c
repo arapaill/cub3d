@@ -6,7 +6,7 @@
 /*   By: arapaill <arapaill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 10:53:29 by arapaill          #+#    #+#             */
-/*   Updated: 2020/10/29 10:06:51 by arapaill         ###   ########.fr       */
+/*   Updated: 2020/10/29 12:28:10 by arapaill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,8 @@ void				id_check(t_mlx *mlx, char *line, int fd)
 	ret = 1;
 	while (ret == 1)
 	{
-		ret = get_next_line(fd, &line);
+		if ((ret = get_next_line(fd, &line)) == -1)
+			error_manager(3, mlx);
 		id(mlx, line);
 		while (line[i] == ' ')
 			i++;
